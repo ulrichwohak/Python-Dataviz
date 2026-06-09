@@ -1,0 +1,32 @@
+# Local secrets and planning notes (never commit)
+.secrets.md
+/course repo.md
+
+# uv / virtual env
+.venv/
+.uv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated data (regenerate with scripts/generate_synthetic_data.py)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated figures (regenerate by running notebooks)
+figures/*
+!figures/.gitkeep
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
