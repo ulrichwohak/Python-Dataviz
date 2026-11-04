@@ -6,7 +6,8 @@ For every notebook under notebooks/ this checks:
   3. no package-install cells (`%pip`, `!pip`, `conda install`),
   4. no live remote data reads (`read_csv("http...")`, `read_file("http...")`),
   5. code cells are syntactically valid Python (magics/shell lines stripped first),
-  6. outputs are cleared (keeps diffs small and avoids committing large outputs).
+  6. outputs are cleared (keeps diffs small and avoids committing large outputs),
+  7. the opening Markdown cell describes the data and its source.
 
 Usage:
     uv run python scripts/check_notebooks.py
@@ -18,6 +19,7 @@ import re
 from pathlib import Path
 
 import nbformat
+from build_notebooks import REFERENCES, SESSIONS
 
 ROOT = Path(__file__).resolve().parent.parent
 NOTEBOOK_DIR = ROOT / "notebooks"
@@ -46,6 +48,11 @@ def check_notebook(path: Path) -> list[str]:
     if kernel != "python3":
         errors.append(f"kernelspec name is {kernel!r}, expected 'python3'")
 
+    if not nb.cells or nb.cells[0].cell_type != "markdown":
+        errors.append("first cell must be Markdown with a data description")
+    elif "## About the data" not in nb.cells[0].source or "../../data/README.md" not in nb.cells[0].source:
+        errors.append("opening Markdown cell needs a data description and provenance link")
+
     for i, cell in enumerate(nb.cells):
         if cell.cell_type != "code":
             continue
@@ -72,7 +79,26 @@ def main() -> int:
         print("check_notebooks: no notebooks found (run scripts/build_notebooks.py).")
         return 1
 
-    failed = False
+    expected = {
+        NOTEBOOK_DIR / folder / name
+        for folder, _, _ in SESSIONS
+        for name in ("lecture.ipynb", "exercises.ipynb")
+    }
+    expected |= {NOTEBOOK_DIR / "reference" / f"{slug}.ipynb" for slug in REFERENCES}
+    failed = set(notebooks) != expected
+    for path in sorted(expected - set(notebooks)):
+        print(f"FAIL missing scheduled/reference notebook: {path.relative_to(ROOT)}")
+    for path in sorted(set(notebooks) - expected):
+        print(f"FAIL unexpected notebook or old variant: {path.relative_to(ROOT)}")
+    for folder, title, _ in SESSIONS:
+        for name in ("lecture", "exercises"):
+            path = NOTEBOOK_DIR / folder / f"{name}.ipynb"
+            if path.exists():
+                nb = nbformat.read(path, as_version=4)
+                suffix = " — Exercises" if name == "exercises" else ""
+                if not nb.cells or nb.cells[0].source.splitlines()[0] != f"# {title}{suffix}":
+                    print(f"FAIL title does not match schedule: {path.relative_to(ROOT)}")
+                    failed = True
     for path in notebooks:
         errors = check_notebook(path)
         rel = path.relative_to(ROOT)

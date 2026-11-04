@@ -1,8 +1,8 @@
 """Reusable plotting style and small chart helpers.
 
-The goal is a consistent "house style" across all eight weeks so students focus on the chart
-choices rather than rcParams boilerplate, plus a couple of helpers that encode good defaults
-(sorted bars, value labels, thousands separators).
+The goal is a consistent house style across the course so students focus on chart choices rather
+than rcParams boilerplate, plus a few helpers that encode good defaults (sorted bars, value
+labels, and thousands separators).
 """
 
 from __future__ import annotations

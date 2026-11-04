@@ -1,13 +1,12 @@
-"""Streamlit dashboard built on the prepared dashboard dataset.
+"""Focused Streamlit data story built on the prepared dashboard dataset.
 
 Run it with:
 
     uv run python scripts/fetch_data.py                # once, to create the data
     uv run streamlit run dashboards/app.py
 
-The dashboard reads ``data/processed/dashboard.csv`` (month × region × product × channel) and
-lets the user filter by region, product category, and channel, then shows headline KPIs and a
-few interactive plotly charts.
+The app reads ``data/processed/amazon_monthly.csv`` (month × shipping state × category). Its one
+selector answers a defined follow-up question while the all-state default remains meaningful.
 """
 
 from __future__ import annotations
@@ -23,15 +22,18 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from dataviz_course.utils import DATA_PROCESSED  # noqa: E402
 
-st.set_page_config(page_title="Sales Dashboard", layout="wide")
+BLUE = "#2F6690"
+ACCENT = "#D1495B"
+
+st.set_page_config(page_title="Sample spending story", layout="wide")
 
 
 @st.cache_data
 def load_dashboard() -> pd.DataFrame:
-    path = DATA_PROCESSED / "dashboard.csv"
+    path = DATA_PROCESSED / "amazon_monthly.csv"
     if not path.exists():
         st.error(
-            "dashboard.csv not found. Generate it first:\n\n"
+            "amazon_monthly.csv not found. Generate it first:\n\n"
             "`uv run python scripts/fetch_data.py`"
         )
         st.stop()
@@ -40,56 +42,80 @@ def load_dashboard() -> pd.DataFrame:
 
 df = load_dashboard()
 
-st.title("Sales Dashboard")
-st.caption("Synthetic data — for teaching only. Filter on the left; charts update live.")
-
-# --- Filters ---
-with st.sidebar:
-    st.header("Filters")
-    regions = st.multiselect("Region", sorted(df["region"].unique()), default=list(sorted(df["region"].unique())))
-    categories = st.multiselect(
-        "Product category", sorted(df["product_category"].unique()),
-        default=list(sorted(df["product_category"].unique())),
-    )
-    channels = st.multiselect("Channel", sorted(df["channel"].unique()), default=list(sorted(df["channel"].unique())))
-
-mask = (
-    df["region"].isin(regions)
-    & df["product_category"].isin(categories)
-    & df["channel"].isin(channels)
+st.title("How is sample spending changing—and what about my state?")
+st.caption(
+    "Berke et al., donated Amazon histories, 2018–2022. Seven categories; voluntary sample, not representative of all shoppers. "
+    "Descriptive evidence only."
 )
-view = df[mask]
 
-if view.empty:
-    st.warning("No data for the current filter selection.")
-    st.stop()
+# One control, tied to one explicit follow-up question.
+state_options = ["All states", *sorted(df["state"].unique())]
+with st.sidebar:
+    st.header("Follow-up view")
+    selected_state = st.selectbox(
+        "Which state should I inspect?",
+        state_options,
+        help="Choose one state or return to the all-state overview.",
+    )
+
+view = df if selected_state == "All states" else df.loc[df["state"].eq(selected_state)]
+filter_note = "All states" if selected_state == "All states" else f"Shipping state: {selected_state}"
+st.write(f"**Current view:** {filter_note}")
 
 # --- KPIs ---
 col1, col2, col3 = st.columns(3)
-col1.metric("Total revenue", f"€{view['revenue'].sum():,.0f}")
-col2.metric("Total units sold", f"{view['units_sold'].sum():,.0f}")
-col3.metric("Avg campaign share", f"{view['campaign_share'].mean():.0%}")
+col1.metric("Sample spending in current view", f"${view['spending_usd'].sum():,.0f}")
+col2.metric("Items purchased in current view", f"{view['quantity'].sum():,.0f}")
+col3.metric("Months covered", f"{view['month'].nunique():,}")
 
 # --- Charts ---
 left, right = st.columns(2)
 
-monthly = view.groupby("month", as_index=False)["revenue"].sum()
+monthly = view.groupby("month", as_index=False)["spending_usd"].sum().sort_values("month")
+monthly_title = (
+    "Overall monthly sample spending"
+    if selected_state == "All states"
+    else f"Monthly sample spending in {selected_state}"
+)
+monthly_figure = px.line(
+    monthly,
+    x="month",
+    y="spending_usd",
+    title=monthly_title,
+    labels={"month": "Month", "spending_usd": "Sample spending ($)"},
+    color_discrete_sequence=[BLUE],
+)
+monthly_figure.update_layout(template="plotly_white", hovermode="x unified")
+monthly_figure.update_traces(hovertemplate="%{x|%b %Y}<br>Sample spending: $%{y:,.0f}<extra></extra>")
 left.plotly_chart(
-    px.line(monthly, x="month", y="revenue", title="Monthly revenue"),
-    use_container_width=True,
+    monthly_figure,
+    width="stretch",
 )
 
-by_region = view.groupby("region", as_index=False)["revenue"].sum().sort_values("revenue")
+by_state = df.groupby("state", as_index=False)["spending_usd"].sum().sort_values("spending_usd")
+bar_colours = [ACCENT if state == selected_state else BLUE for state in by_state["state"]]
+state_figure = px.bar(
+    by_state,
+    x="spending_usd",
+    y="state",
+    orientation="h",
+    title="Sample spending context across states",
+    labels={"spending_usd": "Sample spending ($)", "state": ""},
+)
+state_figure.update_traces(
+    marker_color=bar_colours,
+    hovertemplate="%{y}<br>Sample spending: $%{x:,.0f}<extra></extra>",
+)
+state_figure.update_layout(template="plotly_white", showlegend=False, height=900)
 right.plotly_chart(
-    px.bar(by_region, x="revenue", y="region", orientation="h", title="Revenue by region"),
-    use_container_width=True,
+    state_figure,
+    width="stretch",
 )
 
-by_cat = view.groupby(["month", "product_category"], as_index=False)["revenue"].sum()
-st.plotly_chart(
-    px.area(by_cat, x="month", y="revenue", color="product_category", title="Revenue by product category"),
-    use_container_width=True,
+st.info(
+    "Interpretation: use the line for change over time and the state bars for context. "
+    "The selector changes the time series; it does not change the state benchmark."
 )
 
 with st.expander("Show filtered data"):
-    st.dataframe(view, use_container_width=True)
+    st.dataframe(view, width="stretch")

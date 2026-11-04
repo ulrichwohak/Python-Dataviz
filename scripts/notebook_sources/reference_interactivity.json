@@ -1,0 +1,102 @@
+[
+  {
+    "cell_type": "markdown",
+    "source": "# Python interactivity — Optional reference\n\n**Guiding question.** When does interaction help a stakeholder answer a follow-up question?\n\n*Local datasets:* `dashboard` · Run `uv run python scripts/fetch_data.py` first if the\ndata files have not yet been prepared. That command also creates the `figures/` folder.\n\nRun this notebook with Python's working folder set to the repository root\n(`Python-Dataviz`). The `data/` and `figures/` paths below are relative to that folder."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Communication brief\n\n- **Audience:** A stakeholder who needs a useful default view and a small number of follow-up choices\n- **Decision:** Choose whether the story needs a static chart, an interactive figure, or a small application\n- **Question:** When does interaction help a stakeholder answer a follow-up question?\n\nKeep this brief visible. A technically correct chart can still fail if it serves the wrong\naudience or does not help with the decision."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Learning objectives\n\nAfter working through this reference you should be able to:\n\n- Define an interaction contract: user question, control, response, and default state.\n- Build purposeful hover and filtering with Plotly.\n- Explain how a tested notebook view becomes a small Streamlit application.\n- Preserve a static fallback and compare the same design brief with the Power BI workshops in Sessions 4–6."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Setup"
+  },
+  {
+    "cell_type": "code",
+    "source": "import matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nfrom dataviz_course import set_house_style\n\nset_house_style()\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Interaction is a design choice, not a quality badge\n\nA static chart presents a deliberate claim. Interaction is valuable when the audience\nhas predictable follow-up questions—such as “what about my region?”—that cannot fit\nclearly in one view. Each control should have an explicit purpose and a sensible default.\n\nWe use Plotly for interactive figures and Streamlit for a small Python application.\nThe default view must already make sense before anyone clicks. A static export remains\nnecessary for slides, print, accessibility, and reproducible review."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Load and inspect the data"
+  },
+  {
+    "cell_type": "code",
+    "source": "dashboard = pd.read_csv(\"data/processed/dashboard.csv\", parse_dates=[\"month\"])\nprint(f\"Rows: {len(dashboard):,}\")\nprint(\"Months:\", dashboard[\"month\"].min().date(), \"to\", dashboard[\"month\"].max().date())\ndashboard.head()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Specify the interaction before coding it\n\nThe contract prevents “add every filter” dashboard design. Region answers a\nplausible follow-up; exact-value hover supports lookup; the default overview\npreserves the main story."
+  },
+  {
+    "cell_type": "code",
+    "source": "interaction_contract = pd.DataFrame(\n    {\n        \"user_question\": [\"How does my region differ?\", \"What is the exact monthly value?\"],\n        \"control\": [\"Region selection\", \"Hover\"],\n        \"response\": [\"Update the time series\", \"Reveal formatted revenue and units\"],\n        \"default\": [\"All-region overview\", \"No tooltip until pointer focus\"],\n    }\n)\ninteraction_contract"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Build a useful Plotly default view\n\nThe overview compares regional time paths. Hover adds exact values; the legend\ncan isolate a region. A descriptive subtitle and clear units remain necessary\neven in an interactive figure."
+  },
+  {
+    "cell_type": "code",
+    "source": "import plotly.express as px\n\nmonthly_region = (\n    dashboard.groupby([\"month\", \"region\"], as_index=False)\n    .agg(revenue=(\"revenue\", \"sum\"), units_sold=(\"units_sold\", \"sum\"))\n)\ninteractive = px.line(\n    monthly_region,\n    x=\"month\",\n    y=\"revenue\",\n    color=\"region\",\n    hover_data={\"units_sold\": \":,.0f\", \"revenue\": \":,.0f\"},\n    title=\"Monthly revenue by region\",\n    labels={\"revenue\": \"Revenue (€)\", \"month\": \"Month\", \"region\": \"Region\"},\n)\ninteractive.update_layout(template=\"plotly_white\", hovermode=\"x unified\")\ninteractive.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Test the filtered state as a function\n\nA small function separates data filtering from presentation. It is easy to test\nin the notebook and later call from a Streamlit selection box. We test both a\nvalid state and the error raised for an invented region."
+  },
+  {
+    "cell_type": "code",
+    "source": "def region_view(data: pd.DataFrame, selected_region: str) -> pd.DataFrame:\n    if selected_region not in set(data[\"region\"]):\n        raise ValueError(f\"Unknown region: {selected_region}\")\n    return (\n        data.loc[data[\"region\"].eq(selected_region)]\n        .groupby(\"month\", as_index=False)[\"revenue\"]\n        .sum()\n    )\n\n\nselected = sorted(dashboard[\"region\"].unique())[0]\nselected_data = region_view(dashboard, selected)\nassert not selected_data.empty\nassert selected_data[\"month\"].is_monotonic_increasing\nselected_data.head()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Preserve a static fallback\n\nThe static version is not a screenshot afterthought. It is a designed default\nview for reports and review. Direct labels at the final point reduce dependence\non an interactive legend."
+  },
+  {
+    "cell_type": "code",
+    "source": "pivot = monthly_region.pivot(index=\"month\", columns=\"region\", values=\"revenue\")\nfig, ax = plt.subplots(figsize=(10, 5))\npivot.plot(ax=ax, linewidth=2)\nax.set_title(\"Regional revenue follows a shared seasonal pattern\", loc=\"left\")\nax.set_xlabel(\"\")\nax.set_ylabel(\"Monthly revenue (€)\")\nax.legend(title=\"Region\", frameon=False, ncol=2)\nfig.autofmt_xdate()\nfig.savefig(\"figures/session05_default_view.png\", dpi=150, bbox_inches=\"tight\")\nplt.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Move the tested view into Streamlit\n\n`dashboards/app.py` is the repository's delivery example. It should reuse the\nsame local data and validated transformations. In an application, a selector\nsupplies `selected_region`, the function prepares the view, and Plotly renders\nit. Keep business logic outside widget callbacks so it remains testable."
+  },
+  {
+    "cell_type": "code",
+    "source": "delivery_map = pd.DataFrame(\n    {\n        \"layer\": [\"Input\", \"Transformation\", \"Output\", \"Fallback\"],\n        \"notebook\": [\"selected string\", \"region_view()\", \"Plotly figure\", \"saved PNG\"],\n        \"streamlit\": [\"selection box\", \"same tested function\", \"interactive chart\", \"downloadable/static view\"],\n    }\n)\ndelivery_map"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Connection to the Power BI classes\n\nScheduled Sessions 4–6 use `workshops/power-bi/README.md`. This notebook is\noptional Python companion material, not a second required class or assessment.\nThe Power BI workshop uses the same design principles:\n\n1. Import the local `data/processed/dashboard.csv` file.\n2. Recreate the supplied Python reference views: total monthly revenue and total\n   revenue by region, with honest units and purposeful titles.\n3. Add only the product-category and channel slicers justified by the workshop brief;\n   keep region visible as a comparison in the default view.\n4. Check aggregation, missing values, category order, colour accessibility, and the\n   default state against the Python result.\n5. Export a static page and compare what is easier to verify, reproduce, and revise in\n   the two implementations.\n\nThe emphasis is transfer: audience, purpose, hierarchy, and validation stay the same.\nThis optional Python reference does not require Power BI administration or platform-specific engineering."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Pause and predict\n\nIf the stakeholder never touches a filter, what do they learn? Now remove hover and\nfilters mentally: is the chart still understandable? If not, improve the default before\nadding more interaction."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Common mistakes\n\n- **Interactivity for its own sake.** Every control should answer a named follow-up question.\n- **No meaningful default.** A blank or neutral opening state makes the user perform the analysis.\n- **Business logic inside widgets.** It becomes difficult to test and reuse.\n- **No static fallback.** The result becomes fragile in reports, review, and accessible contexts.\n- **Treating software as the lesson.** Design and verification should transfer across tools."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## AI co-pilot activity: use, then verify\n\nAsk an AI assistant:\n\n> Propose a minimal interaction contract for monthly regional revenue. Include the user question, one control, its response, default state, static fallback, and a test.\n\nRun any suggested code only on the local course data. Treat the answer as a draft: you are\nresponsible for the aggregation, chart choice, labels, interpretation, and final claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Verification checklist\n\nBefore keeping AI-generated—or your own—chart, confirm:\n\n1. **Purpose:** Does it answer *when interaction helps a stakeholder answer a follow-up question* for the stated audience and decision?\n2. **Data:** Are the rows, missing values, units, denominators, and aggregation correct?\n3. **Encoding:** Are the chart form, axes, scales, ordering, and colour honest?\n4. **Claim:** Does the evidence support the title without implying causation?\n5. **Access:** Can the message survive colour-vision differences and a static export?\n6. **Reproduction:** Does the code run from the repository root on local data?\n\nIf you cannot answer all six, revise the chart or narrow the claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Practice tasks\n\n1. Add a product-category choice to the Plotly view only if you can state the follow-up question it answers.\n2. Test `region_view()` with every valid region and one invalid value. Explain why the tests belong before the interface.\n3. Compare the optional notebook and Streamlit paths with the Power BI workshop using purpose, reproducibility, accessibility, and maintenance—not visual novelty."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Finish check\n\nBefore stopping, save your strongest chart to `figures/`, write a one-sentence takeaway, and\nnote one limitation. A working chart is not finished until another person can interpret and\nverify it.\n"
+  }
+]

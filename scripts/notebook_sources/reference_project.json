@@ -1,0 +1,94 @@
+[
+  {
+    "cell_type": "markdown",
+    "source": "# Project workshop — Optional reference\n\n**Guiding question.** Which customer segment has the most modelled value at risk, and how cautiously should we communicate it?\n\n*Local datasets:* `customers`, `transactions` · Run `uv run python scripts/fetch_data.py` first if the\ndata files have not yet been prepared. That command also creates the `figures/` folder.\n\nRun this notebook with Python's working folder set to the repository root\n(`Python-Dataviz`). The `data/` and `figures/` paths below are relative to that folder."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Communication brief\n\n- **Audience:** A retention team allocating limited time for further investigation\n- **Decision:** Choose a segment for deeper analysis without pretending descriptive model outputs prove an intervention will work\n- **Question:** Which customer segment has the most modelled value at risk, and how cautiously should we communicate it?\n\nKeep this brief visible. A technically correct chart can still fail if it serves the wrong\naudience or does not help with the decision."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Learning objectives\n\nAfter working through this reference you should be able to:\n\n- Carry a communication brief from data preparation to a coherent visual sequence.\n- Validate aggregation, missingness, sensitivity, and the language of a claim.\n- Identify ethical risks in targeting, segmentation, and model-based recommendations.\n- Give specific peer feedback using a shared project rubric."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Setup"
+  },
+  {
+    "cell_type": "code",
+    "source": "import matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nfrom dataviz_course import set_house_style\n\nset_house_style()\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Optional project support\n\nSession 6 uses the Power BI dashboard-building notebook. This notebook\nremains independent practice, not an additional required class. Short project\nreviews take place during Sessions 2–4. Find all scheduled materials in the notebook index.\n\n## A data story is an evidence sequence\n\nA useful sequence establishes context, reveals the consequential comparison, and ends\nwith an appropriately bounded implication. It is not a collection of unrelated charts.\n\nValidation includes technical checks and rhetorical checks: correct joins, units,\nmissing values, sensitivity to summaries, uncertainty, accessibility, and whether the\ntitle claims more than the analysis can support. Ethics enters before publication:\nsegments can proxy sensitive characteristics, and a predicted risk is not proof that a\nparticular intervention is fair or effective."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Load and inspect the data"
+  },
+  {
+    "cell_type": "code",
+    "source": "customers = pd.read_csv(\"data/raw/customers.csv\")\ntransactions = pd.read_csv(\"data/raw/transactions.csv\", parse_dates=[\"date\"])\n\nobserved_revenue = transactions.groupby(\"customer_id\", as_index=False)[\"revenue\"].sum()\nanalysis = customers.merge(\n    observed_revenue,\n    on=\"customer_id\",\n    how=\"left\",\n    validate=\"one_to_one\",\n)\nanalysis[\"revenue\"] = analysis[\"revenue\"].fillna(0)\nanalysis[\"modelled_value_at_risk\"] = (\n    analysis[\"customer_lifetime_value\"] * analysis[\"churn_probability\"]\n)\n\nprint(f\"Customers: {len(customers):,}\")\nprint(f\"Rows after join: {len(analysis):,}\")\nassert len(analysis) == len(customers)"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Define and audit the metric\n\n“Modelled value at risk” is lifetime value multiplied by churn probability.\nIt is a prioritisation heuristic built from synthetic model outputs—not a\nforecast of recoverable euros. The audit keeps counts, observed revenue, and\nboth mean and median lifetime value beside the headline metric."
+  },
+  {
+    "cell_type": "code",
+    "source": "segment_summary = (\n    analysis.groupby(\"segment\", as_index=False)\n    .agg(\n        customers=(\"customer_id\", \"size\"),\n        observed_revenue=(\"revenue\", \"sum\"),\n        mean_clv=(\"customer_lifetime_value\", \"mean\"),\n        median_clv=(\"customer_lifetime_value\", \"median\"),\n        mean_churn=(\"churn_probability\", \"mean\"),\n        total_value_at_risk=(\"modelled_value_at_risk\", \"sum\"),\n    )\n    .sort_values(\"total_value_at_risk\")\n)\nsegment_summary"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Build one coherent three-part story\n\nThe panels answer a sequence: how many customers are in each segment, what is\ntheir average modelled churn risk, and where does the aggregate heuristic place\nthe most value at risk? Shared segment order reduces cognitive load. The final\ntitle explicitly says *modelled*."
+  },
+  {
+    "cell_type": "code",
+    "source": "priority = segment_summary.iloc[-1][\"segment\"]\ncolours = [\n    \"#1F5A94\" if segment == priority else \"#D6D9DD\"\n    for segment in segment_summary[\"segment\"]\n]\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4.8))\naxes[0].barh(segment_summary[\"segment\"], segment_summary[\"customers\"], color=\"#AEB8C3\")\naxes[0].set_title(\"1. Segment size\")\naxes[0].set_xlabel(\"Customers\")\naxes[1].barh(segment_summary[\"segment\"], segment_summary[\"mean_churn\"], color=\"#AEB8C3\")\naxes[1].set_title(\"2. Average modelled churn\")\naxes[1].set_xlabel(\"Probability\")\naxes[2].barh(\n    segment_summary[\"segment\"],\n    segment_summary[\"total_value_at_risk\"],\n    color=colours,\n)\naxes[2].set_title(\"3. Modelled value at risk\")\naxes[2].set_xlabel(\"Modelled value (€)\")\nfig.suptitle(\n    f\"{priority} has the most modelled value at risk—not proven recoverable value\",\n    x=0.01,\n    ha=\"left\",\n    y=1.03,\n    fontsize=15,\n    fontweight=\"bold\",\n)\nfig.tight_layout()\nfig.savefig(\"figures/session06_retention_story.png\", dpi=150, bbox_inches=\"tight\")\nplt.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Stress-test the conclusion\n\nMean and median lifetime value need not tell the same story. We calculate their\nrelative gap and separate the descriptive ranking from the action it might\nmotivate. A robust project would also validate the churn model and test an\nintervention before allocating resources."
+  },
+  {
+    "cell_type": "code",
+    "source": "sensitivity = segment_summary[\n    [\"segment\", \"mean_clv\", \"median_clv\", \"mean_churn\", \"total_value_at_risk\"]\n].copy()\nsensitivity[\"mean_median_gap_pct\"] = (\n    100 * (sensitivity[\"mean_clv\"] - sensitivity[\"median_clv\"])\n    / sensitivity[\"median_clv\"]\n)\nprint(sensitivity.to_string(index=False))\n\nevidence_gap = pd.Series(\n    [\n        \"Out-of-sample validation of churn probabilities\",\n        \"Evidence that a retention action changes outcomes\",\n        \"Cost and capacity of the intervention\",\n        \"Fairness review for segment targeting\",\n    ],\n    name=\"Needed before an intervention decision\",\n)\nevidence_gap"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Run the peer-review rubric\n\nCritique should be observable and actionable. Score each criterion, cite one\nfeature in the work, and propose one revision. “Looks good” is not feedback."
+  },
+  {
+    "cell_type": "code",
+    "source": "peer_review = pd.DataFrame(\n    {\n        \"criterion\": [\n            \"Question and audience\",\n            \"Data and aggregation\",\n            \"Visual encoding\",\n            \"Story and claim\",\n            \"Accessibility\",\n            \"Reproducibility and ethics\",\n        ],\n        \"score_1_to_5\": [np.nan] * 6,\n        \"evidence_or_revision\": [\"\"] * 6,\n    }\n)\npeer_review"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Project workshop protocol\n\n1. Give your peer the audience, decision, and question—but do not explain the charts.\n2. Let them state the message they infer in ten seconds.\n3. Compare their message with your intended claim.\n4. Trace every title claim back to a transformation and visual encoding.\n5. Revise one high-impact issue, rerun the notebook from top to bottom, and repeat."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Pause and predict\n\nBefore aggregating, predict which segment will rank highest. After plotting, ask what\nwould have to be true for “most modelled value at risk” to become “best segment to\ntarget.” The missing bridge is part of the analysis, not a footnote."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Common mistakes\n\n- **A collection instead of a story.** Every chart needs a role in the evidence sequence.\n- **A model score described as money saved.** Predicted risk is not an intervention effect.\n- **No join validation.** Duplicated customers can silently inflate totals.\n- **Ethics added at the end.** Targeting choices need fairness and harm review before deployment.\n- **Peer feedback about taste.** Tie critique to the question, evidence, encoding, and audience."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## AI co-pilot activity: use, then verify\n\nAsk an AI assistant:\n\n> Critique a three-chart customer-retention story. Check the join, metric definition, claim strength, alternative summaries, accessibility, causal language, and ethical risks.\n\nRun any suggested code only on the local course data. Treat the answer as a draft: you are\nresponsible for the aggregation, chart choice, labels, interpretation, and final claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Verification checklist\n\nBefore keeping AI-generated—or your own—chart, confirm:\n\n1. **Purpose:** Does it answer *which segment has the most modelled value at risk and how cautiously to communicate it* for the stated audience and decision?\n2. **Data:** Are the rows, missing values, units, denominators, and aggregation correct?\n3. **Encoding:** Are the chart form, axes, scales, ordering, and colour honest?\n4. **Claim:** Does the evidence support the title without implying causation?\n5. **Access:** Can the message survive colour-vision differences and a static export?\n6. **Reproduction:** Does the code run from the repository root on local data?\n\nIf you cannot answer all six, revise the chart or narrow the claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Practice tasks\n\n1. Replace total modelled value at risk with average value at risk. Explain why the segment ranking may change and which decision each metric serves.\n2. Draft a two- or three-chart story for a different course dataset. Label each chart's role: context, evidence, or implication.\n3. Exchange the draft with a peer, complete the rubric, make one substantive revision, and rerun the notebook from top to bottom."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Finish check\n\nBefore stopping, save your strongest chart to `figures/`, write a one-sentence takeaway, and\nnote one limitation. A working chart is not finished until another person can interpret and\nverify it.\n"
+  }
+]

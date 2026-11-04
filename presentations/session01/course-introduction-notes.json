@@ -1,0 +1,168 @@
+[
+  {
+    "number": 1,
+    "title": "Welcome: insight, not pictures",
+    "text": "Read the quotation first. Pause before introducing yourself. Ask: what would you need to understand for a visualisation to have helped you? This is a course about communication and visual reasoning, with Python as the principal implementation tool.",
+    "source": "Data Visualization and Storytelling, Ulrich Wohak. Read the quotation as the first words of Session 1, then pause. Ask what students would need to understand for a chart to have helped them. Introduce the course through that question and move to the OLS example. The equation and visual reveal illustrate how a picture can make an abstract objective understandable. Later, return to the idea when discussing competing messages and uncertainty: a clear insight must remain supported by the evidence.\n\nQuotation and attribution: Alberto Cairo, The Functional Art, introduction, printed p. xx (local PDF page 21), attributes these exact words to Ben Shneiderman. Footnote 3 cites Stuart K. Card, Jock D. Mackinlay and Ben Shneiderman, Readings in Information Visualization: Using Vision to Think (1999). Shneiderman’s own bibliography lists Morgan Kaufmann, San Francisco, as the publisher: https://www.cs.umd.edu/~ben/books.html . Cairo’s footnote instead gives Academic Press, London. Use the author’s bibliographic record for the full reference. The quotation is verified in Cairo; an original page number in the 1999 volume has not been established."
+  },
+  {
+    "number": 2,
+    "title": "Welcome to the course",
+    "text": "Introduce yourself and confirm practical questions in the room. Contact and credits come from the syllabus; do not import the Coding 1 teaching assistant or its policies. Office hours and room remain TBD.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 3,
+    "title": "What you should be able to do",
+    "text": "Explain that neither visual polish nor a working plotting command alone is sufficient. The course connects purpose, evidence, design and implementation. These are selected learning outcomes, not a new assessment scheme.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 4,
+    "title": "How we will work in class",
+    "text": "Explain the recurring pattern. During redesign practice, students first diagnose a working but unsuitable chart, then change it and verify the numbers. These are formative exercises under the current syllabus. They replace some existing practice time rather than extending the class. The three Power BI sessions apply the same routine in another tool. Short project reviews use existing practice time in Sessions 2–4.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 5,
+    "title": "Our six sessions",
+    "text": "Six 100-minute meetings, 17:40–19:20. The instructor confirmed this concrete timetable: 4 November Python line/bar/scatter basics and a short histogram, box, violin and strip plot tour; 11 November deeper comparisons and uncertainty, including supplied event-study estimates; 18 November mapping; 25 November Power BI foundations; 2 December tables, cards and filtering; 9 December dashboard/report building. Confirm Power BI access before Session 4. Short project reviews remain in Sessions 2–4. Data: SSA births in Session 1; Amazon purchase prices and published real-data event-study bands in Session 2; OWID emissions and Natural Earth in Session 3; Amazon monthly sample spending in Power BI.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 6,
+    "title": "Assessment",
+    "text": "The instructor confirmed on 4 November 2026 that the 25% individual assignment is an original figure answering a supplied question using supplied data, with figure and notes as the only submission. The 75% final project remains unchanged. Classroom redesign exercises are ungraded practice. The syllabus states 50% minimum to pass. Due dates and submission routes are TBD; announce them when confirmed.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 7,
+    "title": "The individual figure · 25%",
+    "text": "The instructor supplies the data and question when the assignment opens. Students design a figure from scratch in Python. Submit only the figure and its attached notes, with no code, separate rationale or other supporting files. Notes provide relevant provenance, sample, units, aggregation, filters, uncertainty and limitations. Assess the answer, analytic correctness, design, accessibility and notes. Do not assess unsubmitted code. The final project is unchanged. Source: assignments/chart-critique-redesign/README.md.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 8,
+    "title": "The final Python data story · 75%",
+    "text": "Use the final-data-story brief as authority. Individuals or teams of up to three create 3–5 purposeful figures with a narrative, local reproducible code, provenance. Teams include contribution statements. Interactive output is not required; a strong static story is enough. Short reviews in Sessions 2–4 support the project; the former project-workshop notebooks remain optional.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 9,
+    "title": "Where to find the material",
+    "text": "The notebook index maps the six dated lectures to six folders. Each has lecture.ipynb with fully written examples or Power BI steps, and exercises.ipynb for practice. There are no live/completed variants. Optional references sit outside the numbered sequence. Sessions 1–3 use Python and Sessions 4–6 use Power BI Desktop. Cairo is primary, Munzner secondary. The local Cairo PDF is a 72-page excerpt, not the full book. No book purchase is required. Invite students to browse Todd Jones's dataset catalogue, choose a topic that interests them and consider a question a figure could answer. Follow each dataset's source link to check access, documentation and reuse terms. This is an exploration resource, not an additional assignment.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Dataset catalogue: Todd Jones, Free Datasets for Social Science Research, https://github.com/toddrjones/datasets (checked 4 November 2026).",
+    "links": [
+      {
+        "label": "Todd Jones: dataset catalogue",
+        "url": "https://github.com/toddrjones/datasets"
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "title": "What are we trying to make small?",
+    "text": "Show the scalar and matrix objectives briefly. X contains a column of ones and the x values. Both expressions minimise the same sum of squared vertical residuals. Then show the observations followed by their fitted line. Keep this an intuitive motivation, without a derivation or matrix-algebra backup.",
+    "source": "OLS objective: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm . Matrix notation: https://stat151a.berkeley.edu/fall-2024/lectures/Lecture4.html ."
+  },
+  {
+    "number": 11,
+    "title": "A relationship with variation",
+    "text": "Show 100 synthetic observations with a clear upward trend and substantial scatter. Ask what relationship students see and where they would draw a straight line. Each point is one observation. The next slide retains exactly the same points and axis scales and adds the line fitted to these data.",
+    "source": "Original synthetic mathematical illustration. Cairo quotation: The Functional Art, printed p. xv (local PDF p. 16). OLS: NIST link in preceding slide."
+  },
+  {
+    "number": 12,
+    "title": "The OLS fitted line",
+    "text": "For the same 100 synthetic observations, the fitted line is approximately y = 0.6632 + 0.5595x. Connect it to the preceding objective: among straight lines with an intercept, this line minimises the sum of squared vertical differences between observed and predicted y at each x. The points visibly fall on both sides of it. Ask what would happen to the total squared error if we shifted or rotated the line. The scatterplot illustrates the fitted relationship, not a proof of minimisation. Keep the explanation verbal, without residual segments, square diagrams or error totals. Read Cairo's quotation with emphasis on because.",
+    "source": "Original synthetic mathematical illustration. Cairo quotation: The Functional Art, printed p. xv (local PDF p. 16). OLS: NIST link in preceding slide."
+  },
+  {
+    "number": 13,
+    "title": "What would you conclude from this chart?",
+    "text": "Do not reveal countries yet. Ask students to describe the visible association, then ask whether they would trust it as the whole story. One point is one hotel. The next slide keeps all points and scales identical.",
+    "source": "Synthetic data: data/raw/simpson_hotels.csv generated by make_simpson_hotels(). Pooled slope 10.793650793650794; group slopes -8,-8,-8. Concept: Kievit et al. (2013), https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00513/full ."
+  },
+  {
+    "number": 14,
+    "title": "The same points tell a different story",
+    "text": "Reveal country membership without changing data or axes. Within every fictional country the slope is −8, while the pooled slope is positive. Groups differ in both mean distance and mean price. Neither relationship is causal. Ask what would be misleading about presenting only the pooled chart. This is a deliberately constructed Simpson reversal, not an empirical market claim.",
+    "source": "Synthetic data: data/raw/simpson_hotels.csv generated by make_simpson_hotels(). Pooled slope 10.793650793650794; group slopes -8,-8,-8. Concept: Kievit et al. (2013), https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00513/full ."
+  },
+  {
+    "number": 15,
+    "title": "What is this figure trying to communicate?",
+    "text": "Let students look before offering the instructor’s critique. Ask for one-sentence takeaways. Compare responses: GDP and inequality, historical change, or a story about governments? This is a magazine graphic, not an academic-paper figure. The next slide enlarges the chart.",
+    "source": "Alberto Cairo / Época, The Functional Art, Figure 3, printed p. xix (local PDF p. 20). Surrounding discussion pp. xvi–xx. Original figure credits World Bank, IMF and IBGE. Source-image critique, not an independent data verification. Images and exports remain local; see NOTICE.md."
+  },
+  {
+    "number": 16,
+    "title": "Which details serve the intended purpose?",
+    "text": "Identify the encodings: GDP LEVEL on x, Gini on y, successive years along a path, presidencies in colour. The connecting path is not a fitted regression line; colours are not evidence of government causation. For a focused academic argument, some layers may distract. For historical exploration they may be useful. Ask what should be retained, removed or separated for each purpose. Density is not automatically bad.",
+    "source": "Alberto Cairo / Época, The Functional Art, Figure 3, printed p. xix (local PDF p. 20). Surrounding discussion pp. xvi–xx. Original figure credits World Bank, IMF and IBGE. Source-image critique, not an independent data verification. Images and exports remain local; see NOTICE.md."
+  },
+  {
+    "number": 17,
+    "title": "Each figure needs a purpose and context",
+    "text": "Tie together the examples. Purpose may be explanation, exploration, scrutiny, curiosity, or motivation of a hypothesis. Do not predetermine an exploratory conclusion. Adapt to readers without changing evidence. Figure notes are part of the visualisation: units, sample, period, aggregation, uncertainty and sources as relevant. Later we will examine statistical-result charts; do not invent intervals or confuse variation with uncertainty.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 18,
+    "title": "A quick Reddit chart critique",
+    "text": "In pairs, choose one of the four supplied images that follow, or browse either community. Ask students to describe the intended message, identify what could mislead a reader, and propose one concrete change. Let them diagnose the design before giving the explanations in the notes. Judge each chart rather than its subreddit label. Use selected examples within the existing introduction time and preserve the final 20-minute redesign. The images work offline. Two concern deaths; students may choose a different example. Preview live feeds before class.",
+    "source": "Discussion links supplied by the instructor: https://www.reddit.com/r/dataisugly/ and https://www.reddit.com/r/dataisbeautiful/.",
+    "links": [
+      {
+        "label": "reddit.com/r/dataisugly",
+        "url": "https://www.reddit.com/r/dataisugly/"
+      },
+      {
+        "label": "reddit.com/r/dataisbeautiful",
+        "url": "https://www.reddit.com/r/dataisbeautiful/"
+      }
+    ]
+  },
+  {
+    "title": "Prices and wages",
+    "text": "Ask students for their first impression before pointing to the dates. The image labels grocery prices as up 21% since January 2021 and average hourly wages as up 3.8% since last September. These are different comparison periods, so the two percentages alone cannot establish whether prices outpaced wages over the same interval. The green triangle appears at least as large as the orange triangle despite its much smaller percentage. Even decorative shapes invite magnitude comparisons. A clearer comparison would use the same start and end dates and an explicit common scale, or simply state the numbers with their periods. We cannot calculate a corrected comparison from this image alone. Discuss the design without claiming the BLS values are false.",
+    "source": "Instructor-supplied photograph, 4 November 2026: local-critique-images/prices-and-wages.png. Visible CBS News branding and Bureau of Labor Statistics credit. Broadcast date, series definitions and underlying data not independently verified. Original image retained.",
+    "number": 19
+  },
+  {
+    "title": "Reading a time series",
+    "text": "The vertical axis starts at zero at the top and increases downwards. Moving down after the 2005 annotation therefore means more firearm murders, although readers accustomed to an upward numerical axis may initially perceive a decrease. Ask students to read tick values aloud and describe the direction numerically. An inverted axis can be deliberate, but here it conflicts with a familiar reading convention; the filled red area adds another strong cue. The title says gun deaths, while the subtitle specifies murders committed with firearms: these are not identical definitions. Counts also do not adjust for population. The policy annotation marks timing, not evidence that the law caused the change. A redesign could use an upward numerical axis, a precise title and a neutral annotation.",
+    "source": "Instructor-supplied image: local-critique-images/florida-firearm-murders.png. Visible credits: Reuters; C. Chan, 16/02/2014; Florida Department of Law Enforcement. Critique is based on the displayed image, not an independent verification of counts or policy effects.",
+    "number": 20
+  },
+  {
+    "title": "A pool and three skyscrapers",
+    "text": "Ask what bigger means: length, height, area or volume? The image turns the pool into a vertical column alongside buildings. Comparing a pool's length with building heights can be a legitimate comparison of distances if it is explicit, but it does not establish that one object is bigger in every sense. There is also a scale problem: the displayed 0–1,000 ft interval occupies roughly the same vertical space as the 1,000–1,500 and 1,500–2,000 intervals, without a marked break. The silhouettes do not consistently align with the stated values. A redesign should identify the dimension for each object and use a consistent distance scale with simple marks. Critique the graphic, without treating the screenshot's account label as proof of authorship or its measurements as verified.",
+    "source": "Instructor-supplied social-media screenshot: local-critique-images/pool-and-skyscrapers.png. It bears @realDonaldTrump and the heading Our Pool is Bigger than Skyscrapers. Original post, authorship and measurements not authenticated. Image preserved in full.",
+    "number": 21
+  },
+  {
+    "title": "Reading a county map",
+    "text": "Start with the legend. The screenshot labels a rate per 100,000 per year, but does not identify the underlying years or data source. The displayed posting date is not a data period. Dark grey-green marks no data and may be mistaken for a low rate near the green end of the scale. Red-to-green differences can also be hard for some viewers to distinguish. Large counties dominate the map's area without necessarily containing more people. Ask what uncertainty or suppression information would be needed, especially for rates based on small populations; the screenshot alone does not establish their reliability or explain missingness. Possible improvements: a clearly separate missing-data colour, an accessible ordered palette, a stated source and period, and an explanation of rate calculation and uncertainty. Discuss respectfully; this is a critique of presentation, not of communities.",
+    "source": "Instructor-supplied screenshot: local-critique-images/county-suicide-rates.png. Visible account label amazingmap and post date October 30, 2024. Underlying source, data period, estimation method and original post not independently verified. Full screenshot retained.",
+    "number": 22
+  },
+  {
+    "number": 23,
+    "title": "Today: a chart tour in Python",
+    "text": "Pause the slides here. Live-code the basic line/bar examples, then run the supplied scatter, histogram, box, violin and strip plot tour in the Python chart-tour teaching notebook. Allow about 20 minutes for the tour: ask what each chart reveals, comparing the same 365 dates in 2014 and scales. Explain that violin width shows a smoothed distribution, not number of dates here, and sideways jitter has no substantive meaning. Cover labels, notes and export; leave the longer annotation/audience examples optional. Reserve the final 20 minutes for notebooks/01-python-chart-tour/exercises.ipynb on the next slide. Its later optional tasks are not required today.",
+    "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
+  },
+  {
+    "number": 24,
+    "title": "Your first redesign: change over time",
+    "text": "Return after live coding for the final 20 minutes. Open notebooks/01-python-chart-tour/exercises.ipynb. Students run the supplied preparation and pie chart, then edit the plotting cell. Preserve all 12 monthly US birth totals in 2014. A line chart is the simple redesign; accept a justified alternative. Require labels, a source note and checks against January and December. Monthly totals reflect month length as well as daily birth frequency. The lecture uses monthly daily means; optional exercise practice compares the two. Do not change the quantity silently.",
+    "source": "SSA daily births via FiveThirtyEight; data/raw/us_births.csv. Source versions and licence in data/README.md."
+  },
+  {
+    "number": 25,
+    "title": "Backup · setup and Power BI access",
+    "text": "The Python commands run from the repository root. The VS Code notebook setting or manual working-directory choice should keep notebooks rooted there. Before 25 November, confirm a Windows computer or an institution-provided access route for all students. CEU virtual-lab availability is not established. Do not require a purchase or claim an access route works before testing it. First download is about 330 MB with no login; later runs validate and reuse cached sources. Run before class.",
+    "source": "README.md; workshops/power-bi/README.md. Power BI Desktop access requirements must be confirmed before class."
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "cell_type": "markdown",
+    "source": "# Design and annotation — Optional reference\n\n**Guiding question.** How can design guide attention without decorating, distorting, or excluding?\n\n*Local datasets:* `sales` · Run `uv run python scripts/fetch_data.py` first if the\ndata files have not yet been prepared. That command also creates the `figures/` folder.\n\nRun this notebook with Python's working folder set to the repository root\n(`Python-Dataviz`). The `data/` and `figures/` paths below are relative to that folder."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Communication brief\n\n- **Audience:** A leadership audience reading a chart quickly in a slide deck or PDF\n- **Decision:** Identify the commercial pattern that deserves discussion and understand its limits\n- **Question:** How can design guide attention without decorating, distorting, or excluding?\n\nKeep this brief visible. A technically correct chart can still fail if it serves the wrong\naudience or does not help with the decision."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Learning objectives\n\nAfter working through this reference you should be able to:\n\n- Use visual hierarchy, colour, typography, and annotation to guide attention.\n- Replace a descriptive title with a supported takeaway.\n- Design meaning that survives colour-vision differences and static export.\n- Redesign a cluttered default chart into a concise explanatory graphic."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Setup"
+  },
+  {
+    "cell_type": "code",
+    "source": "import matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\nfrom dataviz_course import set_house_style\n\nset_house_style()\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Design is the structure of attention\n\nGood design creates hierarchy: what should the reader see first, second, and third?\nNeutral context plus one accent colour is often stronger than a rainbow. Typography\nshould separate the claim, evidence, and source. Annotation should explain the relevant\nevent, not narrate every point.\n\nAccessibility is part of correctness. Do not encode meaning with hue alone; use labels,\nposition, line style, or annotation as redundant channels. A chart also needs a short\ntext description when published digitally."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Load and inspect the data"
+  },
+  {
+    "cell_type": "code",
+    "source": "sales = pd.read_csv(\"data/raw/sales.csv\", parse_dates=[\"date\"])\nsales = sales.dropna(subset=[\"revenue\"]).copy()\nby_region = sales.groupby(\"region\")[\"revenue\"].sum().sort_values()\nweekly = sales.groupby(\"date\", as_index=False)[\"revenue\"].sum()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Diagnose the default\n\nThe default chart is numerically correct, but alphabetical order, equal-strength\ncolours, a generic title, and rotated labels give the reader no hierarchy."
+  },
+  {
+    "cell_type": "code",
+    "source": "alphabetical = by_region.sort_index()\nfig, ax = plt.subplots()\nax.bar(alphabetical.index, alphabetical.values, color=plt.cm.tab10.colors[: len(alphabetical)])\nax.set_title(\"Revenue by region\")\nax.set_ylabel(\"Revenue\")\nax.tick_params(axis=\"x\", rotation=35)\nplt.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Redesign around one supported message\n\nHorizontal position, sorting, direct labels, and one dark-blue highlight do the\nwork. The message does not depend on red versus green. The subtitle states the\nmeasure and scope so the takeaway is not mistaken for profit or customer count."
+  },
+  {
+    "cell_type": "code",
+    "source": "leader = by_region.idxmax()\ncolours = [\"#1F5A94\" if region == leader else \"#D6D9DD\" for region in by_region.index]\n\nfig, ax = plt.subplots(figsize=(9, 5))\nbars = ax.barh(by_region.index, by_region.values, color=colours)\nfor bar, value in zip(bars, by_region.values, strict=True):\n    ax.text(value, bar.get_y() + bar.get_height() / 2, f\"  €{value:,.0f}\", va=\"center\")\nax.set_title(f\"{leader} generated the most revenue\", loc=\"left\", pad=18)\nax.text(\n    0,\n    1.01,\n    \"Total observed revenue across all weeks, products, and channels\",\n    transform=ax.transAxes,\n    color=\"#555555\",\n    fontsize=10,\n)\nax.set_xlabel(\"\")\nax.xaxis.set_visible(False)\nax.grid(axis=\"y\", visible=False)\nax.margins(x=0.2)\nfig.savefig(\"figures/session04_regional_redesign.png\", dpi=150, bbox_inches=\"tight\")\nplt.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Annotate a moment without inventing a cause\n\nThe highlighted point is the observed peak. The annotation names what is known;\nit does not say a campaign or holiday *caused* the change. The rolling mean\nremains visually dominant, while weekly observations provide light context."
+  },
+  {
+    "cell_type": "code",
+    "source": "weekly[\"rolling_4w\"] = weekly[\"revenue\"].rolling(4, min_periods=1).mean()\npeak = weekly.loc[weekly[\"revenue\"].idxmax()]\n\nfig, ax = plt.subplots(figsize=(10, 5))\nax.plot(weekly[\"date\"], weekly[\"revenue\"], color=\"#D6D9DD\", linewidth=1)\nax.plot(weekly[\"date\"], weekly[\"rolling_4w\"], color=\"#1F5A94\", linewidth=2.5)\nax.scatter(peak[\"date\"], peak[\"revenue\"], color=\"#1F5A94\", zorder=3)\nax.annotate(\n    f\"Highest observed week\\n€{peak['revenue']:,.0f}\",\n    xy=(peak[\"date\"], peak[\"revenue\"]),\n    xytext=(-90, 35),\n    textcoords=\"offset points\",\n    arrowprops={\"arrowstyle\": \"->\", \"color\": \"#555555\"},\n)\nax.set_title(\"Revenue has a recurring seasonal peak\", loc=\"left\")\nax.set_ylabel(\"Weekly revenue (€)\")\nax.set_xlabel(\"\")\nfig.autofmt_xdate()\nfig.savefig(\"figures/session04_annotated_story.png\", dpi=150, bbox_inches=\"tight\")\nplt.show()"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "### Write the accessible companion text\n\nA description identifies the form, main pattern, highlighted value, and relevant\nlimitation. It complements rather than repeats every label."
+  },
+  {
+    "cell_type": "code",
+    "source": "chart_description = (\n    f\"Horizontal bars rank total revenue across six synthetic regions. \"\n    f\"{leader} is highlighted in dark blue and has the largest total; exact euro \"\n    \"values are printed beside every bar. Totals do not adjust for regional size.\"\n)\nprint(chart_description)\n\naccessibility_audit = pd.Series(\n    {\n        \"meaning_without_colour\": True,\n        \"direct_labels_present\": True,\n        \"units_present\": True,\n        \"text_description_written\": True,\n    },\n    name=\"passed\",\n)\naccessibility_audit"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Pause and predict\n\nGive someone two seconds with each regional chart. What do they remember? Then hide the\ncolours: does the redesigned chart still communicate its hierarchy and exact values?"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Common mistakes\n\n- **Every category gets a saturated colour.** Nothing is visually primary.\n- **A title that merely repeats the axes.** Use the most-read text to state the finding.\n- **Annotations everywhere.** They compete with the data and destroy hierarchy.\n- **Hue as the only signal.** The chart fails for some readers and in greyscale.\n- **A beautiful overclaim.** Design cannot rescue evidence that does not support the title."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## AI co-pilot activity: use, then verify\n\nAsk an AI assistant:\n\n> Redesign a regional revenue chart for a leadership slide. Give a takeaway title, one highlight, direct labels, accessible colours, a text description, and no causal claim.\n\nRun any suggested code only on the local course data. Treat the answer as a draft: you are\nresponsible for the aggregation, chart choice, labels, interpretation, and final claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Verification checklist\n\nBefore keeping AI-generated—or your own—chart, confirm:\n\n1. **Purpose:** Does it answer *how design can guide attention without distortion or exclusion* for the stated audience and decision?\n2. **Data:** Are the rows, missing values, units, denominators, and aggregation correct?\n3. **Encoding:** Are the chart form, axes, scales, ordering, and colour honest?\n4. **Claim:** Does the evidence support the title without implying causation?\n5. **Access:** Can the message survive colour-vision differences and a static export?\n6. **Reproduction:** Does the code run from the repository root on local data?\n\nIf you cannot answer all six, revise the chart or narrow the claim.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Practice tasks\n\n1. Redesign the default regional chart for a monochrome printed report. Preserve hierarchy without relying on hue.\n2. Annotate one weekly revenue pattern. Write a conclusion-led title that says only what the data supports.\n3. Write alt text for your strongest chart and ask a peer whether it communicates the same message as the image."
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Finish check\n\nBefore stopping, save your strongest chart to `figures/`, write a one-sentence takeaway, and\nnote one limitation. A working chart is not finished until another person can interpret and\nverify it.\n"
+  },
+  {
+    "cell_type": "markdown",
+    "source": "## Short project review (10 minutes)\n\nExchange a short story outline and one figure. Ask a partner to state the message, check the figure note and identify an unsupported claim. Choose one revision and one numerical or reproducibility check.\n\nUse a course example if your project is not ready. This replaces part of practice time and is ungraded. The optional project-workshop notebooks provide further support."
+  }
+]
