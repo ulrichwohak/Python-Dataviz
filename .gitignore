@@ -41,3 +41,6 @@ figures/*
 .DS_Store
 .idea/
 .vscode/
+!/.vscode/
+/.vscode/*
+!/.vscode/settings.json

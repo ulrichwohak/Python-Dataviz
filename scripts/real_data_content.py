@@ -47,19 +47,69 @@ def chart_basics():
     births = pd.read_csv("data/raw/us_births.csv", parse_dates=["date"])
     print(births.head())
     # isna() marks missing values; sum() counts them in each column.
-    print(births.isna().sum())
+    missing_values = births.isna()
+    missing_counts = missing_values.sum()
+    print(missing_counts)
     print("Dates:", births["date"].min(), births["date"].max())
     '''), m('''
+    ## From a date column to a DatetimeIndex
+
+    An index supplies the row labels on the left of a pandas table. Our table currently
+    uses numbers. `parse_dates` converted the **values in the date column**, not the index.
+    '''), c('''
+    print(births.index[:3])
+    print(births["date"].dtype)
+    '''), m('''
+    ### 1. Use dates as row labels
+
+    `set_index` returns a table with `date` as its index instead of an ordinary column.
+    Because these values are datetimes, pandas creates a **DatetimeIndex**.
+    No rows have been combined: each row is still one day. The original `births` stays unchanged.
+    '''), c('''
+    births_by_date = births.set_index("date")
+    print(births_by_date.head())
+    print(births_by_date.index[:3])
+    '''), m('''
+    ### 2. Put the dates in order and select a month
+
+    `sort_index` orders rows by their date labels. With a DatetimeIndex, `.loc["2014-01"]`
+    selects all dates in January 2014, not just 1 January. Selection is not aggregation.
+    '''), c('''
+    births_by_date = births_by_date.sort_index()
+    january_2014 = births_by_date.loc["2014-01"]
+    print(january_2014.head())
+    print("Daily rows in January 2014:", len(january_2014))
+    '''), m('''
+    ### 3. Keep the counts and their date labels
+
+    Selecting the `births` column gives a Series: one count per day, with the same date index.
+    We use the full period below, not just January 2014.
+    '''), c('''
+    daily_births = births_by_date["births"]
+    print(daily_births.head())
+    '''), m('''
+    [pandas reference: time series and date indexes](https://pandas.pydata.org/docs/user_guide/timeseries.html).
+
     ## Line plots: change over time
 
     Calculate the mean number of births per day in each month. Monthly totals also depend
     on the number of days in a month; this mean answers a different, explicit question.
-    A Figure is the canvas and an Axes is the plotting area. Sorting dates keeps the line chronological.
+    First define the monthly groups, then choose how to summarise them.
     '''), c('''
-    # Resampling uses the date index to group observations over time.
-    # resample("MS") groups dates into months, labelled by the month's start.
-    # mean() calculates the average daily count within each month.
-    monthly = births.set_index("date")["births"].resample("MS").mean()
+    # MS means month-start: each calendar-month group is labelled by its first day.
+    monthly_groups = daily_births.resample("MS")
+    # size() shows how many daily rows belong to each group, not how many births.
+    days_per_month = monthly_groups.size()
+    print(days_per_month.head())
+    '''), m('''
+    Now calculate the mean **within each group**. A label such as `2000-01-01` identifies
+    the whole month's average; it is not the birth count on 1 January.
+    '''), c('''
+    monthly = monthly_groups.mean()
+    print(monthly.head())
+    '''), m('''
+    Plot the monthly result. Its index supplies the dates; its values supply the averages.
+    '''), c('''
     # fig is the whole figure; ax is its plotting area. figsize is in inches.
     fig, ax = plt.subplots(figsize=(9, 4))
     ax.plot(monthly.index, monthly.values)
@@ -74,12 +124,18 @@ def chart_basics():
 
     Each bar represents a mean across dates, not a total across all Mondays or Tuesdays.
     Keep the familiar weekday order and start bar lengths at zero. Before running: do you expect weekends to differ?
+    '''), c('''
+    # Define the groups, select the quantity, then calculate its mean.
+    weekday_groups = births.groupby("weekday")
+    weekday_births = weekday_groups["births"]
+    weekday_means = weekday_births.mean()
+    print(weekday_means)
     '''), c(f'''
-    # Put weekdays in calendar order rather than alphabetical order.
+    # reindex changes the display order, not the averages.
     day_order = {DAY_ORDER}
-    # groupby forms one group per weekday; mean averages its birth counts.
-    # reindex puts those averages into our chosen weekday order.
-    by_day = births.groupby("weekday")["births"].mean().reindex(day_order)
+    by_day = weekday_means.reindex(day_order)
+    print(by_day)
+    '''), c('''
     fig, ax = plt.subplots(figsize=(9, 4))
     ax.bar(by_day.index, by_day.values)
     # ylim fixes the vertical range; a zero baseline makes bar lengths comparable.
@@ -103,19 +159,25 @@ def chart_tour():
     not showing individual births. Which views reveal the weekly pattern most clearly?
     '''), c('''
     # Use the same 2014 sample in every plot; copy() keeps it separate from births.
-    tour = births.loc[births["year"] == 2014].copy()
+    in_2014 = births["year"] == 2014
+    tour = births.loc[in_2014].copy()
     print("Dates shown:", len(tour))
     # count() counts non-missing birth values within each weekday group.
-    print(tour.groupby("weekday")["births"].count().reindex(day_order))
+    tour_groups = tour.groupby("weekday")
+    tour_births = tour_groups["births"]
+    tour_counts = tour_births.count()
+    tour_counts = tour_counts.reindex(day_order)
+    print(tour_counts)
     '''), m('''
     ### Scatterplot
 
     Each point is one date. Unlike the monthly line, the daily points reveal short-run variation.
     '''), c('''
-    fig, ax = plt.subplots(figsize=(9, 4))
     # .dt accesses date features; dayofyear gives 1 for 1 January, etc.
+    day_number = tour["date"].dt.dayofyear
+    fig, ax = plt.subplots(figsize=(9, 4))
     # alpha controls opacity (0 transparent, 1 opaque); s sets marker area.
-    ax.scatter(tour["date"].dt.dayofyear, tour["births"], alpha=0.6, s=15)
+    ax.scatter(day_number, tour["births"], alpha=0.6, s=15)
     ax.set(title="Daily US births in 2014", xlabel="Day of year", ylabel="Births")
     fig.tight_layout()
     plt.show()
@@ -204,11 +266,21 @@ def first_exercise():
     import pandas as pd
 
     births = pd.read_csv("data/raw/us_births.csv", parse_dates=["date"])
-    monthly_redesign = births.loc[births["year"] == 2014].set_index("date")["births"].resample("MS").sum()
+    in_2014 = births["year"] == 2014
+    births_2014 = births.loc[in_2014]
+    print(births_2014.head())
+    '''), c('''
+    births_by_date = births_2014.set_index("date")
+    daily_births = births_by_date["births"]
+    monthly_groups = daily_births.resample("MS")
+    # This exercise asks for totals, not the lecture's daily averages.
+    monthly_redesign = monthly_groups.sum()
     print(monthly_redesign)
     '''), c('''
+    # %b formats each month label as an abbreviation, such as Jan.
+    month_labels = monthly_redesign.index.strftime("%b")
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.pie(monthly_redesign, labels=monthly_redesign.index.strftime("%b"), autopct="%.1f%%")
+    ax.pie(monthly_redesign, labels=month_labels, autopct="%.1f%%")
     ax.set_title("US births by month, 2014")
     plt.show()
     '''), m('''
@@ -242,11 +314,19 @@ def comparisons():
     '''), c('''
     # parse_dates reads the date column as dates, enabling .dt below.
     purchases = pd.read_csv("data/raw/amazon_purchases.csv", parse_dates=["date"])
-    # isin keeps both footwear categories; copy() creates a separate working table.
-    footwear = purchases.loc[purchases["category"].isin(["Boots", "Sandals"])].copy()
+    print(purchases.head())
+    '''), c('''
+    # First identify the matching rows, then create a working table.
+    is_footwear = purchases["category"].isin(["Boots", "Sandals"])
+    footwear = purchases.loc[is_footwear].copy()
+    print(footwear.head())
+    '''), c('''
+    category_groups = footwear.groupby("category")
+    prices_by_category = category_groups["unit_price_usd"]
     # agg applies several summaries to unit prices within each category.
     # count reports non-missing prices, not distinct shoppers.
-    print(footwear.groupby("category")["unit_price_usd"].agg(["count", "mean", "median", "min", "max"]))
+    price_summary = prices_by_category.agg(["count", "mean", "median", "min", "max"])
+    print(price_summary)
     '''), m('''
     ## Histogram bins and box plots
 
@@ -282,10 +362,21 @@ def comparisons():
     not revenue or distinct shoppers. Which footwear category peaks in colder months?
     '''), c('''
     # .dt.month extracts month numbers (1–12), pooling the years here.
-    # size() counts rows in each month/category group.
+    purchase_month = footwear["date"].dt.month
+    print(purchase_month.head())
+    '''), c('''
+    month_category_groups = footwear.groupby([purchase_month, "category"])
+    # size() counts records, not items or distinct shoppers.
+    seasonal_counts = month_category_groups.size()
+    print(seasonal_counts.head(6))
+    '''), m('''
+    The result has a row label for each month/category pair. Turn the categories into
+    columns so we can draw one line per category. Compare the table before and after.
+    '''), c('''
     # unstack makes categories into columns; absent combinations become 0.
-    seasonal = footwear.groupby([footwear["date"].dt.month, "category"]).size().unstack(fill_value=0)
+    seasonal = seasonal_counts.unstack(fill_value=0)
     print(seasonal)
+    '''), c('''
     fig, ax = plt.subplots(figsize=(9, 4))
     # Plot one line per category column; marker="o" adds a dot at each month.
     seasonal.plot(ax=ax, marker="o")
@@ -314,9 +405,14 @@ def comparisons():
     # These are supplied estimates and confidence bounds, not raw observations.
     event = pd.read_csv("data/processed/event_study_results.csv")
     print(event)
+    '''), c('''
     # errorbar needs distances from each estimate, not the endpoints themselves.
-    # The first list entry is downward distances; the second is upward distances.
-    errors = [event["estimate"] - event["ci_low"], event["ci_high"] - event["estimate"]]
+    lower_distance = event["estimate"] - event["ci_low"]
+    upper_distance = event["ci_high"] - event["estimate"]
+    # Supply the downward distances first, then the upward distances.
+    errors = [lower_distance, upper_distance]
+    print("Distances to lower bounds:", lower_distance)
+    print("Distances to upper bounds:", upper_distance)
     '''), c('''
     fig, ax = plt.subplots(figsize=(9, 4.5))
     # yerr supplies the distances; fmt="o" draws dots; capsize adds end caps.
@@ -353,8 +449,13 @@ def comparison_exercises():
     Run this chart and redesign it to show within-category variation. Keep the same records.
     '''), c('''
     purchases = pd.read_csv("data/raw/amazon_purchases.csv")
-    footwear = purchases.loc[purchases["category"].isin(["Boots", "Sandals"])]
-    means = footwear.groupby("category")["unit_price_usd"].mean()
+    is_footwear = purchases["category"].isin(["Boots", "Sandals"])
+    footwear = purchases.loc[is_footwear]
+    category_groups = footwear.groupby("category")
+    prices_by_category = category_groups["unit_price_usd"]
+    means = prices_by_category.mean()
+    print(means)
+    '''), c('''
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.bar(means.index, means.values)
     ax.set(title="Footwear purchase prices", ylabel="Mean price (USD)")
@@ -413,10 +514,16 @@ def mapping():
     # validate checks that each key occurs once in each table.
     # indicator adds _merge, showing whether a row found a match.
     world = countries.merge(emissions, on="iso_code", how="left", validate="one_to_one", indicator=True)
+    print(world[["iso_code", "map_name", "co2_per_capita", "_merge"]].head())
+    '''), c('''
     # Inspect map areas that have no matching row in the emissions table.
-    print(world.loc[world["_merge"] != "both", ["iso_code", "map_name"]])
+    unmatched = world["_merge"] != "both"
+    unmatched_areas = world.loc[unmatched, ["iso_code", "map_name"]]
+    print(unmatched_areas)
     # isna() also finds missing values inside rows that did match a country.
-    print(world.loc[world["co2_per_capita"].isna(), ["map_name", "co2_per_capita"]])
+    missing_emissions = world["co2_per_capita"].isna()
+    missing_areas = world.loc[missing_emissions, ["map_name", "co2_per_capita"]]
+    print(missing_areas)
     '''), m('''
     ## Projections
 
@@ -427,6 +534,8 @@ def mapping():
     # Transform the shapes' coordinates to the Equal Earth projection.
     # EPSG:8857 identifies this projection; it does not change the emissions.
     projected = world.to_crs("EPSG:8857")
+    print(projected.crs)
+    '''), c('''
     # Compare the original coordinates and the projection side by side.
     fig, axes = plt.subplots(1, 2, figsize=(12, 4))
     # Give polygons a grey fill and thin white borders in each panel.
@@ -445,10 +554,13 @@ def mapping():
     unit conversion: the total is in million tonnes, while population counts people.
     '''), c('''
     # Check Austria and three large emitters against the supplied per-person values.
-    check = emissions.loc[emissions["iso_code"].isin(["AUT", "USA", "CHN", "IND"])].copy()
+    selected_codes = emissions["iso_code"].isin(["AUT", "USA", "CHN", "IND"])
+    check = emissions.loc[selected_codes].copy()
     # Convert million tonnes to tonnes before dividing by the number of people.
-    check["calculated_per_person"] = check["co2"] * 1_000_000 / check["population"]
+    total_tonnes = check["co2"] * 1_000_000
+    check["calculated_per_person"] = total_tonnes / check["population"]
     print(check[["country", "co2", "co2_per_capita", "calculated_per_person"]])
+    '''), c('''
     fig, ax = plt.subplots(figsize=(11, 5.5))
     # column supplies the values to colour; cmap selects yellow-to-red colours.
     # legend=True adds a colour scale; legend_kwds supplies its label.
@@ -472,16 +584,24 @@ def mapping():
     `s` with emissions makes area proportional to emissions. Include a size legend.
     '''), c('''
     # Only draw circles for reported totals; retain all map areas in the background.
-    points = projected.loc[projected["co2"].notna()].copy()
+    has_total = projected["co2"].notna()
+    points = projected.loc[has_total].copy()
     # Replace each polygon with one point inside it for placing its circle.
-    points["geometry"] = points.geometry.representative_point()
+    representative_points = points.geometry.representative_point()
+    print(representative_points.head())
+    points["geometry"] = representative_points
+    '''), c('''
+    # Use projected point coordinates and circle areas as separate plotting inputs.
+    point_x = points.geometry.x
+    point_y = points.geometry.y
+    circle_areas = points["co2"] / 10
     fig, ax = plt.subplots(figsize=(11, 5.5))
     # Draw the country polygons first as a pale background.
     projected.plot(ax=ax, color="#eeeeee", edgecolor="white", linewidth=0.2)
     # geometry.x and .y provide point coordinates in the projected map.
     # s sets circle area in points squared; /10 keeps the symbols manageable.
     # alpha=0.6 makes overlapping circles partly transparent.
-    ax.scatter(points.geometry.x, points.geometry.y, s=points["co2"] / 10, alpha=0.6, color="#176B73")
+    ax.scatter(point_x, point_y, s=circle_areas, alpha=0.6, color="#176B73")
     # Empty x/y lists add no map points, but create labelled symbols for the legend.
     # Use the same size rule as above for a meaningful size legend.
     for total in [100, 1000, 5000]:
@@ -505,11 +625,17 @@ def mapping():
     # A spatial join matches by location rather than by country code.
     # predicate="within" finds the polygon containing each point.
     # how="left" keeps all points, including any without a matching polygon.
-    located = gpd.sjoin(points[["iso_code", "geometry"]], projected[["map_name", "geometry"]], how="left", predicate="within")
+    point_locations = points[["iso_code", "geometry"]]
+    map_areas = projected[["map_name", "geometry"]]
+    located = gpd.sjoin(point_locations, map_areas, how="left", predicate="within")
+    print(located.head())
+    '''), c('''
     # Missing names flag unmatched points; sum() counts the True results.
-    print("Unmatched points:", located["map_name"].isna().sum())
+    unmatched_points = located["map_name"].isna()
+    print("Unmatched points:", unmatched_points.sum())
     # duplicated() flags each repeat after the first occurrence of a code.
-    print("Repeated country codes:", located["iso_code"].duplicated().sum())
+    repeated_codes = located["iso_code"].duplicated()
+    print("Repeated country codes:", repeated_codes.sum())
     '''), m('Open [the exercises](exercises.ipynb). Check join coverage, denominator, units, missing values and projection before keeping a map.')]
 
 
@@ -520,7 +646,11 @@ def mapping_exercises():
     A reader asks where territorial CO₂ emissions **per person** were highest in 2023.
     The supplied chart uses total emissions. Run it, then revise it without changing the year.
     '''), c('''
-    initial = countries.merge(emissions, on="iso_code", how="inner").to_crs("EPSG:8857")
+    joined = countries.merge(emissions, on="iso_code", how="inner")
+    print("Map areas before joining:", len(countries))
+    print("Map areas after joining:", len(joined))
+    initial = joined.to_crs("EPSG:8857")
+    '''), c('''
     fig, ax = plt.subplots(figsize=(10, 5))
     initial.plot(column="co2", cmap="Blues", legend=True, ax=ax)
     ax.set_title("CO₂ emissions")
@@ -543,7 +673,12 @@ def references(slug):
         return [m('# Design and annotation\n\nOptional reference: adapt the same birth counts for different readers.'), PY_SETUP,
                 c('''
                 births = pd.read_csv("data/raw/us_births.csv", parse_dates=["date"])
-                monthly = births.set_index("date")["births"].resample("MS").mean()
+                births_by_date = births.set_index("date")
+                daily_births = births_by_date["births"]
+                monthly_groups = daily_births.resample("MS")
+                monthly = monthly_groups.mean()
+                print(monthly.head())
+                '''), c('''
                 fig, ax = plt.subplots(figsize=(10, 4))
                 ax.plot(monthly.index, monthly.values, color="#176B73")
                 peak = monthly.idxmax()
@@ -561,7 +696,12 @@ def references(slug):
                 import plotly.express as px
 
                 dashboard = pd.read_csv("data/processed/amazon_monthly.csv", parse_dates=["month"])
-                monthly = dashboard.groupby(["month", "category"], as_index=False)["spending_usd"].sum()
+                # Keep month and category as columns in the result, not index levels.
+                month_category_groups = dashboard.groupby(["month", "category"], as_index=False)
+                grouped_spending = month_category_groups["spending_usd"]
+                monthly = grouped_spending.sum()
+                print(monthly.head())
+                '''), c('''
                 fig = px.line(monthly, x="month", y="spending_usd", color="category",
                               labels={"spending_usd": "Sample spending (USD)", "month": "Month"},
                               title="Spending in donated Amazon histories, selected categories")
@@ -571,7 +711,10 @@ def references(slug):
     return [m('# Project workshop\n\nOptional reference: develop a question about the donated Amazon histories.'), PY_SETUP,
             c('''
             purchases = pd.read_csv("data/raw/amazon_purchases.csv", parse_dates=["date"])
-            print(purchases.groupby("category")["spending_usd"].agg(["size", "sum", "mean", "median"]))
+            category_groups = purchases.groupby("category")
+            grouped_spending = category_groups["spending_usd"]
+            spending_summary = grouped_spending.agg(["size", "sum", "mean", "median"])
+            print(spending_summary)
             '''), m('''
             ## Draft, check and review
 

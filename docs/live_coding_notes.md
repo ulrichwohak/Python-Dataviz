@@ -36,6 +36,25 @@ Open the lecture's `lecture.ipynb`. Its examples are fully written so students c
 them after class. Decide which examples can be shortened if discussion runs long.
 Check local data and the writable figures folder before teaching.
 
+## Step-by-step notebook code
+
+The instructor confirmed this principle on 4 November 2026: students know basic Python,
+but unfamiliar pandas and plotting operations should be visible as individual steps.
+Use named intermediate results, short cells and small previews rather than long method
+chains. Prepare and inspect a result before plotting it. Comments explain library behaviour
+and analytical choices, not import aliases, loops or other basic syntax.
+
+Lecture 1 introduces the difference between a date column and date-based row labels,
+then creates and sorts a DatetimeIndex, selects January 2014, selects the daily counts,
+defines monthly groups and calculates their means. Ask students what each result represents
+before running the next cell. An index change or a date selection does not aggregate rows;
+the resampling summary does. Keep this walkthrough brief within the existing preparation
+time, preserving the chart tour and final 20-minute exercise.
+
+The same approach applies to grouping, filtering, joins, uncertainty calculations and
+the optional Python checks for Power BI. Exercise scaffolds and optional references also
+use explicit steps; student redesign tasks remain unanswered.
+
 ## Session 1 chart tour
 
 The materials slide links to [Todd Jones's dataset catalogue](https://github.com/toddrjones/datasets).

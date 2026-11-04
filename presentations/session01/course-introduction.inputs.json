@@ -1,6 +1,6 @@
 {
   "Data-Visualization-and-Storytelling-Syllabus.md": "c40de2d572d19ad08929614020d6eedc8fd96172495bfefb5fc892312dcfc917",
-  "README.md": "72ea379d41d73e602c0d9db8d08502c775b8acad71edca78b4a734153d759204",
+  "README.md": "32a62c97b7835e80ef4b25c454518d3eac7180a03b647d4928c6715d53c49f54",
   "schedule/session_plan.md": "3f6b3adff8f26d87cee1334b26f93d80ddf28ae61ea55c05275d07597259c144",
   "docs/course_outline.md": "b83090b1ae501ea465303269421df13cba8f8bfe52635ecc55a73158b65b121a",
   "docs/ai_policy.md": "62bc9d7cbe7814ea8df863bfbed5e1f2eb60811c99799db40831e3d003f17d2e",
@@ -11,8 +11,8 @@
   "workshops/power-bi/session05-introduction.md": "741862578e3b33d9f11bbdf221b042ed62295d98e968cb27b50568597c676518",
   "workshops/power-bi/session06-dashboard.md": "184b520332a88fea9b32a7969c8622e2e216ff8ec857f3e0758011e942bce9b5",
   "scripts/build_notebooks.py": "97ef5d28695471cc0ac931aaf99f64838722798902776fe4ac088535ea650329",
-  "scripts/lecture_content.py": "f3eb2c2613f60e34342a2df991fc6aeb91940b18c7334d9a5ead7a9037ea653a",
-  "scripts/real_data_content.py": "336b81f57952090a11963115519cc5056df43a53b273fdc65d07c5ce7eda1c14",
+  "scripts/lecture_content.py": "3678dfcfb77eca1d3d67334d48ca9c9dd7109c6b49afe4e41a9f3b064c9741f0",
+  "scripts/real_data_content.py": "821201c3c4a36405f2d38722b73fa331c3b2b52d2646fc6a4c0450e824b011df",
   "scripts/fetch_data.py": "7ba033f8e92179fe256167449177534639ba4df6f95fa0e49f6036a09b25f508",
   "data/README.md": "d41fa525a46d981ca18f23f77c2c52071d33757fb4d96be5f85415ab8985e775",
   "notebooks/README.md": "0e95bfb3c7bacfc9209a40ce98a48afa9d79b61d7643e0dac008759cc7e0f559",

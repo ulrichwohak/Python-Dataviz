@@ -17,19 +17,30 @@ Missing states remain Unknown. This sample is not representative of Amazon sales
 Rename the imported table to `dashboard` and use that name throughout. Interface positions can vary by installed version.
 ''')
 
-POWER_BI_CHECK = c('''
+POWER_BI_CHECKS = [c('''
 import pandas as pd
 
 # parse_dates reads "month" as dates rather than text, enabling date comparisons.
 dashboard = pd.read_csv("data/processed/amazon_monthly.csv", parse_dates=["month"])
 # These rows are monthly aggregates, not individual purchases or orders.
 print("Rows:", len(dashboard))
-print("Dates:", dashboard["month"].min().date(), "to", dashboard["month"].max().date())
+months = dashboard["month"]
+first_month = months.min()
+last_month = months.max()
+print("Dates:", first_month.date(), "to", last_month.date())
+'''), c('''
 # Check spending and item totals against the unfiltered Power BI cards.
-print(dashboard[["spending_usd", "quantity"]].sum())
-# groupby("state") calculates those same totals separately for each state.
-print(dashboard.groupby("state")[["spending_usd", "quantity"]].sum())
-''')
+value_columns = ["spending_usd", "quantity"]
+values = dashboard[value_columns]
+overall_totals = values.sum()
+print(overall_totals)
+'''), c('''
+# Group by state, select the quantities, then sum within each group.
+state_groups = dashboard.groupby("state")
+state_values = state_groups[value_columns]
+state_totals = state_values.sum()
+print(state_totals)
+''')]
 
 
 def power_bi_foundations():
@@ -107,7 +118,7 @@ def power_bi_foundations():
         ## Optional Python check
 
         These totals should agree with Power BI after clearing all filters and selections.
-        '''), POWER_BI_CHECK,
+        '''), *POWER_BI_CHECKS,
         m('''
         Reference: [Microsoft report-design walkthrough](https://microsoftlearning.github.io/PL-300-Microsoft-Power-BI-Data-Analyst/Instructions/Labs/08-design-power-bi-reports.html).
         '''),
@@ -189,15 +200,27 @@ def power_bi_comparisons():
         Open [the filtering exercises](exercises.ipynb). Save the report after clearing
         temporary filters. Keep the tables and cards for the dashboard-building class.
         '''),
-        m('## Optional Python check'), POWER_BI_CHECK,
+        m('## Optional Python check'), *POWER_BI_CHECKS,
         c('''
-        # Match the Boots/2022 slicer selection. Pandas combines row conditions
-        # with & rather than Python's and; each condition needs parentheses.
-        selected = dashboard.loc[(dashboard["category"] == "Boots") & (dashboard["month"].dt.year == 2022)]
+        # Build the two slicer conditions separately before combining them.
+        is_boots = dashboard["category"] == "Boots"
+        years = dashboard["month"].dt.year
+        in_2022 = years == 2022
+        # Pandas combines row conditions with & rather than Python's and.
+        selected_rows = is_boots & in_2022
+        selected = dashboard.loc[selected_rows]
+        print(selected.head())
+        '''), c('''
         # Sum spending and quantity only for the selected category and year.
-        print(selected[["spending_usd", "quantity"]].sum())
+        selected_values = selected[value_columns]
+        selected_totals = selected_values.sum()
+        print(selected_totals)
+        '''), c('''
         # These all-category monthly totals check the unfiltered KPI, not the Boots selection.
-        print(dashboard.groupby("month")["spending_usd"].sum().tail())
+        month_groups = dashboard.groupby("month")
+        monthly_spending = month_groups["spending_usd"]
+        monthly_totals = monthly_spending.sum()
+        print(monthly_totals.tail())
         '''),
         m('''
         References: [filters](https://learn.microsoft.com/en-us/power-bi/create-reports/power-bi-report-add-filter),
@@ -281,14 +304,26 @@ def power_bi_dashboard():
         no Service publishing or graded Power BI submission is required.
 
         ## Optional Python check
-        '''), POWER_BI_CHECK,
+        '''), *POWER_BI_CHECKS,
         c('''
         # Match a California selection and a 2022 date filter in Power BI.
-        selected = dashboard.loc[(dashboard["state"] == "CA") & (dashboard["month"].dt.year == 2022)]
+        is_california = dashboard["state"] == "CA"
+        years = dashboard["month"].dt.year
+        in_2022 = years == 2022
+        selected_rows = is_california & in_2022
+        selected = dashboard.loc[selected_rows]
+        print(selected.head())
+        '''), c('''
         # Compare these selected totals with the filtered Power BI cards.
-        print(selected[["spending_usd", "quantity"]].sum())
+        selected_values = selected[value_columns]
+        selected_totals = selected_values.sum()
+        print(selected_totals)
+        '''), c('''
         # Add spending within each selected month to check the filtered line chart.
-        print(selected.groupby("month")["spending_usd"].sum())
+        selected_month_groups = selected.groupby("month")
+        selected_spending = selected_month_groups["spending_usd"]
+        selected_monthly_totals = selected_spending.sum()
+        print(selected_monthly_totals)
         '''),
         m('''
         Reference: [visual interactions](https://learn.microsoft.com/en-us/power-bi/create-reports/service-reports-visual-interactions).

@@ -105,6 +105,12 @@ uv run ruff check .
 
 For documentation-only changes, at minimum run `uv run python scripts/check_no_pip.py`.
 
+The shared `.vscode/settings.json` preserves the repository-root notebook working directory
+and disables automatic completion and inline suggestions for live coding, including Python
+and notebook overrides. Keep manual completion, documentation and AI chat available; this
+is an editor preference, not a change to the course AI policy. Only this settings file is
+tracked under `.vscode/`; other local editor files remain ignored.
+
 ## Data and notebook policy
 
 - Current scheduled teaching data are public real datasets downloaded in pinned versions by
@@ -133,6 +139,13 @@ For documentation-only changes, at minimum run `uv run python scripts/check_no_p
   exports and analytical choices. Avoid narrating obvious lines or repeating explanations.
   Preserve useful comments in the notebook generators without changing the analysis or
   filling in student exercise answers.
+- Teach transformations step by step: use meaningful intermediate variables instead of
+  dense method chains or calculations hidden inside plotting calls. Separate preparation,
+  inspection and plotting into short cells when this helps live coding. Show small previews
+  at important transitions; do not split every familiar expression into trivial microsteps.
+  Apply this to lectures, supplied exercise code and optional references without supplying
+  exercise solutions. Introduce unfamiliar pandas concepts before relying on them:
+  Lecture 1 explains date columns, a DatetimeIndex, date selection and monthly resampling.
 
 ## Teaching and content conventions
 
