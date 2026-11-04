@@ -18,9 +18,9 @@ and are treated as a normal part of a modern analyst's workflow. The course posi
 - **Protect data.** Class examples use public real data. Public availability does not remove privacy obligations. Do not paste personal, confidential, or
   otherwise restricted project data into external AI tools.
 
-For the 25% individual figure, put a brief AI-use disclosure and verification statement in
-the figure notes; do not submit code or a separate disclosure file. The final project's
-existing disclosure requirements remain unchanged.
+For each of the three individual figures (25% combined), put a brief AI-use disclosure and
+verification statement in the figure notes; do not submit code or a separate disclosure file.
+The final project's existing disclosure requirements remain unchanged.
 
 ## Verification checklist for AI-generated charts and code
 

@@ -32,13 +32,13 @@
   {
     "number": 6,
     "title": "Assessment",
-    "text": "The instructor confirmed on 4 November 2026 that the 25% individual assignment is an original figure answering a supplied question using supplied data, with figure and notes as the only submission. The 75% final project remains unchanged. Classroom redesign exercises are ungraded practice. The syllabus states 50% minimum to pass. Due dates and submission routes are TBD; announce them when confirmed.",
+    "text": "The instructor confirmed three equally weighted individual figure assignments on 4 November 2026. Each is marked out of 100; the average of the three scores contributes 25% of the course grade. These are three submissions across the course, not one per lecture. Each answers a supplied question using supplied data, with figure and notes as the only submission. The 75% final project remains unchanged. Classroom redesign exercises are ungraded practice. The syllabus states 50% minimum to pass. Due dates and submission routes are TBD; announce them when confirmed.",
     "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
   },
   {
     "number": 7,
-    "title": "The individual figure · 25%",
-    "text": "The instructor supplies the data and question when the assignment opens. Students design a figure from scratch in Python. Submit only the figure and its attached notes, with no code, separate rationale or other supporting files. Notes provide relevant provenance, sample, units, aggregation, filters, uncertainty and limitations. Assess the answer, analytic correctness, design, accessibility and notes. Do not assess unsubmitted code. The final project is unchanged. Source: assignments/chart-critique-redesign/README.md.",
+    "title": "Three individual figures · 25% in total",
+    "text": "For each of the three assignments, the instructor supplies data and a question. The datasets, questions and deadlines will be decided later; do not assign them to particular lectures now. Students design a figure from scratch in Python. Submit only the figure and its attached notes, with no code, separate rationale or other supporting files. Notes provide relevant provenance, sample, units, aggregation, filters, uncertainty and limitations. Apply the same 100-point rubric to each figure: answer, analytic correctness, design, accessibility and notes. Average all three scores for the 25% component. Do not assess unsubmitted code. The final project is unchanged. Source: assignments/chart-critique-redesign/README.md.",
     "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
   },
   {
@@ -50,7 +50,7 @@
   {
     "number": 9,
     "title": "Where to find the material",
-    "text": "The notebook index maps the six dated lectures to six folders. Each has lecture.ipynb with fully written examples or Power BI steps, and exercises.ipynb for practice. There are no live/completed variants. Optional references sit outside the numbered sequence. Sessions 1–3 use Python and Sessions 4–6 use Power BI Desktop. Cairo is primary, Munzner secondary. The local Cairo PDF is a 72-page excerpt, not the full book. No book purchase is required. Invite students to browse Todd Jones's dataset catalogue, choose a topic that interests them and consider a question a figure could answer. Follow each dataset's source link to check access, documentation and reuse terms. This is an exploration resource, not an additional assignment.",
+    "text": "The notebook index maps the six dated lectures to six folders. Each has lecture.ipynb with fully written examples or Power BI steps, and exercises.ipynb for practice. There are no live/completed variants. Optional references sit outside the numbered sequence. Sessions 1–3 use Python and Sessions 4–6 use Power BI Desktop. No book purchase is required. Invite students to browse Todd Jones's dataset catalogue, choose a topic that interests them and consider a question a figure could answer. Follow each dataset's source link to check access, documentation and reuse terms. This is an exploration resource, not an additional assignment.",
     "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Dataset catalogue: Todd Jones, Free Datasets for Social Science Research, https://github.com/toddrjones/datasets (checked 4 November 2026).",
     "links": [
       {
@@ -150,17 +150,11 @@
   {
     "number": 23,
     "title": "Today: a chart tour in Python",
-    "text": "Pause the slides here. Live-code the basic line/bar examples, then run the supplied scatter, histogram, box, violin and strip plot tour in the Python chart-tour teaching notebook. Allow about 20 minutes for the tour: ask what each chart reveals, comparing the same 365 dates in 2014 and scales. Explain that violin width shows a smoothed distribution, not number of dates here, and sideways jitter has no substantive meaning. Cover labels, notes and export; leave the longer annotation/audience examples optional. Reserve the final 20 minutes for notebooks/01-python-chart-tour/exercises.ipynb on the next slide. Its later optional tasks are not required today.",
+    "text": "Pause the slides here. Live-code the basic line/bar examples, then run the supplied scatter, histogram, box, violin and strip plot tour in the Python chart-tour teaching notebook. Allow about 20 minutes for the tour: ask what each chart reveals, comparing the same 365 dates in 2014 and scales. Explain that violin width shows a smoothed distribution, not number of dates here, and sideways jitter has no substantive meaning. Cover labels, notes and export; leave the longer annotation/audience examples optional. Reserve the final 20 minutes for notebooks/01-python-chart-tour/exercises.ipynb. Open the exercise notebook directly after live coding. Its later optional tasks are not required today.",
     "source": "Course sources: Data-Visualization-and-Storytelling-Syllabus.md; schedule/session_plan.md; assignments/README.md. Version: 4 November 2026. Deadlines, room and Power BI access route are not yet confirmed. Do not invent them."
   },
   {
     "number": 24,
-    "title": "Your first redesign: change over time",
-    "text": "Return after live coding for the final 20 minutes. Open notebooks/01-python-chart-tour/exercises.ipynb. Students run the supplied preparation and pie chart, then edit the plotting cell. Preserve all 12 monthly US birth totals in 2014. A line chart is the simple redesign; accept a justified alternative. Require labels, a source note and checks against January and December. Monthly totals reflect month length as well as daily birth frequency. The lecture uses monthly daily means; optional exercise practice compares the two. Do not change the quantity silently.",
-    "source": "SSA daily births via FiveThirtyEight; data/raw/us_births.csv. Source versions and licence in data/README.md."
-  },
-  {
-    "number": 25,
     "title": "Backup · setup and Power BI access",
     "text": "The Python commands run from the repository root. The VS Code notebook setting or manual working-directory choice should keep notebooks rooted there. Before 25 November, confirm a Windows computer or an institution-provided access route for all students. CEU virtual-lab availability is not established. Do not require a purchase or claim an access route works before testing it. First download is about 330 MB with no login; later runs validate and reuse cached sources. Run before class.",
     "source": "README.md; workshops/power-bi/README.md. Power BI Desktop access requirements must be confirmed before class."

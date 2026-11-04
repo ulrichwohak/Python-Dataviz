@@ -1,10 +1,10 @@
 # In-class redesign activities
 
 Students learn design by changing charts, not only by watching finished examples. These
-activities are ungraded practice. The separate 25% assignment asks students to create an
-original figure from instructor-supplied data and a question, submitting only the figure and
-notes. The 75% final project remains unchanged. These decisions were confirmed by the
-instructor on 4 November 2026.
+activities are ungraded practice. Three equally weighted figure assignments make up 25% of
+the course grade. For each, students create an original figure from instructor-supplied data
+and a question, submitting only the figure and notes. The 75% final project remains unchanged.
+These decisions were confirmed by the instructor on 4 November 2026.
 
 ## Classroom routine
 

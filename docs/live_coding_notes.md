@@ -583,19 +583,22 @@ and verification. The unnumbered interactivity and project references remain opt
 support, with clear labels and unchanged paths. The assessment format was subsequently revised
 as recorded below; its 25%/75% weights remain unchanged.
 
-## Individual figure assessment
+## Individual figure assessments
 
-**Instructor decision, 4 November 2026:** change only the 25% item. The instructor supplies
-the data and question, and students design an original figure in Python. Accept only the
-figure with its accompanying notes, without code, a separate rationale or other supporting
-files. Redesign stays ungraded in-class practice. Preserve the 75% final project, including
-its code, narrative, team option and other deliverables.
+**Instructor decision, updated 4 November 2026:** the 25% component consists of three
+individual figure assignments, not one per lecture. The instructor explicitly confirmed
+equal weights. Mark each out of 100 and use the average of the three scores for this component.
+For each, the instructor supplies the data and question, and students design an original
+figure in Python. Accept only the figure with its accompanying notes, without code, a separate
+rationale or other supporting files. Redesign stays ungraded in-class practice. Preserve the
+75% final project, including its code, narrative, team option and other deliverables.
 
 The revised rubric retains 20 points for answering the question, 20 for analytic correctness,
 25 for design and 15 for communication/accessibility. The former code/rationale allocation
 becomes 20 points for figure notes and transparency. Verification is still necessary, but
-unsubmitted code is not graded. Put brief AI attribution in the notes. The actual dataset,
-question, file format, submission route and deadline are still to be specified.
+unsubmitted code is not graded. Apply the same rubric to all three figures and put brief AI
+attribution in each figure's notes. The instructor will decide the datasets and questions
+later; do not select them now. File formats, submission routes and deadlines also remain TBD.
 
 ## Previous course materials and three-session Power BI proposal
 

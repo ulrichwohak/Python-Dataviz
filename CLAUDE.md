@@ -69,10 +69,13 @@ chart for a stated audience and question. Students diagnose the mismatch, keep t
 data and calculation consistent, redesign, and explain their choices. Accept defensible
 alternatives; the instructor reference is one possible solution, not the only valid chart.
 
-The two graded items live in `assignments/`: a 25% individual figure and a 75% final Python
-data story. For the first item, the instructor supplies data and a question; students design
-a figure from scratch in Python and submit only the figure with notes. Do not require code,
-a redesign or a separate rationale. Its folder retains the earlier name
+The two assessment components live in `assignments/`: three equally weighted individual
+figures worth 25% combined and a 75% final Python data story. Mark each figure out of 100;
+their average contributes 25% of the course grade. For each figure assignment, the instructor
+supplies data and a question; students design a figure from scratch in Python and submit only
+the figure with notes. There are three assignments across the course, not one per lecture.
+Their datasets, questions and deadlines remain TBD. Do not require code,
+a redesign or a separate rationale. The figure-assignment folder retains the earlier name
 `chart-critique-redesign` for stable links; old starter/reflection files are ungraded practice.
 The final project's requirements and weight remain unchanged. Exercises are formative,
 not additional graded quizzes. The confirmed three-Python/three-Power-BI timetable is recorded
@@ -199,7 +202,7 @@ sequences and safeguards are in `docs/live_coding_notes.md`.
 | Cairo's Figure 3 | Primary local introduction contains the figure, enlarged detail, and critique prompts. |
 | Supplied chart critiques | Slides 19–22 show four original screenshots with student questions and instructor-only explanations: prices/wages, firearm murders, pool/skyscrapers and county suicide rates. Preserve full images, source labels and verification limits. Screenshots stay local-only. Use selected examples within the existing introduction time. |
 | Pooled versus within-country relationships | Primary introduction contains a two-slide reveal using generated synthetic hotel data. |
-| In-class redesign practice | Session 1 uses the final 20 minutes for `notebooks/01-python-chart-tour/exercises.ipynb`; it preserves the pie-to-time-chart task using real 2014 monthly birth totals. Every later lecture has a matching exercise notebook. Ungraded practice; the separate 25% assignment asks for an original figure with notes only. |
+| In-class redesign practice | Session 1 uses the final 20 minutes for `notebooks/01-python-chart-tour/exercises.ipynb`; it preserves the pie-to-time-chart task using real 2014 monthly birth totals. Every later lecture has a matching exercise notebook. Ungraded practice; three equally weighted figure assignments make up 25%, each requiring an original figure with notes only. |
 | First-session chart tour | The Session 1 teaching notebook includes runnable scatter, histogram, box, violin and strip examples after line/bar exploration. Reuse the same 365 dates from the real 2014 SSA births file. Explain smoothing, width normalisation and jitter; keep the final 20-minute exercise. Longer annotation examples are optional. |
 | Same evidence, different audiences | Cross-course principle recorded; academic/management comparisons woven into chart tasks and project reviews. |
 | Figure and visualisation notes | Introduce in Session 1, develop through Sessions 2–3 and project reviews, apply to the Session 6 dashboard; notes are required in the chart and mapping exercises. |
