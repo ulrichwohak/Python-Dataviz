@@ -51,6 +51,10 @@ before running the next cell. An index change or a date selection does not aggre
 the resampling summary does. Keep this walkthrough brief within the existing preparation
 time, preserving the chart tour and final 20-minute exercise.
 
+Before monthly resampling, use the lecture's discussion prompts to distinguish monthly
+totals from daily averages, identify year-month groups, check missing/duplicate dates and
+choose meaningful axes. Return to what averaging reveals and hides after drawing the line.
+
 The same approach applies to grouping, filtering, joins, uncertainty calculations and
 the optional Python checks for Power BI. Exercise scaffolds and optional references also
 use explicit steps; student redesign tasks remain unanswered.
@@ -77,6 +81,11 @@ Use a scatterplot for two numerical variables, a histogram for overall frequenci
 plot for group summaries, a violin for smoothed distribution shape, and a strip plot for
 individual observations. The distribution examples use the same real 2014 dates,
 weekday order and birth-count scales. Print group counts and missing-value exclusions first.
+
+Introduce the histogram with “How many days had a given number of births?” Its bars
+count days, not babies, and its horizontal axis is not time. Read one bar aloud before
+discussing the two concentrations. Use the subsequent weekday plots to investigate which
+days form each group; the pooled histogram alone does not identify weekends.
 
 Explain the violin's width and smoothing, then show the strip plot to distinguish observed
 points from the estimated shape. The fixed maximum violin width does not compare group
