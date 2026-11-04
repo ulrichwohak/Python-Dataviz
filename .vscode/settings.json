@@ -1,0 +1,41 @@
+{
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "editor.quickSuggestions": {
+    "other": "off",
+    "comments": "off",
+    "strings": "off"
+  },
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.tabCompletion": "off",
+  "editor.wordBasedSuggestions": "off",
+  "editor.inlineSuggest.enabled": false,
+  "[python]": {
+    "editor.quickSuggestions": {
+      "other": "off",
+      "comments": "off",
+      "strings": "off"
+    },
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.tabCompletion": "off",
+    "editor.wordBasedSuggestions": "off",
+    "editor.inlineSuggest.enabled": false,
+    "github.copilot.nextEditSuggestions.enabled": false
+  },
+  "notebook.editorOptionsCustomizations": {
+    "editor.quickSuggestions": {
+      "other": "off",
+      "comments": "off",
+      "strings": "off"
+    },
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.tabCompletion": "off",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "github.copilot.enable": {
+    "*": false,
+    "python": false,
+    "markdown": false,
+    "plaintext": false
+  },
+  "github.copilot.nextEditSuggestions.enabled": false
+}

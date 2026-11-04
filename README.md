@@ -134,12 +134,20 @@ licences, exclusions and units are documented in the [data README](data/README.m
 Only the introductory OLS and Simpson's-paradox **mathematical illustrations** remain synthetic.
 Explore additional sources in [Todd Jones's dataset catalogue](https://github.com/toddrjones/datasets).
 
-In VS Code, open `Python-Dataviz` as the workspace folder and set **Jupyter: Notebook File
-Root** to `${workspaceFolder}` in Workspace Settings. Restart an already-running notebook
-kernel after changing the setting. Editor settings are local and ignored by Git, so each
-student needs to set this once. In JupyterLab, check the working folder with `%pwd`; if it is
-a lecture folder such as `notebooks/01-python-chart-tour`, run `%cd ../..` once before
-running the notebook cells.
+In VS Code, open `Python-Dataviz` itself as the workspace folder. The shared
+[workspace settings](.vscode/settings.json) set **Jupyter: Notebook File Root** to
+`${workspaceFolder}`. Restart an already-running notebook kernel after pulling this update.
+In JupyterLab, check the working folder with `%pwd`; if it is a lecture folder such as
+`notebooks/01-python-chart-tour`, run `%cd ../..` once before running the notebook cells.
+
+The shared settings turn off automatic completion popups, trigger-character and Tab
+completion, word-based suggestions, inline ghost text, and Copilot next-edit suggestions
+for live coding. Python and notebook overrides are included. Manual IntelliSense
+(`Ctrl+Space`), hover documentation and AI chat are not disabled; the course AI policy is
+unchanged. These are editable workspace defaults, not an enforcement mechanism or settings
+for JupyterLab. Other AI extensions may have separate controls. If suggestions persist,
+run **Developer: Reload Window** and check that this repository is the open workspace.
+See [VS Code's settings precedence](https://code.visualstudio.com/docs/configure/settings#_settings-precedence).
 
 ## Learning outcomes
 
