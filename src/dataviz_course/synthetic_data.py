@@ -211,7 +211,8 @@ def make_geodata(seed: int = SEED):
     """Build artificial region polygons and store points (no external shapefiles).
 
     A 3×2 grid of square regions is laid out in EPSG:4326 over a plausible degree range, so
-    week 6 can demonstrate reprojection to a projected CRS. Returns ``(regions_gdf, stores_gdf)``.
+    Session 3 can demonstrate reprojection to a projected CRS. Returns
+    ``(regions_gdf, stores_gdf)``.
     """
     import geopandas as gpd
     from shapely.geometry import Point, Polygon
@@ -294,6 +295,68 @@ def make_dashboard(sales: pd.DataFrame) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------------------------
+# 7. Deliberately constructed Simpson's-paradox illustration
+# --------------------------------------------------------------------------------------------
+def make_simpson_hotels() -> pd.DataFrame:
+    """24 fictional hotels: positive pooled slope, negative slope within each country.
+
+    Each country has eight hotels. Country means (distance in km, price in EUR/night)
+    are (3, 70), (6, 120), and (9, 170). Within each country, price changes by -8 EUR/km.
+    Fixed deviations add scatter but have zero mean and zero covariance with distance.
+    These are illustrative values, not estimates or observations from real countries.
+    """
+    offsets = [-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2]
+    deviations = [2, -4, 3, -1, -1, 3, -4, 2]
+    rows = []
+    for country, mean_distance, mean_price in [("A", 3, 70), ("B", 6, 120), ("C", 9, 170)]:
+        for hotel, (offset, deviation) in enumerate(zip(offsets, deviations, strict=True), 1):
+            rows.append((
+                f"{country}{hotel:02d}", country, mean_distance + offset,
+                mean_price - 8 * offset + deviation,
+            ))
+    return pd.DataFrame(rows, columns=["hotel_id", "country", "distance_km", "price_eur"])
+
+
+# --------------------------------------------------------------------------------------------
+# Event-study results supplied for the plotting class
+# --------------------------------------------------------------------------------------------
+def make_event_study(seed: int = SEED) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Synthetic firm panel and pointwise 95% bootstrap intervals for changes vs month -1.
+
+    Sixty treated and sixty comparison firms are observed from months -3 to 3. Treatment
+    starts at 0. Independent firm-level resampling preserves each firm's repeated outcomes.
+    The estimator is the treated-minus-comparison difference in mean changes from month -1.
+    Month -1 is a normalisation, not an estimated zero with a zero-width confidence interval.
+    """
+    rng = np.random.default_rng(seed + 20)
+    times = np.arange(-3, 4)
+    treated = np.repeat([0, 1], 60)
+    effects = np.array([0, 0, 0, 1.5, 2.5, 3.5, 4.0])
+    baseline = rng.normal(100, 12, (120, 1))
+    outcomes = baseline + 0.6 * times + treated[:, None] * effects
+    outcomes += rng.normal(0, 4, (120, len(times)))
+    panel = pd.DataFrame({
+        "firm_id": np.repeat(np.arange(1, 121), len(times)),
+        "treated": np.repeat(treated, len(times)),
+        "event_month": np.tile(times, 120),
+        "sales_index": outcomes.ravel(),
+    })
+    changes = outcomes - outcomes[:, [2]]
+    estimates = changes[60:].mean(axis=0) - changes[:60].mean(axis=0)
+    treatment_draws = rng.integers(0, 60, size=(2000, 60))
+    comparison_draws = rng.integers(0, 60, size=(2000, 60))
+    draws = changes[60:][treatment_draws].mean(axis=1)
+    draws -= changes[:60][comparison_draws].mean(axis=1)
+    low, high = np.quantile(draws, [0.025, 0.975], axis=0)
+    low[2] = high[2] = np.nan
+    results = pd.DataFrame({
+        "event_month": times, "estimate": estimates, "ci_low": low, "ci_high": high,
+        "reference_period": times == -1,
+    })
+    return panel, results
+
+
+# --------------------------------------------------------------------------------------------
 # Orchestration
 # --------------------------------------------------------------------------------------------
 def generate_all(seed: int = SEED, *, raw_dir: Path = DATA_RAW, processed_dir: Path = DATA_PROCESSED) -> dict[str, Path]:
@@ -311,6 +374,7 @@ def generate_all(seed: int = SEED, *, raw_dir: Path = DATA_RAW, processed_dir: P
     operations = make_operations(seed=seed)
     regions, stores = make_geodata(seed)
     dashboard = make_dashboard(sales)
+    event_panel, event_results = make_event_study(seed)
 
     written: dict[str, Path] = {}
 
@@ -322,7 +386,10 @@ def generate_all(seed: int = SEED, *, raw_dir: Path = DATA_RAW, processed_dir: P
     _csv(customers, raw_dir / "customers.csv")
     _csv(transactions, raw_dir / "transactions.csv")
     _csv(operations, raw_dir / "operations.csv")
+    _csv(make_simpson_hotels(), raw_dir / "simpson_hotels.csv")
     _csv(dashboard, processed_dir / "dashboard.csv")
+    _csv(event_panel, raw_dir / "event_study_panel.csv")
+    _csv(event_results, processed_dir / "event_study_results.csv")
 
     regions.to_file(raw_dir / "regions.geojson", driver="GeoJSON")
     written["regions"] = raw_dir / "regions.geojson"
@@ -336,5 +403,5 @@ __all__ = [
     "REGIONS", "PRODUCT_CATEGORIES", "CHANNELS", "SEGMENTS",
     "ACQUISITION_CHANNELS", "DEPARTMENTS",
     "make_sales", "make_customers", "make_transactions", "make_operations",
-    "make_geodata", "make_dashboard", "generate_all",
+    "make_geodata", "make_dashboard", "make_simpson_hotels", "make_event_study", "generate_all",
 ]

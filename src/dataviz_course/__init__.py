@@ -1,4 +1,4 @@
-"""Helper package for the *Data Visualisation with Python* course.
+"""Helper package for the *Data Visualization and Storytelling* course.
 
 Re-exports the most commonly used helpers so notebooks can simply do::
 

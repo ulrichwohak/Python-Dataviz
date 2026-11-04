@@ -38,8 +38,8 @@ def load(name: str):
     path, kind, parse_dates = _DATASETS[name]
     if not path.exists():
         raise FileNotFoundError(
-            f"{path.name} not found. Generate the synthetic data first:\n"
-            f"    uv run python scripts/generate_synthetic_data.py"
+            f"{path.name} not found. Prepare the local course data first:\n"
+            f"    uv run python scripts/fetch_data.py"
         )
     if kind == "geojson":
         import geopandas as gpd

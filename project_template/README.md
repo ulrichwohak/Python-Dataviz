@@ -1,34 +1,64 @@
-# Project Template
+# Final data-story project
 
-A starting point for the final data-story project. Copy this folder, rename it, and build your
-project inside it.
+Copy this folder and rename it for your submission. Replace the prompts below with your own
+content; do not delete the reproduction information a marker needs.
 
-## Structure
+Read the full [final-project brief](../assignments/final-data-story/) before starting.
+
+## Audience, decision, and question
+
+- **Audience:** `Who needs this analysis?`
+- **Decision or discussion:** `What should the story help them decide or understand?`
+- **Central question:** `Write one answerable question.`
+
+## Executive summary
+
+In one short paragraph, state the main finding, the evidence that supports it, and its practical
+implication. Write this last, after verification.
+
+## Project structure
 
 ```text
-project_template/
-├── README.md       # this file — replace with your project's README
-├── notebooks/      # your analysis notebook(s)
-├── data/           # your input data (synthetic or approved — see the AI/data policy)
-└── figures/        # exported charts for your write-up
+your-project/
+├── README.md
+├── story.md
+├── ai-disclosure.md
+├── contribution-statement.md
+├── notebooks/          # or Python scripts; keep the execution order obvious
+├── data/
+│   └── README.md
+└── figures/
 ```
 
-## What a good project does
+Use [`story-template.md`](story-template.md) to plan the narrative. Complete
+[`ai-disclosure.md`](ai-disclosure.md), [`contribution-statement.md`](contribution-statement.md),
+and [`data/README.md`](data/README.md). Keep only final assessed figures in `figures/`.
 
-1. **Asks one clear question** a stakeholder would care about.
-2. **Prepares the data** into a tidy shape (Week 2 skills).
-3. **Builds 2–4 charts** that answer the question, chosen deliberately (Weeks 3–6).
-4. **Designs for the reader** — takeaway titles, decluttered, honest axes (Week 5).
-5. **States a conclusion** the charts actually support.
-6. **Passes the verification checklist** in [`docs/ai_policy.md`](../docs/ai_policy.md), including
-   any AI-assisted parts.
+## Reproduce the analysis
 
-## Environment
+From the course-repository root, synchronise the locked environment. If you use the course's
+course data, prepare it with the second command:
 
-Use the course environment — `uv sync` at the repository root, then
-`uv run jupyter lab`. Read data from local paths; do not download data inside notebooks.
+```bash
+uv sync --locked
+uv run python scripts/fetch_data.py
+# Replace this line with the command that runs your project.
+```
 
-## Submission
+If you use an approved external dataset, replace the `fetch_data.py` step with your documented
+local preparation command. The marker must be able to reproduce the input without a private
+credential or an undocumented manual download.
 
-Delivery format is set by the instructor each term. Do not assume a format — check the course
-schedule and announcements.
+If you submit notebooks, list their execution order and confirm that each runs from top to bottom
+with the course kernel. Do not require private credentials or manual edits to reproduce the
+assessed output.
+
+## Data source and limitations
+
+Summarise the source, observation unit, coverage, and most important limitations here. Put the
+full provenance and data dictionary in [`data/README.md`](data/README.md).
+
+## Verification summary
+
+List the most consequential checks you performed. Include at least one direct numerical check for
+each final chart and identify any issue you found and corrected.

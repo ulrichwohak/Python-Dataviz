@@ -1,7 +1,7 @@
 [project]
 name = "dataviz-course"
 version = "0.1.0"
-description = "Course material and environment for Data Visualisation with Python (MSc Business Analytics, CEU)."
+description = "Course materials for Data Visualization and Storytelling (MSc Business Analytics, CEU)."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }

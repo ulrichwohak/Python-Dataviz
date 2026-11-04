@@ -1,6 +1,17 @@
 # Local secrets and planning notes (never commit)
 .secrets.md
 /course repo.md
+/textbook/
+# Local instructor deck embeds a third-party textbook figure.
+/presentations/session01/introduction-with-cairo-figure3.pptx
+/presentations/session01/course-introduction.pptx
+/presentations/session01/course-introduction.pdf
+/presentations/session01/course-introduction-presenter.pdf
+# Instructor-supplied third-party screenshots for local classroom critique.
+/presentations/session01/local-critique-images/
+/presentations/archive/2026-11-04-pre-latex/*.pptx
+/presentations/archive/2026-11-03/introduction-with-cairo-figure3.pptx
+/.build_syllabus_docx.py
 
 # uv / virtual env
 .venv/
@@ -16,7 +27,7 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Generated data (regenerate with scripts/generate_synthetic_data.py)
+# Generated data (regenerate with scripts/fetch_data.py)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
