@@ -130,10 +130,11 @@ to practise visual reasoning, not merely to replace colours or imitate a single 
 
 | Item | Weight | Evidence of learning |
 | --- | ---: | --- |
-| [Individual figure](../assignments/chart-critique-redesign/) | 25% | Original figure answering an instructor-supplied question using supplied data; correct analysis, effective design and self-contained notes; figure and notes only |
+| [Three individual figures](../assignments/chart-critique-redesign/) | 25% combined | Three equally weighted assignments, each answering an instructor-supplied question using supplied data; correct analysis, effective design and self-contained notes; figure and notes only |
 | [Final Python data story](../assignments/final-data-story/) | 75% | Narrative coherence; analytical relevance; visual design; technical implementation; verification; limitations; reproducibility |
 
-Weekly notebook exercises are formative practice. They support the two graded items but are not
+The average of the three figure scores contributes 25%. Their datasets, questions and deadlines
+are TBD. Weekly notebook exercises are formative practice. They support the assessments but are not
 separate graded quizzes.
 
 ## Learning resources

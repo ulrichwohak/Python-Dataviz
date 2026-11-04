@@ -1,7 +1,7 @@
 # Ungraded redesign reflection
 
-Legacy practice only. This template is not required for the 25% individual-figure
-assignment, which accepts only a figure with notes.
+Legacy practice only. This template is not required for the three individual-figure
+assignments (25% combined), each of which accepts only a figure with notes.
 
 - **Student:**
 - **Chart takeaway:**

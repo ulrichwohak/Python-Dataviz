@@ -1,4 +1,4 @@
-# Graded item 2: Final Python data story
+# Final Python data story
 
 | Field | Value |
 | --- | --- |

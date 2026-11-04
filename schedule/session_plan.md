@@ -118,8 +118,10 @@ remains optional independent support.
 
 ## Assessment and access
 
-- [Individual figure](../assignments/chart-critique-redesign/): 25%, original figure from
-  supplied data and a question; submit figure and accompanying notes only.
+- [Three individual figures](../assignments/chart-critique-redesign/): 25% combined, equally
+  weighted. For each, answer an instructor-supplied question using supplied data; submit the
+  figure and accompanying notes only. These are three assignments across the course, not
+  one per lecture. Their datasets and questions are TBD.
 - [Final Python data story](../assignments/final-data-story/): 75%, unchanged requirements.
 - Power BI exercises remain ungraded. Confirm access for non-Windows users before Session 4.
 - Submission dates and routes remain TBD; do not infer deadlines from teaching dates.

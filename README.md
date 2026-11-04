@@ -75,13 +75,15 @@ is provided. Later tasks in that notebook are optional.
 
 ## Assessment
 
-- **Individual figure — 25%.** Design a figure from scratch in Python using instructor-supplied
-  data and a question. Submit only the figure with its accompanying notes, not code or a rationale.
+- **Three individual figures — 25% combined, equally weighted.** For each assignment, design
+  a figure from scratch in Python using instructor-supplied data and a question. Submit only
+  the figure with its accompanying notes, not code or a rationale. Data, questions and
+  deadlines will be announced later.
 - **Final Python data story — 75%.** A coherent, reproducible story built around a small set of
   related visualisations and a concise stakeholder-facing explanation.
 
 Full briefs live in [`assignments/`](assignments/). The Power BI workshops do not add a graded
-item or replace either Python deliverable.
+item or replace either Python assessment component.
 
 ## Repository materials
 

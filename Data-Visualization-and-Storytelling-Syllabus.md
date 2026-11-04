@@ -122,25 +122,28 @@ Business grading guidelines. In particular:
 - Probably no more than one third of students can expect to receive an A or A-.
 - The passing grade is 50%.
 
-The final grade is based on two items:
+The final grade is based on two assessment components:
 
 | Component | Weight | Detail |
 | --- | ---: | --- |
-| Individual figure | 25% | An original figure answering the instructor's question using supplied data. Submit only the figure with its accompanying notes. |
+| Three individual figures | 25% combined | Three equally weighted assignments. For each, submit an original figure answering the instructor's question using supplied data, with accompanying notes only. |
 | Final Python data story | 75% | A coherent stakeholder-facing story using 3-5 visualizations, reproducible code, documented data, interpretation, limitations, and verification. Individual work or teams of up to three. |
 
-### Individual figure
+### Individual figures
 
-The instructor supplies data and a question. Students design a figure from scratch in Python
-that answers that question for the intended reader. Submit only the figure with its
-accompanying notes, not code, a separate rationale or other supporting files.
+There are three individual figure assignments across the course, not one per lecture.
+For each, the instructor supplies data and a question. Students design a figure from scratch
+in Python that answers that question for the intended reader. Submit only the figure with
+its accompanying notes, not code, a separate rationale or other supporting files.
 
 The figure and notes must stand on their own. Include readable labels and units, and explain
 the data source, sample, aggregation, filters, uncertainty and limitations where relevant.
-Include any material AI assistance and verification briefly in the notes. The dataset and
-question will be announced when the assignment opens. In-class redesign remains ungraded practice.
+Include any material AI assistance and verification briefly in the notes. The datasets,
+questions and deadlines for all three assignments are TBD and will be announced later.
+In-class redesign remains ungraded practice.
 
-The assignment is scored out of 100:
+Each figure assignment is scored out of 100 using the same rubric. The three scores have
+equal weight: their average contributes 25% of the final course grade.
 
 | Criterion | Points |
 | --- | ---: |

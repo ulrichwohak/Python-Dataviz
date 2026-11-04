@@ -1,14 +1,18 @@
 # Assessment
 
-The course has two graded items. Together they make up 100% of the course grade.
+The course has two assessment components. Together they make up 100% of the course grade.
 
-| Graded item | Weight | Mode | Main deliverable |
+| Component | Weight | Mode | Main deliverable |
 | --- | ---: | --- | --- |
-| [Individual figure](chart-critique-redesign/) | 25% | Individual | An original figure answering the instructor's question using supplied data, with attached notes only |
+| [Three individual figures](chart-critique-redesign/) | 25% combined | Individual | Three equally weighted assignments, each answering an instructor-supplied question using supplied data; submit the figure and attached notes only |
 | [Final Python data story](final-data-story/) | 75% | Individual or team of up to three | A stakeholder-facing story with 3–5 coherent charts and reproducible Python code |
 
-The exercises attached to each session are **ungraded practice**. They prepare you for the two
-graded items but are not additional components of the course grade.
+Each figure assignment is marked out of 100. The average of the three scores contributes
+25% of the course grade; the final project contributes the remaining 75%. There are three
+figure assignments across the course, not one per lecture. Their data and questions are TBD.
+
+The exercises attached to each session are **ungraded practice**. They prepare you for the
+assessments but are not additional components of the course grade.
 
 Submission dates and the submission platform are `TBD`; follow the syllabus and course
 announcements once those details are confirmed. The final project starts from the
@@ -16,7 +20,7 @@ announcements once those details are confirmed. The final project starts from th
 
 ## Shared expectations
 
-For both graded items:
+For both assessment components:
 
 - use Python for the assessed visualisations;
 - keep data and code local and make the analysis runnable from the repository root;
@@ -27,8 +31,8 @@ For both graded items:
 - disclose material AI assistance and explain how you verified it, following the course
   [AI policy](../docs/ai_policy.md).
 
-For the 25% assignment, keep working code locally and submit only the figure and notes;
-include any AI disclosure briefly in those notes. The final project still requires
-reproducible code, a narrative and its other specified deliverables.
+For each of the three figure assignments, keep working code locally and submit only the
+figure and notes; include any AI disclosure briefly in those notes. The final project still
+requires reproducible code, a narrative and its other specified deliverables.
 
-The Power BI workshops do not replace either Python deliverable.
+The Power BI workshops do not replace either Python assessment component.

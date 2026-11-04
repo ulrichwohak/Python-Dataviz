@@ -5,7 +5,7 @@ It is compiled from [LaTeX](course-introduction.tex), with selectable text, nati
 and vector charts. The [presenter PDF](course-introduction-presenter.pdf) contains slide
 thumbnails, teaching notes and source credits.
 
-There are 24 main slides and one setup/access backup. The matrix-algebra backup has been
+There are 23 main slides and one setup/access backup. The matrix-algebra backup has been
 removed. Keep motivation concise to leave time for line, bar and scatter plots in the first class.
 The teaching notebook also supplies a short histogram, box, violin and strip-plot tour.
 
@@ -14,7 +14,8 @@ The teaching notebook also supplies a short histogram, box, violin and strip-plo
 - Course administration, outcomes and the confirmed six-session timetable:
   three Python sessions (basics; comparisons/uncertainty; mapping) and three Power BI sessions
   (foundations; comparisons/filtering; dashboard building).
-- The 25% individual figure with notes only and the unchanged 75% final Python data story.
+- Three equally weighted individual figures with notes only (25% combined), and the
+  unchanged 75% final Python data story. Data, questions and deadlines remain TBD.
 - Materials and tools. The introductory slides do not discuss AI.
 - A clickable [Todd Jones dataset catalogue](https://github.com/toddrjones/datasets)
   link on the materials slide invites students to explore real data sources.
@@ -22,7 +23,8 @@ The teaching notebook also supplies a short histogram, box, violin and strip-plo
   with visible scatter and the same points with their estimated line. No residual segments,
   square diagrams or area totals.
 - Synthetic pooled/within-country slope reversal and Cairo's Figure 3 discussion.
-- Audience, context, figure notes and the first ungraded redesign in the final 20 minutes.
+- Audience, context and figure notes. The first ungraded redesign stays in the exercise
+  notebook for the final 20 minutes, without a separate slide.
 - Clickable [r/dataisugly](https://www.reddit.com/r/dataisugly/) and
   [r/dataisbeautiful](https://www.reddit.com/r/dataisbeautiful/) links for a short ungraded critique.
 - Four instructor-supplied critique images on slides 19–22: prices/wages, a firearm-murder
@@ -35,19 +37,19 @@ the supplied images work offline. Choose examples within the existing introducti
 keeping the final 20-minute exercise. Assessment dates and the Power BI access route remain TBD.
 
 Pause on “Today: a chart tour in Python” for live coding and the runnable chart tour.
-Then return to the redesign slide
-and open [the Session 1 exercise notebook](../../notebooks/01-python-chart-tour/exercises.ipynb).
+Then open [the Session 1 exercise notebook](../../notebooks/01-python-chart-tour/exercises.ipynb)
+directly, without returning to the slides.
 Its supplied pie-chart cell is the starting point; students change the plotting code while
 retaining the data. The later optional activities are outside this 20-minute exercise.
 
 ## Rebuilding and keeping it current
 
 The primary sources are `course-introduction.tex` and `course-introduction-notes.json`.
-`scripts/build_introduction_pdf.py` generates the fixed-seed OLS illustration and reads the
-the mathematical hotel illustration and real SSA birth counts from local course CSVs,
+`scripts/build_introduction_pdf.py` generates the fixed-seed OLS illustration and reads
+the mathematical hotel illustration from a local course CSV,
 compiles twice with XeLaTeX, checks for overflow/missing glyphs, renders slides, and creates
 the presenter PDF. It requires the instructor's LaTeX installation (Beamer, PGFPlots,
-pgf-pie, fontspec, unicode-math), Arial/Menlo fonts, Poppler and the bundled document Python
+fontspec, unicode-math), Arial/Menlo fonts, Poppler and the bundled document Python
 runtime with pypdf, Pillow and reportlab. Students need only the PDF, not authoring tools.
 
 Run the build script with that Python runtime and a **fresh temporary build directory**.

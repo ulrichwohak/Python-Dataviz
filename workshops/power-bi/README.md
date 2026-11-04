@@ -13,9 +13,10 @@ cells only to check values. Each class saves and reuses `course_purchases.pbix`.
 are written and numerical checks have run; the native Desktop walkthrough still needs
 testing on the confirmed student setup. The older guide URLs below redirect to these notebooks.
 
-All classes run 17:40–19:20. Exercises are **ungraded practice**. The 25% individual
-figure and 75% final data story remain Python deliverables. Only the figure and notes are
-submitted for the 25% item; the final project's requirements remain unchanged.
+All classes run 17:40–19:20. Exercises are **ungraded practice**. The three individual
+figures (25% combined, equally weighted) and the final data story (75%) remain Python
+deliverables. Only the figure and notes are submitted for each figure assignment; the final
+project's requirements remain unchanged.
 
 ## What we retain from the earlier course
 

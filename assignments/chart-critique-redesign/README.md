@@ -1,24 +1,26 @@
-# Graded item 1: Individual figure
+# Individual figures
 
 | Field | Value |
 | --- | --- |
-| Weight | 25% |
+| Number of assignments | Three across the course, not one per lecture |
+| Weight | 25% combined; all three have equal weight |
 | Mode | Individual |
-| Dataset and question | Supplied by the instructor when the assignment opens; currently TBD |
-| Due date | TBD |
+| Datasets and questions | Supplied by the instructor for each assignment; all three are currently TBD |
+| Due dates | TBD for each assignment |
 | Submission route and file format | TBD |
 
 ## The task
 
-Use the supplied data to design an original figure that answers the instructor's question.
+For each of the three assignments, use the supplied data to design an original figure that
+answers the instructor's question. The data and questions will be announced later.
 Create the figure in Python. Choose its visual form yourself; no starter chart is supplied
 for redesign. The question may require you to compare several aspects of the data, but the
 figure should communicate a clear answer to the intended reader.
 
 ## What to submit
 
-**Submit only the figure with its accompanying notes.** Do not submit a notebook, script,
-separate rationale, report, or other supporting files.
+**For each assignment, submit only the figure with its accompanying notes.** Do not submit
+a notebook, script, separate rationale, report, or other supporting files.
 
 The figure and notes must stand on their own. Use readable labels, units and an informative
 title. In the notes, explain the data source, sample, period, aggregation, filters and any
@@ -39,7 +41,10 @@ or state that there was none. No separate disclosure document is required.
 This is individual work. AI tools are permitted under the course's **use, then verify** policy.
 You remain responsible for the analysis and every visual choice.
 
-## Rubric (100 points)
+## Rubric for each figure (100 points)
+
+All three assignments use this rubric. Their scores have equal weight: the average of the
+three scores contributes 25% of the final course grade. The final project remains 75%.
 
 | Criterion | Points | Full-credit evidence in the figure and notes |
 | --- | ---: | --- |
@@ -57,4 +62,4 @@ for an incorrect calculation or misleading presentation.
 
 This folder retains its earlier name for existing links. `starter.py` and
 `rationale-template.md` are legacy, ungraded redesign practice, not instructions or required
-files for this assignment. In-class redesign exercises remain ungraded.
+files for these assignments. In-class redesign exercises remain ungraded.

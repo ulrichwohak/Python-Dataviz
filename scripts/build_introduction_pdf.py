@@ -12,7 +12,6 @@ import random
 import shutil
 import subprocess
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 from pypdf import PdfReader
@@ -61,7 +60,7 @@ def main():
         shutil.copy2(SOURCE / "local-critique-images" / filename, build / filename)
     shutil.copy2(SOURCE / "course-introduction.tex", build / "course-introduction.tex")
     notes = json.loads((SOURCE / "course-introduction-notes.json").read_text())
-    assert len(notes) == 25
+    assert len(notes) == 24
     assert [note["number"] for note in notes] == list(range(1, len(notes) + 1))
     (build / "notes.json").write_text(json.dumps(notes, ensure_ascii=False, indent=2))
 
@@ -124,21 +123,6 @@ def main():
                          + coordinates(hx, hy) + "};")
         chart.append(r"\end{axis}\end{tikzpicture}")
         (build / f"simpson-{'grouped' if grouped else 'pooled'}.tex").write_text("\n".join(chart))
-
-    monthly = defaultdict(float)
-    with (ROOT / "data/raw/us_births.csv").open() as stream:
-        for row in csv.DictReader(stream):
-            if row["year"] == "2014":
-                monthly[row["date"][:7]] += float(row["births"])
-    entries = sorted(monthly.items())
-    assert len(entries) == 12
-    # pgf-pie uses TeX dimensions internally; use percentages to avoid overflow.
-    total = sum(value for _, value in entries)
-    pie = ",".join(f"{100 * value / total:.8f}/{date[5:]}" for date, value in entries)
-    (build / "monthly-pie.tex").write_text(
-        r"\begin{tikzpicture}[font=\tiny]"
-        r"\pie[text=legend,hide number,sum=auto,radius=1.65]{" + pie
-        + r"}\end{tikzpicture}")
 
     for _ in range(2):
         result = subprocess.run([args.xelatex, "-no-shell-escape", "-halt-on-error",

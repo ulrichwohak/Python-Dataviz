@@ -6,7 +6,7 @@
 \setsansfont{Arial}
 \setmonofont{Menlo}
 \setmathfont{latinmodern-math.otf}
-\usepackage{booktabs,tabularx,pgfplots,pgf-pie}
+\usepackage{booktabs,tabularx,pgfplots}
 \pgfplotsset{compat=1.18}
 \definecolor{ink}{HTML}{172D43}
 \definecolor{accent}{HTML}{176B73}
@@ -46,7 +46,6 @@ Ulrich Wohak · 4 November 2026\par\vspace{4mm}
 \point{MSc Business Analytics · 1 US credit / 2 ECTS}
 \point{Six Wednesday sessions · 17:40–19:20}
 \point{Bring your laptop and your existing Python and pandas skills.}
-\takeaway{Questions are welcome, especially “why this chart?”}
 \end{frame}
 
 \begin{frame}{What you should be able to do}
@@ -83,7 +82,8 @@ Ulrich Wohak · 4 November 2026\par\vspace{4mm}
 
 \begin{frame}{Assessment}
 \vspace{6mm}
-{\Huge\bfseries\color{accent}25\%}\hspace{8mm}{\large Individual figure with notes}\par
+{\Huge\bfseries\color{accent}25\%}\hspace{8mm}{\large Three individual figures with notes}\par
+\smallnote{Equal weight within the combined 25\%}
 \vspace{9mm}
 {\Huge\bfseries\color{accent}75\%}\hspace{8mm}{\large Final Python data story}\par
 \vfill
@@ -92,12 +92,12 @@ Minimum overall mark to pass: 50\%
 \smallnote{Submission dates and routes: to be announced}
 \end{frame}
 
-\begin{frame}{The individual figure · 25\%}
-\point{I supply the data and the question.}
-\point{You design an original figure in Python.}
+\begin{frame}{Three individual figures · 25\% in total}
+\point{Three submissions with equal weight.}
+\point{For each, I supply the data and the question.}
+\point{You design a figure in Python that answers it.}
 \point{Submit only the figure with its accompanying notes.}
-\point{Check that the figure answers the question accurately.}
-\takeaway{The reader should understand the figure without your code.}
+\takeaway{Data, questions and deadlines will be announced later.}
 \end{frame}
 
 \begin{frame}{The final Python data story · 75\%}
@@ -112,8 +112,6 @@ Minimum overall mark to pass: 50\%
 \href{https://github.com/ulrichwohak/Python-Dataviz}{\large github.com/ulrichwohak/Python-Dataviz}
 \point{One teaching notebook and one exercise notebook per lecture}
 \point{Python: pandas, matplotlib and seaborn · environment: \texttt{uv}}
-\point{Cairo: \emph{The Functional Art} · primary conceptual influence}
-\point{Munzner: \emph{Visualization Analysis and Design}}
 \smallnote{No required textbook purchase. Readings will be identified in class.}
 \point{Explore datasets: \href{https://github.com/toddrjones/datasets}{\underline{github.com/toddrjones/datasets}}}
 \end{frame}
@@ -264,18 +262,6 @@ Keep, remove, or separate?
 \point{Add labels and figure notes, then export a figure.}
 \point{Final 20 minutes: redesign the supplied chart and check the values.}
 \takeaway{Keep the question visible while we write the code.}
-\end{frame}
-
-\begin{frame}{Your first redesign: change over time}
-\textcolor{accent}{\textbf{How did monthly US birth totals change in 2014?}}
-\vspace{3mm}
-\begin{columns}[c,onlytextwidth]
-\column{.64\textwidth}\centering\resizebox{!}{46mm}{\input{monthly-pie.tex}}
-\column{.32\textwidth}Diagnose the mismatch.\par\vspace{6mm}
-Redesign the chart.\par\vspace{6mm}Verify the values.
-\end{columns}
-{\scriptsize Final 20 minutes · \texttt{notebooks/01-python-chart-tour/exercises.ipynb}\par}
-\smallnote{Source: SSA via FiveThirtyEight · 2014 monthly totals · month lengths differ}
 \end{frame}
 
 \begin{frame}[fragile]{Backup · setup and Power BI access}
