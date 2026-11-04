@@ -9,28 +9,18 @@ Use the final three classes for a compact Power BI sequence:
 | 6 | 9 December 2026 | [Power BI dashboard building](../../notebooks/06-power-bi-dashboard-building/lecture.ipynb) | [Dashboard review](../../notebooks/06-power-bi-dashboard-building/exercises.ipynb) |
 
 These are Markdown workshop guides: perform the steps in Desktop, using optional Python
-cells only to check values. Each class saves and reuses `course_purchases.pbix`. The guides
-are written and numerical checks have run; the native Desktop walkthrough still needs
-testing on the confirmed student setup. The older guide URLs below redirect to these notebooks.
+cells only to check values. Each class saves and reuses `course_purchases.pbix`.
 
 All classes run 17:40–19:20. Exercises are **ungraded practice**. The three individual
 figures (25% combined, equally weighted) and the final data story (75%) remain Python
 deliverables. Only the figure and notes are submitted for each figure assignment; the final
 project's requirements remain unchanged.
 
-## What we retain from the earlier course
+## Scope
 
-These workshop guides are newly prepared course material, not recovered files from a previous
-instructor. The actual teaching files for
-[2025–26](https://ceulearning.ceu.edu/course/view.php?id=19132) and
-[2024–25](https://ceulearning.ceu.edu/course/view.php?id=17664) are behind Moodle access controls
-and have not been inspected. The instructor confirmed the three-session sequence on
-4 November 2026; the [instructor notes](../../docs/live_coding_notes.md) record the decision.
-
-The [2024–25 syllabus](https://ceu.studyguide.timeedit.net/modules/ECBS5209?year=2024)
-used six sessions for interface basics, chart types, tables/KPIs, filters/slicers,
-interactivity and a dashboard demonstration. We now allocate three classes to these topics.
-Design, audience, notes and verification begin in the three Python sessions and recur here.
+The three classes cover interface basics, chart types, tables/KPIs, filters/slicers,
+interactivity and dashboard building. Design, audience, notes and verification begin in
+the three Python sessions and recur here.
 
 Use one prepared table and a small set of built-in visuals. Advanced DAX, multi-table
 modelling, extensive Power Query transformations, gateways, refresh pipelines and workspace

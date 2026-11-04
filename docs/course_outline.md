@@ -30,20 +30,16 @@ figure communicates a finding supported by the evidence; an exploratory figure e
 question to be investigated without prescribing the answer. A figure accompanying a claim
 should let readers assess that claim. Curiosity can invite this investigation, but essential
 context must remain visible. Ask what the reader would lose if the figure were removed.
-See the [purpose discussion](live_coding_notes.md#why-make-this-figure).
 
 **Motivating a research question:** a simple descriptive figure can reveal a puzzle or
 illustrate why a hypothesis is worth investigating. Distinguish the observed pattern, its
-possible explanations, and the evidence needed to examine them. Introduce this in Session 1
-and revisit it during the short project reviews in Sessions 2–4. See the
-[teaching note](live_coding_notes.md#a-descriptive-figure-can-motivate-a-hypothesis).
+possible explanations, and the evidence needed to examine them.
 
 **Design for the actual audience:** identify what readers know, what they need to understand
 or decide, and how they will encounter the figure. Adapt content, terminology, visual emphasis,
 and level of detail as well as appearance. Compare an academic-paper figure with a management
 presentation, using explicit reader briefs rather than treating either as a fixed style.
 Both versions must preserve the evidence and qualifications needed for a fair interpretation.
-See the [teaching record](live_coding_notes.md#audience-adaptation-throughout-the-course).
 
 The notebooks use public real data downloaded in fixed versions by
 [`scripts/fetch_data.py`](../scripts/fetch_data.py): SSA births, donated Amazon purchases,
@@ -69,61 +65,32 @@ Optional references sit outside the numbered sequence.
 Concrete dates and notebook links are in
 [`schedule/session_plan.md`](../schedule/session_plan.md).
 
-Session 1's [course introduction](../presentations/session01/course-introduction.pdf) begins with
-Shneiderman's “The purpose of visualization is insight, not pictures,” quoted in Cairo
-(printed p. xx). Course administration and expectations precede a short OLS reveal: scalar and matrix notation become visible as
-a scatterplot followed by the same observations with an estimated OLS line. It introduces
-visualisation as an aid to understanding before the audience–question brief. Matrix algebra
-provides another representation of the same example, not a separate assessed topic.
+The [course introduction](../presentations/session01/course-introduction.pdf) covers
+administration, assessment and examples of visual reasoning.
 
-Next reveal **Simpson's paradox** with fictional hotels: one positive pooled
-slope becomes three negative within-country slopes when country membership is shown.
-The data and axes stay fixed. This motivates visualisation as a way to expose important group
-structure and decide which comparison answers the question. See the
-[teaching sequence](live_coding_notes.md#session-1-reveal-pooled-and-within-country-relationships).
-
-Then discuss Cairo's **Figure 3** (printed p. xix), comparing the demands of a focused
-academic argument with historical exploration. Students critique the competing messages and
-decide which context each purpose needs. See the
-[discussion record](live_coding_notes.md#session-1-discussion-cairos-figure-3); the textbook
-image is kept in a local instructor deck, not distributed in the repository.
-
-Figure notes start with the first exported chart in Session 1. Session 2 adds uncertainty and
-reference-period explanations; Session 3 adds geographical coverage, projection and denominator
-information. Apply the same principles to Power BI and project review. See the
-[teaching record](live_coding_notes.md#figure-and-visualisation-notes).
-
-Session 2 includes supplied event-study estimates with confidence intervals. Keep attention on
-how to display and explain them, rather than estimating a model. Include the reference period,
-zero line, units and interval meaning. The published Callaway–Sant’Anna real-data example uses 95% simultaneous bands, documented in the data README. Do not normalise year -1 to zero; it is an estimated pre-treatment contrast in this output.
-
-A possible optional Python extension is a **live-updating figure**: synthetic
-observations arrive at regular intervals and a browser chart updates its recent history.
-Use it to discuss timestamps, stable scales, pause controls, and the difference between a
-live display and continuous data collection. Website hosting is a possible extension, not
-a graded requirement. See the [proposal](live_coding_notes.md#session-5-proposal-a-figure-that-updates-as-data-arrive);
-the app has not yet been built or deployed.
+Figure notes are part of each visualisation: identify units, sample, period, aggregation,
+source and relevant limitations. Statistical-result charts also need a clear explanation
+of the estimated quantity and uncertainty. Mapping adds geographical coverage, projection,
+missing areas and denominators. Apply the same principles in Power BI.
 
 ## Power BI in Sessions 4–6
 
 The [Power BI material map](../workshops/power-bi/) places foundations and basic charts in
 Session 4, tables/matrices/cards and filtering in Session 5, and dashboard building in
-Session 6. The existing guides are newly authored resources, not recovered teaching files
-from last year. Each class now has its own teaching and exercise notebook; the older guide links point to them.
+Session 6. Each class has a teaching and exercise notebook.
 
 Use one prepared table. Advanced DAX, complex models and platform administration remain
 outside scope. Distinguish a Desktop report page from a Service dashboard; no Service
-publication is required. Confirm access for non-Windows users before Session 4.
+publication is required. Access arrangements will be announced before Session 4.
 
 Short project reviews remain in Sessions 2–4. The former project-workshop notebooks and
 Plotly/Streamlit remain optional support. Both assessed deliverables remain Python-centred.
 
 ## In-class redesign practice
 
-Students receive an unsuitable chart, its executable code, and a specific audience and
-question. They diagnose the mismatch, sketch an alternative, implement it, and check that
-the redesign preserves the intended calculation. See [the activity guide](redesign-activities.md).
-The exercises cover weekly trends, distributions and intervals, mapping, and Power BI comparisons. Their purpose is
+In each [exercise notebook](../notebooks/README.md), evaluate a supplied chart against
+a reader's question, develop an alternative and check the underlying calculation.
+The exercises cover time trends, distributions and intervals, mapping, and Power BI comparisons. Their purpose is
 to practise visual reasoning, not merely to replace colours or imitate a single model answer.
 
 ## Assessment

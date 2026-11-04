@@ -31,5 +31,8 @@ jobs:
       - name: Validate notebooks
         run: uv run python scripts/check_notebooks.py
 
+      - name: Keep published files student-facing
+        run: uv run python scripts/check_student_files.py
+
       - name: Lint
         run: uv run ruff check .

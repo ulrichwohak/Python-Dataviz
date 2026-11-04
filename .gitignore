@@ -2,15 +2,27 @@
 .secrets.md
 /course repo.md
 /textbook/
-# Local instructor deck embeds a third-party textbook figure.
-/presentations/session01/introduction-with-cairo-figure3.pptx
-/presentations/session01/course-introduction.pptx
-/presentations/session01/course-introduction.pdf
-/presentations/session01/course-introduction-presenter.pdf
-# Instructor-supplied third-party screenshots for local classroom critique.
-/presentations/session01/local-critique-images/
-/presentations/archive/2026-11-04-pre-latex/*.pptx
-/presentations/archive/2026-11-03/introduction-with-cairo-figure3.pptx
+# Only the student PDF and its index are published; authoring material stays local.
+/presentations/*
+!/presentations/session01/
+/presentations/session01/*
+!/presentations/session01/README.md
+!/presentations/session01/course-introduction.pdf
+/CLAUDE.md
+/AGENTS.md
+/instructor/
+/docs/live_coding_notes.md
+/docs/redesign-activities.md
+/scripts/build_intro_presenter.py
+/scripts/build_introduction.mjs
+/scripts/build_introduction_pdf.py
+/scripts/check_intro_sync.py
+/scripts/build_notebooks.py
+/scripts/lecture_content.py
+/scripts/real_data_content.py
+/scripts/chart_tour.py
+/scripts/redesign_activities.py
+/scripts/notebook_sources/
 /.build_syllabus_docx.py
 
 # uv / virtual env
