@@ -58,14 +58,12 @@ Short project reviews are integrated into Sessions 2–4 instead of a standalone
 See the [`course outline`](docs/course_outline.md) for content and the
 [`dated session plan`](schedule/session_plan.md) for meeting dates and materials.
 
-Start with the [**course introduction**](presentations/session01/course-introduction.pdf)
-compiled from [LaTeX](presentations/session01/course-introduction.tex). It covers administration,
-assessment, classroom redesign exercises, and the motivation for visualisation. The OLS,
-Simpson's-paradox, and Cairo examples support that introduction. The local instructor deck
-includes a copyrighted textbook figure and is not published to GitHub.
+Start with the [**course introduction (PDF)**](presentations/session01/course-introduction.pdf).
+It covers administration, assessment, classroom activities, and the motivation for
+visualisation. Third-party figures retain their source credits; see [NOTICE.md](NOTICE.md).
 
-In-class [redesign activities](docs/redesign-activities.md) start from a deliberately weak
-chart and a clear reader's question. Students change the visual form, verify the underlying
+In-class [exercises](notebooks/README.md) start from a chart and a clear reader's question.
+Students evaluate and change the visual form, verify the underlying
 numbers, and explain why the revision serves that reader better.
 
 For the final 20 minutes of the first class, open the
@@ -89,10 +87,10 @@ item or replace either Python assessment component.
 
 - [`src/dataviz_course/`](src/dataviz_course/) — data generation, plotting helpers, and small
   utilities.
-- [`scripts/`](scripts/) — prepare data, build notebooks, and run repository checks.
+- [`scripts/`](scripts/) — prepare data and run repository checks.
 - [`data/`](data/) — local extracts of public real datasets. See [`data/README.md`](data/README.md).
 - [`dashboards/`](dashboards/) — a small Streamlit example built on the prepared dataset.
-- [`docs/`](docs/) — course outline, AI policy, and live-coding guidance.
+- [`docs/`](docs/) — course outline and AI policy.
 - [`assignments/`](assignments/) — assessment briefs and starter materials.
 - [`project_template/`](project_template/) — reproducible structure for the final data story.
 

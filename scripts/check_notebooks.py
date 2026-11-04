@@ -19,7 +19,7 @@ import re
 from pathlib import Path
 
 import nbformat
-from build_notebooks import REFERENCES, SESSIONS
+from notebook_manifest import REFERENCES, SESSIONS
 
 ROOT = Path(__file__).resolve().parent.parent
 NOTEBOOK_DIR = ROOT / "notebooks"
@@ -76,7 +76,7 @@ def check_notebook(path: Path) -> list[str]:
 def main() -> int:
     notebooks = sorted(NOTEBOOK_DIR.rglob("*.ipynb"))
     if not notebooks:
-        print("check_notebooks: no notebooks found (run scripts/build_notebooks.py).")
+        print("check_notebooks: no notebooks found; check that the course clone is complete.")
         return 1
 
     expected = {
