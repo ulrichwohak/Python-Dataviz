@@ -32,13 +32,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 ''')
-LECTURE_PY_SETUP = c('''
-# "as" gives each library a short name that we use in the code below.
-import matplotlib.pyplot as plt  # Create figures, axes and plots.
-import numpy as np  # Numerical tools, including reproducible random numbers.
-import pandas as pd  # Read files and work with tables of data.
-import seaborn as sns  # Plot distributions directly from a pandas table.
-''')
+LECTURE_PY_SETUP = PY_SETUP
 DAY_ORDER = '["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]'
 
 
@@ -49,14 +43,11 @@ def chart_basics():
     A public-health researcher asks whether daily births are evenly spread across the week.
     Start with the longer time trend, then compare weekdays. What might a single average hide?
     '''), LECTURE_PY_SETUP, c('''
-    # Read a local CSV into a DataFrame (a table with named columns).
     # parse_dates asks pandas to read "date" as dates instead of text.
     births = pd.read_csv("data/raw/us_births.csv", parse_dates=["date"])
-    # head() shows the first five rows, so we can inspect the columns.
     print(births.head())
     # isna() marks missing values; sum() counts them in each column.
     print(births.isna().sum())
-    # For a date column, min() and max() give the earliest and latest dates.
     print("Dates:", births["date"].min(), births["date"].max())
     '''), m('''
     ## Line plots: change over time
@@ -65,21 +56,18 @@ def chart_basics():
     on the number of days in a month; this mean answers a different, explicit question.
     A Figure is the canvas and an Axes is the plotting area. Sorting dates keeps the line chronological.
     '''), c('''
-    # set_index uses dates as row labels; ["births"] selects the counts.
+    # Resampling uses the date index to group observations over time.
     # resample("MS") groups dates into months, labelled by the month's start.
     # mean() calculates the average daily count within each month.
     monthly = births.set_index("date")["births"].resample("MS").mean()
     # fig is the whole figure; ax is its plotting area. figsize is in inches.
     fig, ax = plt.subplots(figsize=(9, 4))
-    # The first argument gives x (month labels); the second gives y (averages).
     ax.plot(monthly.index, monthly.values)
-    # Set the title and the labels beside the horizontal and vertical axes.
     ax.set(title="US births per day, averaged within each month", xlabel="Month", ylabel="Births per day")
     # Rotate and align date labels so that they are easier to read.
     fig.autofmt_xdate()
     # Adjust spacing to make room for titles and axis labels.
     fig.tight_layout()
-    # Display the figure in the notebook.
     plt.show()
     '''), m('''
     ## Bar plots: compare weekdays
@@ -93,15 +81,13 @@ def chart_basics():
     # reindex puts those averages into our chosen weekday order.
     by_day = births.groupby("weekday")["births"].mean().reindex(day_order)
     fig, ax = plt.subplots(figsize=(9, 4))
-    # Weekday names go on x; the corresponding averages set bar heights.
     ax.bar(by_day.index, by_day.values)
-    # ylim sets the lower and upper limits of the vertical axis.
+    # ylim fixes the vertical range; a zero baseline makes bar lengths comparable.
     ax.set(title="Average daily births by weekday, 2000–2014", ylabel="Births per day", ylim=(0, 14000))
     # Rotate the x-axis labels by 25 degrees to avoid crowding.
     ax.tick_params(axis="x", rotation=25)
     fig.tight_layout()
     plt.show()
-    # Print one decimal place without changing the stored averages.
     print(by_day.round(1))
     '''), m('''
     The weekend difference is visible in these records. Scheduling of deliveries is one
@@ -116,10 +102,8 @@ def chart_tour():
     Use the same 365 dates from 2014 throughout this tour. We are comparing daily counts,
     not showing individual births. Which views reveal the weekly pattern most clearly?
     '''), c('''
-    # == tests equality; loc keeps rows where the year is 2014.
-    # copy() makes a separate table for the chart tour.
+    # Use the same 2014 sample in every plot; copy() keeps it separate from births.
     tour = births.loc[births["year"] == 2014].copy()
-    # len() counts rows: here, one row represents one date.
     print("Dates shown:", len(tour))
     # count() counts non-missing birth values within each weekday group.
     print(tour.groupby("weekday")["births"].count().reindex(day_order))
@@ -161,10 +145,8 @@ def chart_tour():
         cells += [m(f"### {kind} plot\n\n{explanation}"), c(f'''
         # Fix the random seed so the strip plot's jitter repeats on each run.
         np.random.seed(42)
-        # figsize sets the figure's width and height in inches.
         fig, ax = plt.subplots(figsize=(9, 4.5))
-        # data selects the table; x and y name its columns; order sets group order.
-        # color is a colour code; ax sends the plot to our existing axes.
+        # Seaborn uses column names for x/y; order preserves calendar order.
         {code_comments}
         {call}
         # Use the same vertical limits in all three views for fair comparison.
@@ -196,7 +178,6 @@ def notes_and_export():
     ax.set(title="US births per day, averaged within each month", xlabel="Month", ylabel="Births per day")
     fig.autofmt_xdate()
     # Add a note to the figure itself, so it stays with the exported image.
-    # The first two numbers position the text; fontsize is measured in points.
     fig.text(0.01, 0.01, "SSA via FiveThirtyEight, 2000–2014. Mean daily counts within calendar months; no dates excluded.", fontsize=9)
     # Leave space below the axes for the figure note.
     fig.tight_layout(rect=(0, 0.09, 1, 1))
@@ -261,11 +242,10 @@ def comparisons():
     '''), c('''
     # parse_dates reads the date column as dates, enabling .dt below.
     purchases = pd.read_csv("data/raw/amazon_purchases.csv", parse_dates=["date"])
-    # isin tests whether each category is in our list; loc keeps matching rows.
-    # copy() gives us a separate table containing only Boots and Sandals.
+    # isin keeps both footwear categories; copy() creates a separate working table.
     footwear = purchases.loc[purchases["category"].isin(["Boots", "Sandals"])].copy()
     # agg applies several summaries to unit prices within each category.
-    # count counts non-missing prices; mean and median describe their centre.
+    # count reports non-missing prices, not distinct shoppers.
     print(footwear.groupby("category")["unit_price_usd"].agg(["count", "mean", "median", "min", "max"]))
     '''), m('''
     ## Histogram bins and box plots
@@ -276,17 +256,16 @@ def comparisons():
     '''), c('''
     # Make one row of two panels; sharex=True gives both the same x-axis limits.
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharex=True)
-    # zip pairs each panel with its bin count; strict=True checks equal lengths.
+    # strict=True checks that the panel and bin-count sequences have equal lengths.
     for ax, bins in zip(axes, [15, 40], strict=True):
         # bins controls the number of intervals; edgecolor outlines their bars.
         ax.hist(footwear["unit_price_usd"], bins=bins, edgecolor="white")
-        # The f-string inserts this panel's bin count into its title.
         ax.set(title=f"{bins} bins", xlabel="Price per item (USD)", ylabel="Purchase records")
     fig.tight_layout()
     plt.show()
     '''), c('''
     fig, ax = plt.subplots(figsize=(8, 4))
-    # Use category names on x and unit prices on y; draw in the existing ax.
+    # Compare both categories on one price scale, including outliers.
     sns.boxplot(data=footwear, x="category", y="unit_price_usd", color="#9DBFCA", ax=ax)
     # xlabel="" removes a redundant category-axis title.
     ax.set(title="Boot and sandal prices in donated purchase histories", xlabel="", ylabel="Price per item (USD)")
@@ -310,7 +289,6 @@ def comparisons():
     fig, ax = plt.subplots(figsize=(9, 4))
     # Plot one line per category column; marker="o" adds a dot at each month.
     seasonal.plot(ax=ax, marker="o")
-    # range(1, 13) gives ticks 1 through 12 (the stopping value is excluded).
     ax.set(title="Footwear purchase records by calendar month", xlabel="Month number", ylabel="Records, 2018–2022 combined", xticks=range(1, 13))
     fig.tight_layout()
     plt.show()
@@ -343,7 +321,7 @@ def comparisons():
     fig, ax = plt.subplots(figsize=(9, 4.5))
     # yerr supplies the distances; fmt="o" draws dots; capsize adds end caps.
     ax.errorbar(event["event_year"], event["estimate"], yerr=errors, fmt="o", capsize=4)
-    # Draw a horizontal reference at zero; linewidth sets its thickness.
+    # Zero is the reference for no estimated change in log employment.
     ax.axhline(0, color="grey", linewidth=1)
     # A dashed vertical line separates pre-treatment years from year 0 onward.
     ax.axvline(-0.5, color="grey", linestyle="--", linewidth=1)
@@ -410,9 +388,9 @@ countries = gpd.read_file("data/raw/countries.geojson")
 emissions = pd.read_csv("data/raw/co2_2023.csv")
 ''')
 LECTURE_GEO_SETUP = c('''
-import geopandas as gpd  # Tables that also store geographical shapes.
-import matplotlib.pyplot as plt  # Figures and plotting areas.
-import pandas as pd  # Ordinary tables, including CSV files.
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import pandas as pd
 
 # read_file loads the country polygons and their coordinate-system information.
 countries = gpd.read_file("data/raw/countries.geojson")
@@ -435,7 +413,7 @@ def mapping():
     # validate checks that each key occurs once in each table.
     # indicator adds _merge, showing whether a row found a match.
     world = countries.merge(emissions, on="iso_code", how="left", validate="one_to_one", indicator=True)
-    # loc[rows, columns] selects unmatched rows and just the identifying columns.
+    # Inspect map areas that have no matching row in the emissions table.
     print(world.loc[world["_merge"] != "both", ["iso_code", "map_name"]])
     # isna() also finds missing values inside rows that did match a country.
     print(world.loc[world["co2_per_capita"].isna(), ["map_name", "co2_per_capita"]])
@@ -449,14 +427,14 @@ def mapping():
     # Transform the shapes' coordinates to the Equal Earth projection.
     # EPSG:8857 identifies this projection; it does not change the emissions.
     projected = world.to_crs("EPSG:8857")
-    # Create one row of two panels; axes[0] is left and axes[1] is right.
+    # Compare the original coordinates and the projection side by side.
     fig, axes = plt.subplots(1, 2, figsize=(12, 4))
     # Give polygons a grey fill and thin white borders in each panel.
     world.plot(ax=axes[0], color="lightgrey", edgecolor="white", linewidth=0.2)
     projected.plot(ax=axes[1], color="lightgrey", edgecolor="white", linewidth=0.2)
     axes[0].set_title("Longitude and latitude")
     axes[1].set_title("Equal Earth")
-    # Loop over the two panels and hide coordinate ticks and surrounding frames.
+    # Hide coordinate ticks and frames to focus attention on the map shapes.
     for ax in axes:
         ax.set_axis_off()
     plt.show()
@@ -466,12 +444,10 @@ def mapping():
     Colour represents tonnes per person. Missing estimates are grey, not zero. Check the
     unit conversion: the total is in million tonnes, while population counts people.
     '''), c('''
-    # isin selects four country codes for a small, readable numerical check.
+    # Check Austria and three large emitters against the supplied per-person values.
     check = emissions.loc[emissions["iso_code"].isin(["AUT", "USA", "CHN", "IND"])].copy()
     # Convert million tonnes to tonnes before dividing by the number of people.
-    # Assigning to a new column name adds that calculation to the table.
     check["calculated_per_person"] = check["co2"] * 1_000_000 / check["population"]
-    # Double brackets select several named columns while keeping a table.
     print(check[["country", "co2", "co2_per_capita", "calculated_per_person"]])
     fig, ax = plt.subplots(figsize=(11, 5.5))
     # column supplies the values to colour; cmap selects yellow-to-red colours.
@@ -483,7 +459,7 @@ def mapping():
     ax.set_title("Territorial CO₂ emissions per person, 2023")
     # Hide the coordinate axes so the map and colour scale take priority.
     ax.set_axis_off()
-    # Place a source note on the figure; the newline starts its second line.
+    # Keep the emissions definition, projection and missing-data note with the map.
     fig.text(0.01, 0.01, "OWID / Global Carbon Budget; Natural Earth. Fossil fuels and industry; land-use change excluded.\\nEqual Earth projection. Grey areas have no estimate; they are not zero.", fontsize=8)
     # Export a PNG at 150 dots per inch, with margins fitted around the content.
     fig.savefig("figures/03_co2_per_person.png", dpi=150, bbox_inches="tight")
@@ -495,7 +471,7 @@ def mapping():
     emission-source locations. Matplotlib's `s` controls area in points squared, so scaling
     `s` with emissions makes area proportional to emissions. Include a size legend.
     '''), c('''
-    # notna() keeps countries with a reported total; copy() makes a separate table.
+    # Only draw circles for reported totals; retain all map areas in the background.
     points = projected.loc[projected["co2"].notna()].copy()
     # Replace each polygon with one point inside it for placing its circle.
     points["geometry"] = points.geometry.representative_point()
@@ -508,10 +484,9 @@ def mapping():
     ax.scatter(points.geometry.x, points.geometry.y, s=points["co2"] / 10, alpha=0.6, color="#176B73")
     # Empty x/y lists add no map points, but create labelled symbols for the legend.
     # Use the same size rule as above for a meaningful size legend.
-    # In f"{total:,}", the comma adds thousands separators.
     for total in [100, 1000, 5000]:
         ax.scatter([], [], s=total / 10, color="#176B73", alpha=0.6, label=f"{total:,} million tonnes")
-    ax.legend(loc="lower left", fontsize=8)  # Position and size of legend text.
+    ax.legend(loc="lower left", fontsize=8)
     ax.set_title("Total territorial CO₂ emissions, 2023")
     ax.set_axis_off()
     fig.text(0.01, 0.01, "OWID / Global Carbon Budget; Natural Earth. Circle area encodes total; locations are representative map points.", fontsize=8)

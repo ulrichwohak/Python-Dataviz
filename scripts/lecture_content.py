@@ -18,15 +18,14 @@ Rename the imported table to `dashboard` and use that name throughout. Interface
 ''')
 
 POWER_BI_CHECK = c('''
-import pandas as pd  # Work with the same table that we imported into Power BI.
+import pandas as pd
 
 # parse_dates reads "month" as dates rather than text, enabling date comparisons.
 dashboard = pd.read_csv("data/processed/amazon_monthly.csv", parse_dates=["month"])
-# len() counts aggregate rows, not individual purchases or orders.
+# These rows are monthly aggregates, not individual purchases or orders.
 print("Rows:", len(dashboard))
-# min()/max() find the earliest/latest month; .date() displays only the date.
 print("Dates:", dashboard["month"].min().date(), "to", dashboard["month"].max().date())
-# Double brackets select two columns; sum() adds each column separately.
+# Check spending and item totals against the unfiltered Power BI cards.
 print(dashboard[["spending_usd", "quantity"]].sum())
 # groupby("state") calculates those same totals separately for each state.
 print(dashboard.groupby("state")[["spending_usd", "quantity"]].sum())
@@ -192,12 +191,12 @@ def power_bi_comparisons():
         '''),
         m('## Optional Python check'), POWER_BI_CHECK,
         c('''
-        # loc filters rows; == checks equality; .dt.year extracts the year.
-        # & means BOTH conditions must be true. Put each condition in parentheses.
+        # Match the Boots/2022 slicer selection. Pandas combines row conditions
+        # with & rather than Python's and; each condition needs parentheses.
         selected = dashboard.loc[(dashboard["category"] == "Boots") & (dashboard["month"].dt.year == 2022)]
         # Sum spending and quantity only for the selected category and year.
         print(selected[["spending_usd", "quantity"]].sum())
-        # Group the full table by month; tail() displays the last five monthly totals.
+        # These all-category monthly totals check the unfiltered KPI, not the Boots selection.
         print(dashboard.groupby("month")["spending_usd"].sum().tail())
         '''),
         m('''
@@ -284,8 +283,7 @@ def power_bi_dashboard():
         ## Optional Python check
         '''), POWER_BI_CHECK,
         c('''
-        # Select California rows in 2022; & combines the two row conditions.
-        # .dt.year works because we read "month" as a date column above.
+        # Match a California selection and a 2022 date filter in Power BI.
         selected = dashboard.loc[(dashboard["state"] == "CA") & (dashboard["month"].dt.year == 2022)]
         # Compare these selected totals with the filtered Power BI cards.
         print(selected[["spending_usd", "quantity"]].sum())

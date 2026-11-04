@@ -127,10 +127,12 @@ For documentation-only changes, at minimum run `uv run python scripts/check_no_p
   explicitly identify synthetic data. Descriptions are generated from `scripts/real_data_content.py`.
 - Clear stale or large outputs before committing. Verify generated notebooks with the
   repository checks and, when changing substantive content, headless execution.
-- Put beginner-friendly comments inside lecture code cells, not only in adjacent Markdown.
-  Explain arguments such as `parse_dates`, filtering/grouping, plotting controls and exports
-  in plain language. Preserve these comments in the notebook generators. Do not use this
-  as a reason to change the analysis or fill in student exercise answers.
+- Assume students know basic Python syntax. Do not explain import aliases, equality,
+  loops, f-strings or built-ins such as `len` in lecture comments. Use concise comments
+  for library-specific operations such as `parse_dates`, grouping, plotting controls,
+  exports and analytical choices. Avoid narrating obvious lines or repeating explanations.
+  Preserve useful comments in the notebook generators without changing the analysis or
+  filling in student exercise answers.
 
 ## Teaching and content conventions
 
