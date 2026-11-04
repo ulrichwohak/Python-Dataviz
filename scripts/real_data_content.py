@@ -92,9 +92,22 @@ def chart_basics():
 
     ## Line plots: change over time
 
-    Calculate the mean number of births per day in each month. Monthly totals also depend
-    on the number of days in a month; this mean answers a different, explicit question.
-    First define the monthly groups, then choose how to summarise them.
+    **How should we show how US births changed from 2000 to 2014?**
+    We want a line chart with one point for each calendar month. Before coding, discuss:
+
+    1. What should each point represent: the total births that month, or the average
+       number of births per day? What different questions would these answer?
+    2. February 2014 has 28 days and March has 31. Could March have more births in total
+       but fewer births per day? How would we calculate a value that accounts for month length?
+    3. Which daily rows belong together? Should January 2000 and January 2001 be separate
+       groups, or should we combine all Januaries? How would that change the question?
+    4. What should we check before calculating? What happens if a date appears twice,
+       a day is missing, or its birth count is missing? Is missing the same as zero?
+    5. What belongs on each axis, in what order and with what units? Why use a line?
+       Can the tick labels show years even though each point represents a month?
+
+    **After plotting:** What does monthly averaging make easier to see, and what daily
+    variation does it hide? Does averaging also remove seasonality or adjust for population size?
     '''), c('''
     # MS means month-start: each calendar-month group is labelled by its first day.
     monthly_groups = daily_births.resample("MS")
@@ -160,47 +173,59 @@ def chart_tour():
     '''), c('''
     # Use the same 2014 sample in every plot; copy() keeps it separate from births.
     in_2014 = births["year"] == 2014
-    tour = births.loc[in_2014].copy()
-    print("Dates shown:", len(tour))
+    births_2014 = births.loc[in_2014].copy()
+    print("Dates shown:", len(births_2014))
     # count() counts non-missing birth values within each weekday group.
-    tour_groups = tour.groupby("weekday")
-    tour_births = tour_groups["births"]
-    tour_counts = tour_births.count()
-    tour_counts = tour_counts.reindex(day_order)
-    print(tour_counts)
+    weekday_groups_2014 = births_2014.groupby("weekday")
+    weekday_births_2014 = weekday_groups_2014["births"]
+    weekday_counts_2014 = weekday_births_2014.count()
+    weekday_counts_2014 = weekday_counts_2014.reindex(day_order)
+    print(weekday_counts_2014)
     '''), m('''
     ### Scatterplot
 
     Each point is one date. Unlike the monthly line, the daily points reveal short-run variation.
     '''), c('''
     # .dt accesses date features; dayofyear gives 1 for 1 January, etc.
-    day_number = tour["date"].dt.dayofyear
+    day_number = births_2014["date"].dt.dayofyear
     fig, ax = plt.subplots(figsize=(9, 4))
     # alpha controls opacity (0 transparent, 1 opaque); s sets marker area.
-    ax.scatter(day_number, tour["births"], alpha=0.6, s=15)
+    ax.scatter(day_number, births_2014["births"], alpha=0.6, s=15)
     ax.set(title="Daily US births in 2014", xlabel="Day of year", ylabel="Births")
     fig.tight_layout()
     plt.show()
     '''), m('''
     ### Histogram
 
-    A histogram counts dates in numerical intervals. The two concentrations suggest that
-    pooling all days may hide a meaningful grouping. We can investigate it rather than merely choose a colour.
+    **How many days had a given number of births?** Each observation is one day's birth
+    count, not an individual baby. This is not a plot of births over time.
+
+    - The horizontal axis groups daily birth counts into intervals.
+    - A bar's height is the number of days whose birth counts fall in that interval.
+
+    For example, one bar counts 64 days with between 11,729 and 12,084 births.
+    Notice the two concentrations, around 7,000–9,000 and 12,000–13,000 births per day.
+    A single average hides this grouping. The histogram does not identify weekdays or
+    weekends; use the grouped plots below to investigate which days belong to each group.
     '''), c('''
     fig, ax = plt.subplots(figsize=(8, 4))
-    # bins=20 divides the observed range into 20 equal-width intervals.
-    # Each bar counts dates in an interval; white edges separate the bars.
-    ax.hist(tour["births"], bins=20, edgecolor="white")
-    ax.set(title="Distribution of daily US births in 2014", xlabel="Births per day", ylabel="Number of dates")
+    # bins=20 divides the range of daily birth counts into 20 equal-width intervals.
+    # Bar heights count days, not babies; white edges separate the bars.
+    ax.hist(births_2014["births"], bins=20, edgecolor="white")
+    ax.set(
+        title="How common were different daily birth counts in 2014?",
+        xlabel="Number of births in a day",
+        ylabel="Number of days"
+    )
     fig.tight_layout()
     plt.show()
     ''')]
     for kind, explanation, call, parameter_notes in [
-        ("Box", "The box covers the middle half of daily counts, with a line at the median. Whiskers reach the furthest observations within 1.5 box-lengths. Points beyond them are not automatically errors.", 'sns.boxplot(data=tour, x="weekday", y="births", order=day_order, color="#9DBFCA", ax=ax)',
+        ("Box", "The box covers the middle half of daily counts, with a line at the median. Whiskers reach the furthest observations within 1.5 box-lengths. Points beyond them are not automatically errors.", 'sns.boxplot(data=births_2014, x="weekday", y="births", order=day_order, color="#9DBFCA", ax=ax)',
          ["Each box shows the middle half of one weekday's birth counts.", "The line inside each box marks the median."]),
-        ("Violin", 'Width shows a smoothed concentration of daily counts. `cut=0` stops at the observed range. `density_norm="width"` gives equal maximum widths, so width does not compare sample sizes. A violin is not a confidence interval.', 'sns.violinplot(data=tour, x="weekday", y="births", order=day_order, inner="quart", cut=0, density_norm="width", color="#9DBFCA", ax=ax)',
+        ("Violin", 'Width shows a smoothed concentration of daily counts. `cut=0` stops at the observed range. `density_norm="width"` gives equal maximum widths, so width does not compare sample sizes. A violin is not a confidence interval.', 'sns.violinplot(data=births_2014, x="weekday", y="births", order=day_order, inner="quart", cut=0, density_norm="width", color="#9DBFCA", ax=ax)',
          ['inner="quart" adds lines at the quartiles, including the median.', 'cut=0 keeps the violin within the observed range of each group.', 'density_norm="width" gives each violin the same maximum width.']),
-        ("Strip", "Each dot is a date. Sideways jitter reduces overlap and has no substantive meaning. Compare the actual points with the smoothed violin.", 'sns.stripplot(data=tour, x="weekday", y="births", order=day_order, jitter=0.2, alpha=0.5, size=3, color="#176B73", ax=ax)',
+        ("Strip", "Each dot is a date. Sideways jitter reduces overlap and has no substantive meaning. Compare the actual points with the smoothed violin.", 'sns.stripplot(data=births_2014, x="weekday", y="births", order=day_order, jitter=0.2, alpha=0.5, size=3, color="#176B73", ax=ax)',
          ["jitter adds random sideways movement to reduce overlapping dots.", "alpha=0.5 makes dots partly transparent; size=3 sets their size."]),
     ]:
         code_comments = "\n        ".join(f"# {line}" for line in parameter_notes)
