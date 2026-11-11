@@ -43,7 +43,7 @@ Both versions must preserve the evidence and qualifications needed for a fair in
 
 The notebooks use public real data downloaded in fixed versions by
 [`scripts/fetch_data.py`](../scripts/fetch_data.py): SSA births, donated Amazon purchases,
-OWID / Global Carbon Budget emissions and published real event-study estimates.
+OWID / Global Carbon Budget emissions and NOAA monthly state temperatures. Footwear OLS estimates are prepared from these observed purchases and temperatures.
 Notebooks read local files. Source notes distinguish administrative counts, convenience
 samples and statistical estimates; see the [data README](../data/README.md).
 
@@ -52,7 +52,7 @@ samples and statistical estimates; see the [data README](../data/README.md).
 | Session | Focus | Practical work |
 | --- | --- | --- |
 | 1. Python chart tour | Purpose and audience through concrete chart choices | Line, bar and scatter plots; first look at histograms, box, violin and strip plots; labels, notes, export and redesign |
-| 2. Comparisons and uncertainty | Distribution, variation and uncertainty | Histograms, box plots and confidence-interval plots, including supplied event-study results |
+| 2. Comparisons and uncertainty | Distribution, variation and uncertainty | Cumulative price distributions, a calendar-label scatterplot reveal, and OLS coefficient intervals |
 | 3. Mapping in Python | Spatial comparison and meaningful denominators | Geographical joins, choropleths, proportional symbols and projections |
 | 4. Power BI foundations | Correct quantities and readable basic charts | Interface, import, field types, aggregation and chart construction |
 | 5. Power BI comparisons and filtering | Exact comparisons and transparent selections | Tables, matrices, cards/KPIs, filters and slicers |
@@ -64,6 +64,13 @@ Optional references sit outside the numbered sequence.
 
 Concrete dates and notebook links are in
 [`schedule/session_plan.md`](../schedule/session_plan.md).
+
+Session 2 opens with collected visualisations and Week 1 birth-chart redesigns in the
+[presentation](../presentations/session02/README.md). Compare monthly totals, month-to-month
+changes and births per day before turning to the footwear data. The notebook investigates
+budget shares through cumulative distributions, calendar patterns through scatterplots,
+and uncertainty through OLS coefficient intervals. The final exercise asks you to redesign
+a chart comparing seasonal purchasing patterns.
 
 The [course introduction](../presentations/session01/course-introduction.pdf) covers
 administration, assessment and examples of visual reasoning.
@@ -83,7 +90,8 @@ Use one prepared table. Advanced DAX, complex models and platform administration
 outside scope. Distinguish a Desktop report page from a Service dashboard; no Service
 publication is required. Access arrangements will be announced before Session 4.
 
-Short project reviews remain in Sessions 2–4. The former project-workshop notebooks and
+Session 2 closes with a redesign of seasonal footwear charts and comparison of figures. Short project
+reviews remain in Sessions 3–4. The former project-workshop notebooks and
 Plotly/Streamlit remain optional support. Both assessed deliverables remain Python-centred.
 
 ## In-class redesign practice

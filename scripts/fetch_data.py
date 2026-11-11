@@ -20,6 +20,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from dataviz_course.footwear import prepare_footwear_models  # noqa: E402
 from dataviz_course.synthetic_data import make_simpson_hotels  # noqa: E402
 
 RAW = ROOT / "data/raw"
@@ -73,7 +74,8 @@ def download(name, url, expected):
 
 def prepare_amazon():
     rename = {"Order Date": "date", "Purchase Price Per Unit": "unit_price_usd",
-              "Quantity": "quantity", "Shipping Address State": "state", "Category": "category"}
+              "Quantity": "quantity", "Shipping Address State": "state", "Category": "category",
+              "Survey ResponseID": "participant_id"}
     source = pd.read_csv(CACHE / "amazon-purchases.csv", usecols=list(rename)).rename(columns=rename)
     source["date"] = pd.to_datetime(source["date"], errors="raise")
     in_period = source["date"].between("2018-01-01", "2022-12-31")
@@ -84,7 +86,8 @@ def prepare_amazon():
     purchases["state"] = purchases["state"].fillna("Unknown")
     purchases["spending_usd"] = (purchases["unit_price_usd"] * purchases["quantity"]).round(2)
     purchases = purchases.sort_values(["date", "category", "state"], kind="stable")
-    purchases.to_csv(RAW / "amazon_purchases.csv", index=False)
+    purchases.drop(columns="participant_id").to_csv(RAW / "amazon_purchases.csv", index=False)
+    footwear_models = prepare_footwear_models(purchases, CACHE, OUT)
     purchases["month"] = purchases["date"].dt.to_period("M").dt.to_timestamp()
     dashboard = purchases.groupby(["month", "state", "category"], as_index=False).agg(
         spending_usd=("spending_usd", "sum"), quantity=("quantity", "sum"),
@@ -97,7 +100,8 @@ def prepare_amazon():
             "selected_categories": CATEGORIES, "extract_rows": len(purchases),
             "missing_state_in_extract": int((purchases.state == "Unknown").sum()),
             "invalid_price_quantity_in_selected_period": int((in_period & selected & ~valid).sum()),
-            "monthly_rows": len(dashboard), "spending_usd": float(purchases.spending_usd.sum())}
+            "monthly_rows": len(dashboard), "spending_usd": float(purchases.spending_usd.sum()),
+            "footwear_models": footwear_models}
 
 
 def prepare_births():

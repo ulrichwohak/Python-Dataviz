@@ -47,20 +47,22 @@ The six-session progression is:
 
 1. Python chart tour: line, bar and scatter plots, plus histograms, box, violin and strip
    plots; labels, figure notes and export;
-2. comparisons and uncertainty: histograms, box plots and confidence-interval plots;
+2. comparisons and uncertainty: cumulative distributions, calendar patterns and coefficient intervals;
 3. mapping in Python: joins, choropleths, proportional symbols and projections;
 4. Power BI foundations: importing data, field types, aggregation and basic charts;
 5. Power BI comparisons and filtering: tables, matrices, cards/KPIs, filters and slicers; and
 6. Power BI dashboard building: layout, interactions, storytelling and verification.
 
-Short project reviews are integrated into Sessions 2–4 instead of a standalone project class.
+Short project reviews are integrated into Sessions 3–4 instead of a standalone project class.
 
 See the [`course outline`](docs/course_outline.md) for content and the
 [`dated session plan`](schedule/session_plan.md) for meeting dates and materials.
 
 Start with the [**course introduction (PDF)**](presentations/session01/course-introduction.pdf).
 It covers administration, assessment, classroom activities, and the motivation for
-visualisation. Third-party figures retain their source credits; see [NOTICE.md](NOTICE.md).
+visualisation. The [Lecture 2 materials](presentations/session02/README.md) include the slides,
+notebooks and interactive birth chart. Third-party figures retain their source credits; see
+[NOTICE.md](NOTICE.md).
 
 In-class [exercises](notebooks/README.md) start from a chart and a clear reader's question.
 Students evaluate and change the visual form, verify the underlying
@@ -120,16 +122,16 @@ files. Run it before class. A failed download stops with an error; there is no s
 
 - **Session 1:** US daily births (SSA via FiveThirtyEight). Why do weekdays and weekends look
   different? Redesign a pie chart of 2014 monthly birth totals.
-- **Session 2:** donated Amazon purchase histories. How do boot and sandal prices and seasons
-  differ? Plot the authors' published real-data minimum-wage event-study estimates with their
-  95% simultaneous confidence bands.
+- **Session 2:** donated Amazon purchase histories. Use cumulative distributions to ask what
+  a budget covers, add NOAA weather and reveal calendar patterns in a scatterplot, then add
+  uncertainty to OLS coefficients to ask whether boots are cheaper out of season.
 - **Session 3:** Our World in Data / Global Carbon Budget emissions and Natural Earth boundaries.
   How do total-emissions and per-person comparisons differ?
 - **Sessions 4–6:** the same Amazon extract, aggregated by month, shipping state and category,
   for Power BI charts, filters and the final report page.
 
 The Amazon sample is voluntary and restricted to seven categories, not representative company
-sales. The event-study authors describe their application as illustrative. Source versions,
+sales. The footwear regressions describe associations, not causal effects. Source versions,
 licences, exclusions and units are documented in the [data README](data/README.md).
 Only the introductory OLS and Simpson's-paradox **mathematical illustrations** remain synthetic.
 Explore additional sources in [Todd Jones's dataset catalogue](https://github.com/toddrjones/datasets).
