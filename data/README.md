@@ -22,12 +22,17 @@ the current notebooks; the fetch script does not delete unrelated local files.
 
 | Local file | Rows and contents | Used in |
 | --- | --- | --- |
-| `raw/us_births.csv` | 5,479 dates, 2000–2014; births and weekday | Session 1; annotation reference |
+| `raw/us_births.csv` | 5,479 dates, 2000–2014; births and weekday | Session 1; Session 2 slide review and interactive chart; annotation reference |
 | `raw/amazon_purchases.csv` | 195,520 selected product-purchase records, 2018–2022 | Session 2; project reference |
 | `processed/amazon_monthly.csv` | 14,190 month × state × category aggregates | Sessions 4–6; Python dashboard |
+| `processed/state_month_temperature.csv` | 3,000 state × month temperatures, 50 states, 2018–2022 | Session 2 weather match |
+| `processed/footwear_weather.csv` | 6,502 footwear records with matched temperatures; no participant IDs | Session 2 |
+| `processed/footwear_weather_coefficients.csv` | Two OLS temperature coefficients and 95% pointwise intervals | Retained reference; not plotted in the current lecture |
+| `processed/boot_month_coefficients.csv` | Eleven OLS monthly boot-price coefficients relative to January | Session 2 |
+| `processed/boot_summer_contrast.csv` | One pre-specified June–August versus January contrast and interval | Session 2 |
 | `raw/countries.geojson` | 176 simplified mapped areas, excluding Antarctica | Session 3 |
 | `raw/co2_2023.csv` | 169 country records matched to the map | Session 3 |
-| `processed/event_study_results.csv` | Seven published event-time estimates and confidence-band bounds | Session 2 |
+| `processed/event_study_results.csv` | Seven published event-time estimates and confidence-band bounds | Retained reference; superseded in Session 2 |
 | `raw/simpson_hotels.csv` | 24 constructed fictional hotels | Introductory mathematical illustration only |
 
 ## Daily US births
@@ -86,6 +91,76 @@ only as a KPI interface example, separately labelled and not an observed busines
 This is a convenience sample. Repeated purchases by the same person are not independent
 customers. Changes over time or differences across states may reflect sample coverage.
 Do not call this Amazon revenue, market share, representative US consumption or a causal effect.
+
+## Footwear regressions and monthly weather
+
+The three lecture questions use the same Amazon purchase source. Question 1 uses all
+6,658 Boot/Sandal records for cumulative price distributions. Question 2 computes twelve
+calendar-month summaries from the weather-matched records. Question 3 plots prepared
+monthly boot-price OLS estimates. The preparation script fits the models below through
+`src/dataviz_course/footwear.py`; the notebook does not rerun them. The original purchase extract and its selection rules are unchanged.
+Pseudonymous source participant IDs are used only inside preparation to calculate clustered
+standard errors and are omitted from every exported teaching table.
+
+**Weather source and match.** NOAA NCEI's [nClimDiv statewide data](https://www.ncei.noaa.gov/monitoring-content/data/us/climdiv/monthly/current/),
+mean-temperature release `climdiv-tmpcst-v1.0.0-20261105`, with the
+[state codes and file format](https://www.ncei.noaa.gov/monitoring-content/data/us/climdiv/monthly/current/state-readme.txt).
+These are area-weighted monthly state averages, not a measurement at the buyer's address.
+Read element 02 for state codes 001–050 (NOAA codes, not FIPS), retain 2018–2022,
+and convert Fahrenheit to Celsius as `(F - 32) * 5 / 9`. All 3,000 state-months have valid
+temperatures. Match by shipping-state code, year and month, validating many-to-one cardinality.
+Of 6,658 footwear records, 6,502 match; 129 with unknown state and 27 in DC are excluded
+only from the weather analyses. The matched sample contains 2,062 participants and all 50 states.
+
+The canonical 2018–2022 temperature extract is cached with SHA-256
+`b563fa2b9fc15929878ead9116e3dec57e6fd53d082c665a5618b48a54b5afb9`.
+NOAA rotates its dated full-history files. If the stated release is unavailable, the script
+reads the current release but accepts it only if the complete selected historical extract
+matches that checksum. A historical revision stops preparation. The actual download URL and
+checksum are recorded in `raw/sources/noaa-state-temperature-source.json` and the preparation report.
+
+**Question 1: budget shares.** The hypothetical $50 threshold is not a sample restriction.
+The fraction of prices at or below it is calculated separately within Boots and Sandals;
+each category has its own denominator. The empirical cumulative distributions retain all
+prices. These are historical record shares, not current product availability or representative
+shopping probabilities.
+
+**Question 2: monthly weather summaries.** Matched records are pooled by calendar month.
+Each point compares mean `temperature_c` with `100 × Boot records / all footwear records`.
+Temperature is averaged over purchase records, so places and years are weighted by their
+frequency in this sample; it is not a national weather average. Both scatterplots use the
+same summaries and scales. These are descriptive aggregates without regression adjustment
+or uncertainty intervals. Similar average temperatures do not imply identical exposure
+distributions or purchasers. The plot does not identify a causal temperature effect.
+
+**Weather OLS (retained reference, not the current classroom plot).** The outcome is 100 for a Boot record and 0 for a Sandal record, so this
+linear probability model describes the share of Boots among these two categories, not
+total purchases or market demand. Temperature is scaled in units of 10°C. Fit
+`boot_percent ~ temperature_10c + C(state) + C(year)`, then add `C(month)` to adjust for
+the usual calendar-month pattern. Both models use the same 6,502 records. Use two-way
+participant/state clustered standard errors with finite-sample corrections and t critical
+values with 49 degrees of freedom.
+
+**Seasonal-price OLS.** Use all 3,081 Boot records (1,392 participants), including those
+without weather matches; no outlier trimming or log transformation. Fit
+`unit_price_usd ~ C(month, Treatment(reference=1)) + C(year) + C(state)`.
+Month coefficients compare nominal USD prices with January after year/state adjustment;
+the model assumes the same month pattern across years and states. January is an omitted
+reference, not an estimated zero with a zero-width interval. Use participant-clustered
+standard errors with finite-sample corrections and t critical values with 1,391 degrees
+of freedom. Intervals are 95% **pointwise**, not a simultaneous band for eleven comparisons.
+
+Define summer as June–August before examining the coefficients. Its contrast is the
+equal-weight average of the three monthly coefficients relative to January. Calculate its
+standard error using the full fitted covariance matrix, not an average of interval endpoints.
+This is not the purchase-count-weighted mean summer price. Full formulas, counts, clustering
+and unrounded estimates are recorded in `processed/footwear_model_details.json`.
+
+All comparisons are observational. Voluntary participation, changing product mix, broad
+geographic weather averages and nominal prices limit interpretation; confidence intervals
+do not correct selection bias or establish causality. The seasonal coefficient plot uses
+the visual form of an event-study graph, without claiming an identified intervention.
+For implementation details, see [statsmodels' clustered-covariance documentation](https://www.statsmodels.org/stable/generated/statsmodels.regression.linear_model.RegressionResults.get_robustcov_results.html).
 
 ## Country CO₂ estimates and boundaries
 

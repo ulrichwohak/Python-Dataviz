@@ -2,12 +2,17 @@
 .secrets.md
 /course repo.md
 /textbook/
-# Only the student PDF and its index are published; authoring material stays local.
+# Only student slides, their indexes and the Lecture 2 interactive chart are published.
 /presentations/*
 !/presentations/session01/
 /presentations/session01/*
 !/presentations/session01/README.md
 !/presentations/session01/course-introduction.pdf
+!/presentations/session02/
+/presentations/session02/*
+!/presentations/session02/README.md
+!/presentations/session02/lecture02-comparisons-and-uncertainty.pdf
+!/presentations/session02/births-interactive.html
 /CLAUDE.md
 /AGENTS.md
 /instructor/

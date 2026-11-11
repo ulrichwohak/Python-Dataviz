@@ -17,6 +17,9 @@ PRIVATE_FILES = {
 PUBLIC_SLIDES = {
     "presentations/session01/README.md",
     "presentations/session01/course-introduction.pdf",
+    "presentations/session02/README.md",
+    "presentations/session02/lecture02-comparisons-and-uncertainty.pdf",
+    "presentations/session02/births-interactive.html",
 }
 
 

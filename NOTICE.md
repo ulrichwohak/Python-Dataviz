@@ -111,6 +111,50 @@ critique. The repository's MIT licence does not apply to them; inclusion grants 
 reuse rights. Visible design features can be discussed without treating the underlying
 claims or data as independently verified.
 
+## Session 2 submitted visualisations
+
+The 11 November 2026 presentation includes 18 third-party images and four week 1
+student submissions supplied for classroom discussion. Original images and visible credits
+are preserved in the slides. The Lecture 2 notebook contains only the live-coding analysis;
+submitted figures and the week 1 review belong in the presentation. Filenames describing an image as good or ugly are
+not used as judgments in the lecture. No original post URLs or reuse licences accompanied
+these files. The credits below identify what is visible, not independently authenticated
+authorship or data provenance. The repository's MIT licence does not apply to these images.
+
+| Lecture ID | Image | Visible attribution or source information |
+| --- | --- | --- |
+| V01 | Average monthly wage in the EU | No creator, data source or currency shown. |
+| V02 | 3D pie-chart template | No creator or source shown; placeholder labels. |
+| V03 | Survey shares in a semicircle | CPOST/NORC, September 2021; cpost.uchicago.edu; caption refers to a US Census adult-population estimate. |
+| V04 | Cigarette cost in Australia | 9NEWS; Adobe Stock. |
+| V05 | Weekly initial unemployment claims | Alabama Department of Labor, Labor Market Information Division. |
+| V06 | Browser-use areas | No creator or data source shown. |
+| V07 | Timeline of world history | ChartOrigin.com; footer says the timeline is selective and its blocks do not represent actual territorial scale or boundaries. |
+| V08 | Time Series Map, 1990–2022 | No creator, source or mapped variable named in the screenshot. |
+| V09 | No night away from home by age | FRONT PAGES.EU; Eurostat TOUR_DEM_TOAGE, 2025; EuroGeographics/GISCO. |
+| V10 | Still perfect: Porto | football-md.com / FMD; dated 2 November 2026. |
+| V11 | Open-play xA versus non-penalty goals | TOP 5 branding; 2026/27 season and sample restrictions shown, no data provider named. |
+| V12 | UK average temperature | BM branding; heading says 1884–2026, plotted period ends in 2025; no data source shown. |
+| V13 | Kane and simulated careers | Martin Angelov / DataDealsFC.com; Understat; caption describes a seeded simulation of 20,000 careers. |
+| V14 | Leisure time for men and women | OECD; Visme branding; leisure is measured in minutes per day. Survey years are not visible. |
+| V15 | US COVID-19 cases on a spiral timeline | The New York Times, 6 January 2022; new US cases, seven-day average. |
+| V16 | Pacific Beach building-height comparison | Feet; no creator or measurement source visible. The tallest-building label is an open-ended “239+ ft”. |
+| V17 | TV station group revenue, 2025 | BIA Advisory Services / company filings. Labels give millions of dollars and percentage shares. |
+| V18 | US household size, 1960–2025 | US Census Bureau, CPS table HH-4 (1960–2025); ACS 2025. Made with Artio / artio.so. These are visible source labels, not independently checked provenance. |
+| S01–S04 | Monthly US births, 2014 | Student submissions, authors not named in the supplied images. S03 and S04 include FiveThirtyEight / SSA source notes. S04's twelve annual-share labels match the local data, rounded to one decimal place. The exercise uses the SSA data documented below. |
+
+The supplied context identifies r/dataisugly as the discovery route for V01/V07 and an
+unnamed football news channel for V10/V11/V13; neither is treated as original data provenance.
+Student identities and private correspondence are excluded. Source screenshots retain
+public creators' credits. Labels describing figures as good or poor are submission opinions,
+not verified data claims. The WebP-to-PNG conversions preserve decoded pixels for the PDF.
+
+Critique distinguishes visible design features from unverified factual claims. We have
+checked the course's monthly birth totals against its local source extract; the screenshots
+alone cannot establish that every plotted student value matches. The third-party datasets,
+simulation code, live interactive behaviour and historical/sporting claims have not been
+independently verified. The presentation embeds the images for viewing without separate image files or an internet connection.
+
 ## Real teaching data
 
 The course downloads public source files locally; downloaded data and source HTML are
@@ -124,6 +168,12 @@ no third-party notebook or R implementation is copied.
   file 7616235, CC0 1.0. We select seven categories and 2018–2022, omit identifiers/titles from
   the student extract, and aggregate sample spending. Respect the source's research-use and
   no-re-identification notice. Do not present the sample as representative Amazon sales.
+- **NOAA NCEI nClimDiv:** [statewide monthly files](https://www.ncei.noaa.gov/monitoring-content/data/us/climdiv/monthly/current/),
+  mean-temperature release `climdiv-tmpcst-v1.0.0-20261105`. The course extracts all 50 states
+  for 2018–2022, converts Fahrenheit to Celsius and joins by shipping state and month.
+  The historical extract is checksum-pinned; see `data/README.md`. Footwear OLS estimates
+  and confidence intervals are computed by the course, not published by NOAA or Berke et al.
+  Participant identifiers are used internally for clustering and omitted from exported tables.
 - **OWID / Global Carbon Budget:** [source](https://github.com/owid/co2-data), commit
   `382ee6c662b0ece26e111f263b44c029afad7787`. We select 2023 emissions and population
   fields for mapped countries. OWID data are CC BY; third-party source terms remain applicable.
@@ -132,6 +182,7 @@ no third-party notebook or R implementation is copied.
 - **Callaway and Sant'Anna:** [did real-data example](https://bcallaway11.github.io/did/articles/did-basics.html#an-example-with-real-data),
   repository commit `9ead26b9d37c7f2bc202bebc4f5e8220ab7e8c13`. We extract seven numeric
   rows of published `summary(mw.dyn)` output, including its 95% simultaneous bands.
+  This table is retained as a reference; the current Session 2 uses footwear OLS instead.
   The source R package is GPL-3. We neither copy its implementation nor redistribute its
   figures. Preserve the authors' warning that this application is illustrative.
 
