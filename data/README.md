@@ -9,6 +9,9 @@ slides retain explicitly constructed mathematical illustrations. They are not em
 uv run python scripts/fetch_data.py
 ```
 
+After pulling the Session 3 format-comparison update, rerun the command above to create
+`raw/countries.shp` and its companion files from the cached country boundaries.
+
 The first run downloads about **330 MB**. Internet access is required, but no login or API key.
 Downloads are cached in `data/raw/sources/`; subsequent runs verify SHA-256 hashes and reuse
 them. Pinned source URLs and expected hashes are in the script. If a source changes or fails,
@@ -31,6 +34,7 @@ the current notebooks; the fetch script does not delete unrelated local files.
 | `processed/boot_month_coefficients.csv` | Eleven OLS monthly boot-price coefficients relative to January | Session 2 |
 | `processed/boot_summer_contrast.csv` | One pre-specified June–August versus January contrast and interval | Session 2 |
 | `raw/countries.geojson` | 176 simplified mapped areas, excluding Antarctica | Session 3 |
+| `raw/countries.shp` and companion files | The same 176 mapped areas and attributes in shapefile format | Session 3 format comparison |
 | `raw/co2_2023.csv` | 169 country records matched to the map | Session 3 |
 | `processed/event_study_results.csv` | Seven published event-time estimates and confidence-band bounds | Retained reference; superseded in Session 2 |
 | `raw/simpson_hotels.csv` | 24 constructed fictional hotels | Introductory mathematical illustration only |
@@ -181,6 +185,13 @@ The join uses `ISO_A3_EH`, which supplies France and Norway correctly in this ve
 Three non-ISO map entities get explicit local keys `NE_CYN`, `NE_KOS`, `NE_SOL`, not invented
 ISO codes. They remain unmatched. Other unmatched areas are ATF, ESH, FLK and PRI.
 We do not assign neighbours' estimates or fill missing values with zero.
+
+The fetch script exports the same prepared boundaries to both `countries.geojson` and
+`countries.shp`. The shapefile is a course-generated format conversion, not a second source.
+Keep `countries.shp` (geometry), `countries.shx` (index), `countries.dbf` (attributes),
+`countries.prj` (CRS) and `countries.cpg` (text encoding) together. The lecture loads both
+formats for comparison, then continues with the GeoJSON data. No extra download is needed
+when the source files are already cached.
 
 The boundary file is simplified, omits small territories, and uses the source's conventions
 for disputed areas. Representative points place circles on the map; they are not observations
