@@ -240,6 +240,11 @@ The Austria boundary uses
 the Natural Earth extract documented above. The binary rasters are derived from that
 boundary using 50 km and 25 km cells in EPSG:3035 and a cell-centre inclusion rule. The temperature grid is
 explicitly illustrative: its values are invented, not observed environmental data.
+The original longitude/latitude diagram is a spherical teaching schematic with an
+illustrative point at 60° east, 40° north. Its 0° longitude reference points to the
+equator on the prime meridian. It is not observed geographic data. The slide identifies
+the spherical simplification; WGS84 uses an ellipsoid. The definition of the prime
+meridian follows [Royal Museums Greenwich](https://www.rmg.co.uk/stories/time/what-prime-meridian-why-it-greenwich).
 Technical background: [GDAL vector data](https://gdal.org/en/stable/user/vector_data_model.html),
 [GDAL raster data](https://gdal.org/en/stable/user/raster_data_model.html),
 [GeoPandas coordinate systems](https://geopandas.org/en/stable/docs/user_guide/projections.html),
