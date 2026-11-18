@@ -12,9 +12,15 @@ chart shows monthly percentages within each footwear category; the paired bars s
 purchase-record counts. The next examples invite discussion of visual design before
 the introduction to mapping.
 
+The Economist comparison appears in two steps on PDF pages 11–12: the original chart
+first, then the redesign alongside it. The second view links to Sarah Leo's
+[Mistakes, we've drawn a few](https://medium.com/the-economist/mistakes-weve-drawn-a-few-8cdd8a42d368).
+Advance one page to reveal the second view.
+
 The mapping introduction covers vector and raster data, coordinate reference systems,
-projections and free sources of geographical data. The country-emissions analysis is
-in the notebook.
+projections and free sources of geographical data. A spherical diagram shows longitude
+and latitude as angles, with 0° longitude explicitly labelled, before the CRS explanation.
+The country-emissions analysis is in the notebook.
 
 ## Prepare the data
 
