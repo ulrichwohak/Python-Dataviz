@@ -173,7 +173,9 @@ no third-party notebook or R implementation is copied.
   for 2018–2022, converts Fahrenheit to Celsius and joins by shipping state and month.
   The historical extract is checksum-pinned; see `data/README.md`. Footwear OLS estimates
   and confidence intervals are computed by the course, not published by NOAA or Berke et al.
-  Participant identifiers are used internally for clustering and omitted from exported tables.
+  Original participant identifiers are omitted from exported tables. The local Boot model
+  table uses replacement numeric participant groups so the notebook can reproduce clustered
+  standard errors; the source-ID mapping is not exported.
 - **OWID / Global Carbon Budget:** [source](https://github.com/owid/co2-data), commit
   `382ee6c662b0ece26e111f263b44c029afad7787`. We select 2023 emissions and population
   fields for mapped countries. OWID data are CC BY; third-party source terms remain applicable.
@@ -197,3 +199,48 @@ and [strip](https://seaborn.pydata.org/generated/seaborn.stripplot.html) plots,
 [projections](https://geopandas.org/en/stable/docs/user_guide/projections.html).
 Power BI guides are original walkthroughs, not recovered prior-year teaching files.
 Official Microsoft references are linked in each guide. No screenshots are reproduced.
+
+## Session 3 vector and raster supplement
+
+The student PDF under `presentations/session03/` opens with its mapping title page,
+then an intermezzo containing the original course-supplied Week 2 pie charts, two anonymous
+student redesigns, the instructor's two seasonal reference charts and six third-party figures.
+The mapping explanation follows.
+The original pies are rendered from the unchanged course exercise code using the Berke
+et al. data documented above. The first student figure is the
+attached line chart; the second is generated from the submitted notebook's unchanged
+grouped-bar plotting code. Both retain their figure notes crediting Berke et al.'s
+Open e-commerce 1.0 dataset. Student identities and email contents are excluded from
+the presentation. Original submission files are not distributed.
+The instructor references use the same Berke et al. purchase records: a line chart of
+within-category monthly shares and paired bars of actual monthly record counts. Both are
+ordered December–November with matching seasonal bands. Their figure notes retain the
+data source, units, category totals, period and voluntary-sample limitation.
+
+Third-party opening figure credits:
+
+- Fox Chicago, November 2009: presidential pie chart, screenshot reproduced by
+  [Heap](https://www.heap.io/blog/how-to-lie-with-data-visualization) / ThinkProgress.
+- Georgia Department of Public Health, May 2020: COVID-19 case chart,
+  [archived by COVID Georgia](https://www.covid-georgia.com/archive/did-georgia-graph-cases-with-the-dates-out-of-order/).
+- The Economist / Sarah Leo, 27 March 2019: dog weight/neck-size chart and published
+  redesign, [Mistakes, we've drawn a few](https://medium.com/the-economist/mistakes-weve-drawn-a-few-8cdd8a42d368).
+- Our World in Data: [life expectancy versus health expenditure](https://ourworldindata.org/grapher/life-expectancy-vs-health-expenditure),
+  captured 18 November 2026 with the source's data credits and nearest-year note retained.
+- Copernicus / ESACCI / EOCIS / UKMCAS / C3S / ECMWF: daily sea surface temperatures
+  and 2023 annual anomaly map, Figures 1–2 in
+  [European State of the Climate 2023](https://climate.copernicus.eu/esotc/2023/sea-surface-temperature).
+
+Original credits are preserved. The third-party figures are excluded from the course code
+licence. The student PDF is included in the course repository; standalone source images,
+submission emails and authoring materials are not distributed. Exact image URLs,
+retrieval dates and hashes are retained in the instructor's local source manifest.
+
+The Austria boundary uses
+the Natural Earth extract documented above. The binary rasters are derived from that
+boundary using 50 km and 25 km cells in EPSG:3035 and a cell-centre inclusion rule. The temperature grid is
+explicitly illustrative: its values are invented, not observed environmental data.
+Technical background: [GDAL vector data](https://gdal.org/en/stable/user/vector_data_model.html),
+[GDAL raster data](https://gdal.org/en/stable/user/raster_data_model.html),
+[GeoPandas coordinate systems](https://geopandas.org/en/stable/docs/user_guide/projections.html),
+and [Rasterio georeferencing](https://rasterio.readthedocs.io/en/stable/topics/georeferencing.html).

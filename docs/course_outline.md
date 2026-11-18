@@ -43,7 +43,8 @@ Both versions must preserve the evidence and qualifications needed for a fair in
 
 The notebooks use public real data downloaded in fixed versions by
 [`scripts/fetch_data.py`](../scripts/fetch_data.py): SSA births, donated Amazon purchases,
-OWID / Global Carbon Budget emissions and NOAA monthly state temperatures. Footwear OLS estimates are prepared from these observed purchases and temperatures.
+OWID / Global Carbon Budget emissions and NOAA monthly state temperatures. Session 2 fits
+the seasonal boot-price model in the notebook and turns its estimates into a coefficient plot.
 Notebooks read local files. Source notes distinguish administrative counts, convenience
 samples and statistical estimates; see the [data README](../data/README.md).
 

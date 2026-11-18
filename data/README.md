@@ -9,8 +9,10 @@ slides retain explicitly constructed mathematical illustrations. They are not em
 uv run python scripts/fetch_data.py
 ```
 
-After pulling the Session 3 format-comparison update, rerun the command above to create
-`raw/countries.shp` and its companion files from the cached country boundaries.
+After pulling the live-estimation update for Session 2, rerun this command to create
+`processed/boot_model_sample.csv`; pulling the repository alone does not create local data.
+Rerun it after pulling the Session 3 format-comparison update to create `raw/countries.shp`
+and its companion files from the cached country boundaries.
 
 The first run downloads about **330 MB**. Internet access is required, but no login or API key.
 Downloads are cached in `data/raw/sources/`; subsequent runs verify SHA-256 hashes and reuse
@@ -30,9 +32,10 @@ the current notebooks; the fetch script does not delete unrelated local files.
 | `processed/amazon_monthly.csv` | 14,190 month × state × category aggregates | Sessions 4–6; Python dashboard |
 | `processed/state_month_temperature.csv` | 3,000 state × month temperatures, 50 states, 2018–2022 | Session 2 weather match |
 | `processed/footwear_weather.csv` | 6,502 footwear records with matched temperatures; no participant IDs | Session 2 |
+| `processed/boot_model_sample.csv` | 3,081 Boot records: price, month, year, state and numeric participant group | Session 2 live OLS estimation |
 | `processed/footwear_weather_coefficients.csv` | Two OLS temperature coefficients and 95% pointwise intervals | Retained reference; not plotted in the current lecture |
-| `processed/boot_month_coefficients.csv` | Eleven OLS monthly boot-price coefficients relative to January | Session 2 |
-| `processed/boot_summer_contrast.csv` | One pre-specified June–August versus January contrast and interval | Session 2 |
+| `processed/boot_month_coefficients.csv` | Eleven OLS monthly boot-price coefficients relative to January | Verification reference; the notebook estimates these directly |
+| `processed/boot_summer_contrast.csv` | One pre-specified June–August versus January contrast and interval | Verification reference; the notebook calculates this directly |
 | `raw/countries.geojson` | 176 simplified mapped areas, excluding Antarctica | Session 3 |
 | `raw/countries.shp` and companion files | The same 176 mapped areas and attributes in shapefile format | Session 3 format comparison |
 | `raw/co2_2023.csv` | 169 country records matched to the map | Session 3 |
@@ -67,6 +70,8 @@ Dataverse marks the dataset **CC0 1.0** and requests research use and no re-iden
 The source has 1,850,717 records from histories donated by 5,027 US volunteers.
 The course uses only purchase records, not the demographic survey. We do not download survey
 responses, and the student extract drops participant identifiers, product titles and product codes.
+The separate Boot model table uses replacement numeric participant groups for clustered
+standard errors; it contains no original identifiers, titles or product codes.
 The cached public source still contains pseudonymous identifiers; do not try to identify participants.
 
 Selection and transformation:
@@ -100,11 +105,15 @@ Do not call this Amazon revenue, market share, representative US consumption or 
 
 The three lecture questions use the same Amazon purchase source. Question 1 uses all
 6,658 Boot/Sandal records for cumulative price distributions. Question 2 computes twelve
-calendar-month summaries from the weather-matched records. Question 3 plots prepared
-monthly boot-price OLS estimates. The preparation script fits the models below through
-`src/dataviz_course/footwear.py`; the notebook does not rerun them. The original purchase extract and its selection rules are unchanged.
-Pseudonymous source participant IDs are used only inside preparation to calculate clustered
-standard errors and are omitted from every exported teaching table.
+calendar-month summaries from the weather-matched records. Question 3 fits a monthly
+boot-price OLS model in the notebook, extracts coefficients and confidence limits, and
+plots them. The preparation script creates `boot_model_sample.csv` through
+`src/dataviz_course/footwear.py` and retains independently computed coefficient tables for
+verification. The original purchase extract and its selection rules are unchanged.
+The model table replaces source participant IDs with consecutive numeric groups, preserving
+which records belong to the same participant for clustered standard errors. It includes
+price, month, year and state, but no original participant IDs or mapping back to them.
+These grouping labels do not make the purchase records anonymous; do not attempt re-identification.
 
 **Weather source and match.** NOAA NCEI's [nClimDiv statewide data](https://www.ncei.noaa.gov/monitoring-content/data/us/climdiv/monthly/current/),
 mean-temperature release `climdiv-tmpcst-v1.0.0-20261105`, with the
@@ -147,7 +156,9 @@ values with 49 degrees of freedom.
 
 **Seasonal-price OLS.** Use all 3,081 Boot records (1,392 participants), including those
 without weather matches; no outlier trimming or log transformation. Fit
-`unit_price_usd ~ C(month, Treatment(reference=1)) + C(year) + C(state)`.
+`unit_price_usd ~ C(month) + C(year) + C(state)` in the notebook.
+The numeric month categories run from 1 to 12, so the default reference is January (1).
+The verification model explicitly specifies `Treatment(reference=1)` and is equivalent.
 Month coefficients compare nominal USD prices with January after year/state adjustment;
 the model assumes the same month pattern across years and states. January is an omitted
 reference, not an estimated zero with a zero-width interval. Use participant-clustered
