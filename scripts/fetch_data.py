@@ -124,6 +124,9 @@ def prepare_maps():
     countries = countries.loc[countries.iso_code != "ATA"].copy()
     assert countries.iso_code.is_unique
     countries.to_file(RAW / "countries.geojson", driver="GeoJSON")
+    # Export the same prepared boundaries for the notebook's file-format comparison.
+    # This creates .shp, .shx, .dbf, .prj and .cpg companion files together.
+    countries.to_file(RAW / "countries.shp", driver="ESRI Shapefile", index=False, encoding="UTF-8")
     emissions = pd.read_csv(CACHE / "co2.csv")
     fields = ["country", "iso_code", "year", "population", "co2", "co2_per_capita",
               "consumption_co2", "consumption_co2_per_capita"]
