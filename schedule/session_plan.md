@@ -71,8 +71,9 @@ These topics recur within the concrete chart tasks, rather than occupying a sepa
 
 - Session 1: reader's question; labels, units, data provenance and a concise figure note.
 - Session 2: uncertainty versus variation; estimated quantity, units, reference period and
-  threshold shares, calendar information and interval meaning in the footwear OLS results. Students plot prepared estimates for question 3,
-  rather than estimate an econometric model.
+  threshold shares, calendar information and interval meaning in the footwear OLS results.
+  For question 3, fit one short OLS specification, extract coefficients and confidence
+  limits, then plot them. Keep the focus on the path from model results to a figure.
 - Session 3: geography, join coverage, denominator, projection, missing areas and source note.
 - Sessions 4–6: apply the same reasoning to Power BI aggregation, filtering and interaction.
   Keep titles and notes accurate under filtering and make the current selection visible.

@@ -20,6 +20,8 @@ PUBLIC_SLIDES = {
     "presentations/session02/README.md",
     "presentations/session02/lecture02-comparisons-and-uncertainty.pdf",
     "presentations/session02/births-interactive.html",
+    "presentations/session03/README.md",
+    "presentations/session03/vector-and-raster.pdf",
 }
 
 

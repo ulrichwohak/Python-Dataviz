@@ -64,6 +64,9 @@ visualisation. The [Lecture 2 materials](presentations/session02/README.md) incl
 notebooks and interactive birth chart. Third-party figures retain their source credits; see
 [NOTICE.md](NOTICE.md).
 
+The [Lecture 3 materials](presentations/session03/README.md) include the mapping
+presentation, notebook and exercises, with the seasonal-footwear redesign discussion.
+
 In-class [exercises](notebooks/README.md) start from a chart and a clear reader's question.
 Students evaluate and change the visual form, verify the underlying
 numbers, and explain why the revision serves that reader better.

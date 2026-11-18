@@ -115,6 +115,10 @@ def prepare_footwear_models(purchases, cache, out):
 
     # Preserve all boot purchases, including those without weather matches.
     boots = footwear.loc[footwear["category"].eq("Boots")].copy()
+    # Keep repeated-purchase groups for live estimation without exporting source IDs.
+    model_sample = boots[["unit_price_usd", "month", "year", "state"]].copy()
+    model_sample["participant_group"] = pd.factorize(boots["participant_id"], sort=True)[0] + 1
+    model_sample.to_csv(out / "boot_model_sample.csv", index=False)
     price_formula = "unit_price_usd ~ C(month, Treatment(reference=1)) + C(year) + C(state)"
     price_model = smf.ols(price_formula, data=boots, missing="raise").fit(
         cov_type="cluster", cov_kwds={"groups": boots["participant_id"], "use_correction": True, "df_correction": True}, use_t=True)
