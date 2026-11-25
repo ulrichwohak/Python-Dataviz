@@ -249,3 +249,23 @@ Technical background: [GDAL vector data](https://gdal.org/en/stable/user/vector_
 [GDAL raster data](https://gdal.org/en/stable/user/raster_data_model.html),
 [GeoPandas coordinate systems](https://geopandas.org/en/stable/docs/user_guide/projections.html),
 and [Rasterio georeferencing](https://rasterio.readthedocs.io/en/stable/topics/georeferencing.html).
+
+## Session 4 Power BI introduction
+
+Four third-party visualisations selected by students open the
+[Lecture 4 PDF](presentations/session04/session04-power-bi-introduction.pdf).
+
+- Planned Parenthood chart: Americans United for Life, credited in the image.
+- Social indicators in Mandya: Scroll.in, credited in the image.
+- Republican presidential primary schedule, 2016: the screenshot does not credit the chart's creator.
+- Women’s clothing sizes: The Straits Times,
+  [Inside the confusing world of women’s clothing sizes](https://www.straitstimes.com/multimedia/graphics/2025/09/womens-clothing-size-guide-singapore/index.html).
+
+These figures are included for discussion of their design. They are not covered by the
+course code licence. Original figure credits are retained; submission emails, standalone
+images and instructor notes are not distributed.
+
+The usage figures on the motivation slide come from Microsoft's
+[January 2025 earnings call](https://www.microsoft.com/en-us/investor/events/fy-2025/earnings-fy-2025-q2)
+and [O*NET's 2025 U.S. job-posting data for business intelligence analysts](https://www.onetonline.org/link/demand/15-2051.01),
+based on Lightcast data.
