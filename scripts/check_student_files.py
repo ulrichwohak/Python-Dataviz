@@ -22,6 +22,8 @@ PUBLIC_SLIDES = {
     "presentations/session02/births-interactive.html",
     "presentations/session03/README.md",
     "presentations/session03/vector-and-raster.pdf",
+    "presentations/session04/README.md",
+    "presentations/session04/session04-power-bi-introduction.pdf",
 }
 
 

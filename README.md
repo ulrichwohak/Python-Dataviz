@@ -67,6 +67,9 @@ notebooks and interactive birth chart. Third-party figures retain their source c
 The [Lecture 3 materials](presentations/session03/README.md) include the mapping
 presentation, notebook and exercises, with the seasonal-footwear redesign discussion.
 
+The [Lecture 4 materials](presentations/session04/README.md) include the introduction
+to Power BI and four visualisations brought to class for discussion.
+
 In-class [exercises](notebooks/README.md) start from a chart and a clear reader's question.
 Students evaluate and change the visual form, verify the underlying
 numbers, and explain why the revision serves that reader better.
